@@ -8,6 +8,7 @@ body {
     font-weight: bold;
 }
 
+/* 
 header,
 footer {
     background-color: lightgreen;
@@ -18,6 +19,18 @@ footer {
     width: 1850px;
     height: 40px;
     border-radius: 4px;
+} */
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    background-color: #6BDD97;
+    color: white;
+    height: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #profile-page-header {
@@ -112,13 +125,15 @@ footer {
     display: flex;
     flex-direction: column;
     background-color: white;
+    margin-top: 12px;
+    margin-left: 25px;
     /* align-items: center;
     justify-content: center; */
 }
 
 #profile-info {
-    /* border: 4px solid red;
-    height: 260px; */
+    /* border: 4px solid red; */
+    height: 260px;
     width: 350px;
     display: flex;
     flex-direction: column;
@@ -179,14 +194,20 @@ footer {
     color: white;
 }
 
+.profile-button.active {
+    background-color: #6BDD97;
+    color: #333;
+}
+
 .profile-button:hover {
     background-color: darkgreen;
 }
 
 #items-container {
-    height: 815px;
+    height: 812px;
     width: 1200px;
-    margin-left: 15px;
+    margin-left: 35px;
+    margin-top: 10px;
     overflow-y: auto;
 }
 
@@ -248,9 +269,9 @@ footer {
 
 #buy-again-button {
     background-color: lightgreen;
-    /* border: 1px solid black; */
+    border: 1px solid black;
     color: black;
-    padding: 6px 15px;
+    padding: 6px 18px;
     margin-left: 27px;
     margin-bottom: 3px;
     border-radius: 2px;
@@ -260,7 +281,7 @@ footer {
 
 #cancel-order-button {
     background-color: rgb(253, 102, 102);
-    /* border: 1px solid black; */
+    border: 1px solid black;
     color: white;
     padding: 6px 27px;
     margin-left: 27px;
