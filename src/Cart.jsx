@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
-import Checkout from './Checkout'
+// import { Routes, Route, useNavigate } from 'react-router-dom'
+// import Checkout from './Checkout'
+import { useNavigate } from 'react-router-dom';
 import './Cart.css'
 import chicken from './assets/chicken.jpg'
 import steak from './assets/Steak.jpg'
-import joker from './assets/Joker.jpg'
 
-function Home() {
+
+
+function Cart() {
   const [quantities, setQuantities] = useState({ item1: 5, item2: 2, item3: 5, item4: 2 });
 
   const increaseQuantity = (item) => {
@@ -24,18 +26,19 @@ function Home() {
     navigate('/checkout');
   };
 
+  // const navigate1 = useNavigate();
+  // const goToHome = () => {
+  //   navigate('/app');
+  // };
+
+  // <button type="button" className="cart-home-button" onClick={goToHome}>Home</button>
+
   return (
 
     
       <body className="cart-body">
         <div className="cart-page">
-        <header>HEADER</header>
 
-        <div id="cart-pfp-button">
-          <a href="">
-            <img src={joker} alt="Profile" id="cart-profile-image-button" />
-          </a>
-        </div>
         <div className="cart-container">
           
           <p>
@@ -155,10 +158,13 @@ function Home() {
             <p>Your Total is: $100</p>
             
           </div>
+
+          
           <button type="button" className="cart-button-checkout" onClick={goToCheckout}>Checkout</button>
           <button type="button" className="cart-button-meal">Meal Planning</button>
         </div>
-        <footer>FOOTER</footer>
+
+        <footer>&copy; Green Basket 2024</footer>
       </div>
 
 
@@ -169,13 +175,13 @@ function Home() {
 }
 
 
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/checkout" element={<Checkout />} />
-    </Routes>
-  )
-}
+// function App() {
+//   return (
+//     <Routes>
+//       <Route path="/" element={<Home />} />
+//       <Route path="/checkout" element={<Checkout />} />
+//     </Routes>
+//   )
+// }
 
-export default App
+export default Cart;
