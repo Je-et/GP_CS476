@@ -4,6 +4,8 @@ import './App.css';
 import Header from './Header';
 import ItemList from './Itemlist';
 import Profile from './Profile';
+import Cart from './Cart';
+import Checkout from './Checkout';
 
 function App() {
   return (
@@ -18,7 +20,8 @@ function App() {
 
 function MainContent() {
   const location = useLocation();
-  const showContent = location.pathname !== '/profile';
+  const showContent = location.pathname !== '/profile' && location.pathname !== '/cart' && location.pathname !== '/checkout';
+
 
   return (
     <>
@@ -38,6 +41,9 @@ function MainContent() {
       )}
       <Routes>
         <Route path="/profile" element={<Profile />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+
       </Routes>
       {showContent && <ItemList />}
     </>
