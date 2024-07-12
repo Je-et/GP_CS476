@@ -2,7 +2,7 @@ import { useState } from 'react'
 import React from 'react';
 import './Checkout.css';
 import chicken from './assets/chicken.jpg'
-import steak from './assets/steak.jpg'
+import steak from './assets/Steak.jpg'
 import joker from './assets/Joker.jpg'
 
 function Checkout() {
