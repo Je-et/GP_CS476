@@ -11,7 +11,10 @@ function Header() {
         <div className="profile">
           <Link to='/profile'>Profile</Link>
         </div>
-        <div className="cart">Cart</div>
+        <div className="cart">
+        <Link to='/cart'>Cart</Link>
+        </div>
+
       </div>
     </header>
   );
