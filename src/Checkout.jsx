@@ -3,7 +3,7 @@ import React from 'react';
 import './Checkout.css';
 import chicken from './assets/chicken.jpg'
 import steak from './assets/Steak.jpg'
-import joker from './assets/Joker.jpg'
+
 
 function Checkout() {
 
@@ -19,17 +19,12 @@ function Checkout() {
     }
   };
 
+
   return (
     <body className="checkout-body">
 
       <div className="checkout-page">
-        <header>HEADER</header>
 
-        <div id="checkout-pfp-button">
-          <a href="">
-            <img src={joker} alt="Profile" id="checkout-profile-image-button" />
-          </a>
-        </div>
 
         <div className="checkout-container">
           <p>
@@ -172,11 +167,8 @@ function Checkout() {
             </div>
           </div>
 
-
-          
-
         </div>
-        <footer>FOOTER</footer>
+        <footer>&copy; Green Basket 2024</footer>
       </div>
 
 
