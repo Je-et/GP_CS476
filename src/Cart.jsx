@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import Checkout from './Checkout'
 import './Cart.css'
 import chicken from './assets/chicken.jpg'
-import steak from './assets/steak.jpg'
+import steak from './assets/Steak.jpg'
 import joker from './assets/Joker.jpg'
 
 function Home() {
