@@ -45,7 +45,7 @@ flex-direction: column;
   display: grid;
   margin: 20px;
   border: none;
-  height: 380px;
+  height: 510px;
   overflow-y: scroll;
   border-radius: 10px;
 }
