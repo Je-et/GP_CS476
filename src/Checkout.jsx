@@ -27,9 +27,7 @@ function Checkout() {
 
 
         <div className="checkout-container">
-          <p>
-            <input type="button" value="Home" className="checkout-home-button" />
-          </p>
+        
           <h1>CHECKOUT</h1>
           <div className="checkout-content">
 
