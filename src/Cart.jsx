@@ -41,10 +41,6 @@ function Cart() {
 
         <div className="cart-container">
           
-          <p>
-            <input type="button" value="Home" className="cart-home-button" />
-          </p>
-
           <h1>YOUR CART</h1>
 
           <div className="cart-item-container">
