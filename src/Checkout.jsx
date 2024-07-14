@@ -27,31 +27,31 @@ function Checkout() {
 
 
         <div className="checkout-container">
-        
+
           <h1>CHECKOUT</h1>
           <div className="checkout-content">
 
-          <div className="checkout-item">
+            <div className="checkout-item">
               <div className="checkout-item-picture">
                 <img src={chicken} alt="chicken" id="checkout-item-image" />
               </div>
               <div className="checkout-item-description">
-      
+
                 <p>Description: Whole Chicken</p>
 
-                  <div className="checkout-quantity-container">
+                <div className="checkout-quantity-container">
 
-                    <div className="checkout-quantity-text">Quantity:  </div>
+                  <div className="checkout-quantity-text">Quantity:  </div>
 
-                    <div className="checkout-quantity">
+                  <div className="checkout-quantity">
                     <button className="quantity-btn-minus" onClick={() => decreaseQuantity('item1')}>-</button>
                     <input type="number" className="quantity-input" value={quantities.item1} readOnly />
                     <button className="quantity-btn-plus" onClick={() => increaseQuantity('item1')}>+</button>
-                    </div>
-
                   </div>
-                 
-                  <a href="https://www.w3schools.com/" className="checkout-remove-link">Remove</a> 
+
+                </div>
+
+                <a href="https://www.w3schools.com/" className="checkout-remove-link">Remove</a>
 
                 <p>Price: $6.99</p>
               </div>
@@ -62,22 +62,22 @@ function Checkout() {
                 <img src={steak} alt="steak" id="checkout-item-image" />
               </div>
               <div className="checkout-item-description">
-      
+
                 <p>Description: Steak</p>
 
-                  <div className="checkout-quantity-container">
+                <div className="checkout-quantity-container">
 
-                    <div className="checkout-quantity-text">Quantity:  </div>
+                  <div className="checkout-quantity-text">Quantity:  </div>
 
-                    <div className="checkout-quantity">
+                  <div className="checkout-quantity">
                     <button className="quantity-btn-minus" onClick={() => decreaseQuantity('item2')}>-</button>
                     <input type="number" className="quantity-input" value={quantities.item2} readOnly />
                     <button className="quantity-btn-plus" onClick={() => increaseQuantity('item2')}>+</button>
-                    </div>
-
                   </div>
-                 
-                  <a href="https://www.w3schools.com/" className="checkout-remove-link">Remove</a> 
+
+                </div>
+
+                <a href="https://www.w3schools.com/" className="checkout-remove-link">Remove</a>
 
                 <p>Price: $6.99</p>
               </div>
@@ -88,22 +88,22 @@ function Checkout() {
                 <img src={chicken} alt="chicken" id="checkout-item-image" />
               </div>
               <div className="checkout-item-description">
-      
+
                 <p>Description: Whole Chicken</p>
 
-                  <div className="checkout-quantity-container">
+                <div className="checkout-quantity-container">
 
-                    <div className="checkout-quantity-text">Quantity:  </div>
+                  <div className="checkout-quantity-text">Quantity:  </div>
 
-                    <div className="checkout-quantity">
+                  <div className="checkout-quantity">
                     <button className="quantity-btn-minus" onClick={() => decreaseQuantity('item3')}>-</button>
                     <input type="number" className="quantity-input" value={quantities.item3} readOnly />
                     <button className="quantity-btn-plus" onClick={() => increaseQuantity('item3')}>+</button>
-                    </div>
-
                   </div>
-                 
-                  <a href="https://www.w3schools.com/" className="checkout-remove-link">Remove</a> 
+
+                </div>
+
+                <a href="https://www.w3schools.com/" className="checkout-remove-link">Remove</a>
 
                 <p>Price: $6.99</p>
               </div>
@@ -114,22 +114,22 @@ function Checkout() {
                 <img src={steak} alt="steak" id="checkout-item-image" />
               </div>
               <div className="checkout-item-description">
-      
+
                 <p>Description: Steak</p>
 
-                  <div className="checkout-quantity-container">
+                <div className="checkout-quantity-container">
 
-                    <div className="checkout-quantity-text">Quantity:  </div>
+                  <div className="checkout-quantity-text">Quantity:  </div>
 
-                    <div className="checkout-quantity">
+                  <div className="checkout-quantity">
                     <button className="quantity-btn-minus" onClick={() => decreaseQuantity('item4')}>-</button>
                     <input type="number" className="quantity-input" value={quantities.item4} readOnly />
                     <button className="quantity-btn-plus" onClick={() => increaseQuantity('item4')}>+</button>
-                    </div>
-
                   </div>
-                 
-                  <a href="https://www.w3schools.com/" className="checkout-remove-link">Remove</a> 
+
+                </div>
+
+                <a href="https://www.w3schools.com/" className="checkout-remove-link">Remove</a>
 
                 <p>Price: $6.99</p>
               </div>
@@ -137,9 +137,9 @@ function Checkout() {
 
             <p>Your Total is: $100</p>
 
-             
+
           </div>
-          
+
           <div className="checkout-payment-items">
             <div className="checkout-payment-form">
               <p> Credit & Debit Cards Information </p>
@@ -151,11 +151,11 @@ function Checkout() {
                 </p>
                 <p>
                   <label htmlFor="Expiry" className="checkout-payment-font">Expiry*  </label>
-                  <input type="date" name="exp" placeholder="MM/YY" className="checkout-expiry"/>
+                  <input type="date" name="exp" placeholder="MM/YY" className="checkout-expiry" />
                 </p>
                 <p>
                   <label htmlFor="csc" className="checkout-payment-font">Security Code*  </label>
-                  <input type="text" name="csc" placeholder="Security Code" className="checkout-sc"/>
+                  <input type="text" name="csc" placeholder="Security Code" className="checkout-sc" />
                 </p>
               </div>
 
@@ -169,9 +169,8 @@ function Checkout() {
         <footer>&copy; Green Basket 2024</footer>
       </div>
 
-
     </body>
-      
+
   );
 }
 
