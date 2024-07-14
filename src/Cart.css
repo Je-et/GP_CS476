@@ -8,20 +8,6 @@
   font-weight: bold;
 }
 
-
-/* footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  justify-content: center;
-  padding: 15px 20px;
-  background-color: #6BDD97;
-  color: white;
-  height: 25px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: auto;
-} */
-
 .cart-page {
   flex: 1; 
   display: flex;
