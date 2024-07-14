@@ -14,7 +14,6 @@ function Header() {
         <div className="cart">
         <Link to='/cart'>Cart</Link>
         </div>
-
       </div>
     </header>
   );
