@@ -40,6 +40,9 @@ function Checkout() {
       <div className="checkout-page">
         <div className="checkout-container">
           <h1>CHECKOUT</h1>
+
+          <p>Your Total is: ${totalPrice.toFixed(2)}</p>
+
           <div className="checkout-content">
             {checkoutItems.map(item => (
               <CheckoutItem
@@ -51,9 +54,8 @@ function Checkout() {
                 removeItem={removeItem}
               />
             ))}
-            <p>Your Total is: ${totalPrice.toFixed(2)}</p>
           </div>
-
+            
           <div className="checkout-payment-items">
             <div className="checkout-payment-form">
               <p>Credit & Debit Cards Information</p>

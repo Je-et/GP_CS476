@@ -45,6 +45,9 @@ function Cart() {
       <div className="cart-page">
         <div className="cart-container">
           <h1>YOUR CART</h1>
+
+          <p>Your Total is: ${totalPrice.toFixed(2)}</p>
+
           <div className="cart-item-container">
             {cartItems.map(item => (
               <CartItem
@@ -56,7 +59,7 @@ function Cart() {
                 removeItem={removeItem}
               />
             ))}
-            <p>Your Total is: ${totalPrice.toFixed(2)}</p>
+            
           </div>
           <button type="button" className="cart-button-checkout" onClick={goToCheckout}>Checkout</button>
           <button type="button" className="cart-button-meal">Meal Planning</button>
