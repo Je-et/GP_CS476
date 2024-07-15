@@ -20,12 +20,12 @@ function Login() {
                       <div className="login-options">
                         <input type="checkbox" className="login-input" id="remember" name="remember"></input>
                         <label for="remember">Remember me</label>
-                        <a href="#">Forgot Password?</a>
+                        <a>Forgot Password?</a>
                       </div>
 
                         <button className="login-button">SIGN IN</button>
 
-                        <p className='login-p'>Don't have an account yet? Click <a href="#" id="register">here</a> to register!</p>
+                        <p className='login-p'>Don't have an account yet? Click here to register!</p>
 
                     </form>
             </div>
