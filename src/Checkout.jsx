@@ -16,6 +16,10 @@ const initialCheckoutItems = [
 
 function Checkout() {
   const [checkoutItems, setCheckoutItems] = useState(initialCheckoutItems);
+  const [ccNumber, setCcNumber] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [csc, setCsc] = useState('');
+  const [errors, setErrors] = useState({});
 
   const increaseQuantity = (id) => {
     setCheckoutItems(checkoutItems.map(item =>
@@ -35,14 +39,36 @@ function Checkout() {
 
   const totalPrice = checkoutItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 
+  const validate = () => {
+    const errors = {};
+    if (!ccNumber.match(/^[0-9]{16}$/)) {
+      errors.ccNumber = 'Credit Card Number must be 16 digits';
+    }
+    if (!expiry) {
+      errors.expiry = 'Expiry date is required';
+    }
+    if (!csc.match(/^[0-9]{3,4}$/)) {
+      errors.csc = 'Security Code must be 3 or 4 digits';
+    }
+    return errors;
+  };
+
+  const handlePayment = () => {
+    const errors = validate();
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+    } else {
+      // temporary placeholder to show if there are no errors
+      alert('Payment successful!');
+    }
+  };
+
   return (
     <div className="checkout-body">
       <div className="checkout-page">
         <div className="checkout-container">
           <h1>CHECKOUT</h1>
-
           <p>Your Total is: ${totalPrice.toFixed(2)}</p>
-
           <div className="checkout-content">
             {checkoutItems.map(item => (
               <CheckoutItem
@@ -55,26 +81,54 @@ function Checkout() {
               />
             ))}
           </div>
-            
           <div className="checkout-payment-items">
             <div className="checkout-payment-form">
               <p>Credit & Debit Cards Information</p>
               <div className="checkout-fill">
                 <p>
                   <label htmlFor="Credit-Card" className="checkout-payment-font">Credit Card Number*</label>
-                  <input type="text" name="cc" placeholder="Credit Card Number" className="checkout-cc" />
+                  <input
+                    type="text"
+                    name="cc"
+                    placeholder="Credit Card Number"
+                    className={`checkout-cc ${errors.ccNumber ? 'checkout-invalid-input' : ''}`}
+                    value={ccNumber}
+                    onChange={(e) => setCcNumber(e.target.value)}
+                  />
+                  {errors.ccNumber && <span className="checkout-error">{errors.ccNumber}</span>}
                 </p>
                 <p>
                   <label htmlFor="Expiry" className="checkout-payment-font">Expiry*</label>
-                  <input type="date" name="exp" placeholder="MM/YY" className="checkout-expiry" />
+                  <input
+                    type="date"
+                    name="exp"
+                    placeholder="MM/YY"
+                    className={`checkout-expiry ${errors.expiry ? 'checkout-invalid-input' : ''}`}
+                    value={expiry}
+                    onChange={(e) => setExpiry(e.target.value)}
+                  />
+                  {errors.expiry && <span className="checkout-error">{errors.expiry}</span>}
                 </p>
                 <p>
                   <label htmlFor="csc" className="checkout-payment-font">Security Code*</label>
-                  <input type="text" name="csc" placeholder="Security Code" className="checkout-sc" />
+                  <input
+                    type="text"
+                    name="csc"
+                    placeholder="Security Code"
+                    className={`checkout-sc ${errors.csc ? 'checkout-invalid-input' : ''}`}
+                    value={csc}
+                    onChange={(e) => setCsc(e.target.value)}
+                  />
+                  {errors.csc && <span className="checkout-error">{errors.csc}</span>}
                 </p>
               </div>
               <p>
-                <input type="button" value="Proceed Payment" className="checkout-payment-button" />
+                <input
+                  type="button"
+                  value="Proceed Payment"
+                  className="checkout-payment-button"
+                  onClick={handlePayment}
+                />
               </p>
             </div>
           </div>
