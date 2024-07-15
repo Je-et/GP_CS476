@@ -1,6 +1,5 @@
 import React from 'react';
 import './Signup.css';
-import { Link } from 'react-router-dom';
 import Loginheader from './Loginheader';
 
 function Signup() {
