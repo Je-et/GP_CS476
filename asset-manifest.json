@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/GP_CS476/static/css/main.bcf8421e.css",
-    "main.js": "/GP_CS476/static/js/main.71adea5c.js",
+    "main.css": "/GP_CS476/static/css/main.7f35b40f.css",
+    "main.js": "/GP_CS476/static/js/main.02d2fc7b.js",
     "static/media/banana.jpg": "/GP_CS476/static/media/banana.4a7860bc175bf9b70869.jpg",
     "static/media/nygirl.jpeg": "/GP_CS476/static/media/nygirl.d705cd84e5a40c6fd15b.jpeg",
     "static/media/background-image.jpeg": "/GP_CS476/static/media/background-image.785ce9409a9d447041f4.jpeg",
@@ -10,11 +10,11 @@
     "static/media/Steak.jpg": "/GP_CS476/static/media/Steak.36c29fdcafc783c12047.jpg",
     "static/media/Salmon.jpg": "/GP_CS476/static/media/Salmon.a6bc50eac7b9ca3acd0f.jpg",
     "index.html": "/GP_CS476/index.html",
-    "main.bcf8421e.css.map": "/GP_CS476/static/css/main.bcf8421e.css.map",
-    "main.71adea5c.js.map": "/GP_CS476/static/js/main.71adea5c.js.map"
+    "main.7f35b40f.css.map": "/GP_CS476/static/css/main.7f35b40f.css.map",
+    "main.02d2fc7b.js.map": "/GP_CS476/static/js/main.02d2fc7b.js.map"
   },
   "entrypoints": [
-    "static/css/main.bcf8421e.css",
-    "static/js/main.71adea5c.js"
+    "static/css/main.7f35b40f.css",
+    "static/js/main.02d2fc7b.js"
   ]
 }
