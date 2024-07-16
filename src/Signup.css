@@ -1,4 +1,4 @@
-/* SIGNUP CSS START*/
+/* SIGNUP CSS START */
 
 .signup-container {
   display: flex;
@@ -14,7 +14,7 @@
   margin: 300px auto;
   padding: 100px 40px;
   width: 400px;
-  height: 20vh;
+  height: 30vh;
 }
 
 .signup-container::before {
@@ -37,10 +37,7 @@
 .background-middle-signin {
   width: 100%;
   padding: 80px 40px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 5px auto;
   background-image: url('./assets/nygirl.jpeg');
   background-size: cover;
 }
@@ -57,23 +54,23 @@ form {
   margin-top: 20px;
 }
 
-.signup-input  {
-  padding: 5px;
-  margin-top: 25px;
-  border: none;
+.signup-input {
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #fff;
   border-radius: 10px;
   background: transparent;
-  border: 1px solid #fff;
   color: black;
   font-size: 13px;
-  
+  transition: border-color 0.3s ease;
+}
+
+.signup-input.error {
+  border-color: red;
 }
 
 input::placeholder {
-  display: flex;
-  color: solid white;
-  justify-content: center;
-  align-items: center;
+  color: white;
   text-align: center;
 }
 
@@ -89,11 +86,11 @@ input:focus {
   border-radius: 10px;
   cursor: pointer;
   margin-top: 15px;
+  width: 100%;
 }
 
-button:hover {
+.signup-button:hover {
   background: green;
-  color: white;
   outline: 1px solid #fff;
 }
 
@@ -103,12 +100,22 @@ button:hover {
   margin-top: 15px;
 }
 
+.signup-p a {
+  color: red; 
+  text-decoration: none;
+}
+
 #register {
   text-decoration: none;
   color: red;
   font-weight: bold;
 }
-  
-  /* SIGNUP CSS END*/
-  
- 
+
+.signup-error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* SIGNUP CSS END */
