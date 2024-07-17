@@ -6,6 +6,7 @@ import steak from './assets/Steak.jpg';
 import rice from './assets/Rice.jpg';
 import salmon from './assets/Salmon.jpg';
 import CheckoutItem from './CheckoutItem';
+import Footer from './Footer';
 
 const initialCheckoutItems = [
   { id: 'item1', image: chicken, description: 'Whole Chicken', price: 6.99, quantity: 5 },
@@ -133,7 +134,7 @@ function Checkout() {
             </div>
           </div>
         </div>
-        <footer>&copy; Green Basket 2024</footer>
+        <Footer />
       </div>
     </div>
   );
