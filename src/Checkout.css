@@ -95,12 +95,12 @@
 }
 
 .checkout-expiry {
-  margin-left: 108px;
+  margin-left: 110px;
   margin-right: 40px;
 }
 
 .checkout-sc {
-  margin-left: 60px;
+  margin-left: 58px;
 }
 
 .checkout-item-picture {
@@ -209,4 +209,10 @@
 
 .checkout-invalid-input {
   border: 2px solid red;
+}
+
+input[type="text"].checkout-cc::placeholder,
+input[type="text"].checkout-sc::placeholder {
+  color: #666;
+  opacity: 1;
 }
