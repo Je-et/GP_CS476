@@ -46,8 +46,6 @@ function MainContent() {
           <button>Health</button>
           <button>Beauty</button>
           <button>Category</button>
-          <button><Link to='/login'>Login</Link></button>
-          <button><Link to='/signup'>Signup</Link></button>
         </div>
       )}
       <Routes>
