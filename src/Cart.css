@@ -16,13 +16,13 @@
 
 .cart-container {
   background: #FFFFFF;
-  Height: 900px;
-  Margin-left: 500px;
-  Width: 900px;
+  height: 900px;
+  margin-left: 500px;
+  width: 900px;
   text-align: center;
   position: relative;
-  Margin-Top: 10px;
-  Margin-Bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 2px;
 }
 
