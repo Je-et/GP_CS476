@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// import axios from 'axios'
 import './Profile.css';
 import Footer from './Footer';
 import profileImage from './assets/Joker.jpg';
@@ -6,9 +7,35 @@ import itemImage from './assets/banana.jpg';
 
 function Profile() {
   const [activeSection, setActiveSection] = useState('orders');
-
+  const [orderProcessed, setOrderProcessed] = useState(false);
+  // const [profileData, setProfileData] = useState(null);
   const handleButtonClick = (section) => {
     setActiveSection(section);
+  };
+  // useEffect(() => {
+  //   // Fetch profile data from backend
+  //   axios.get('http://localhost:5000/profile')
+  //     .then(response => {
+  //       setProfileData(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error("There was an error fetching the profile data!", error);
+  //     });
+  // }, []);
+
+  // if (!profileData) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // Function that handles the cancellation button - confirmation
+  const cancelButton  = () => {
+    if (!orderProcessed) {
+      if (window.confirm("Confirm cancellation?")) {
+        console.log("Order successfully cancelled.");
+      }
+    } else {
+      console.log("Order has already been processed.");
+    }
   };
 
   return (
@@ -67,7 +94,7 @@ function Profile() {
                         <button id="buy-again-button">BUY AGAIN</button>
                       </div>
                       <div id="cancel-order">
-                        <button id="cancel-order-button">CANCEL</button>
+                        <button id="cancel-order-button" onClick={cancelButton}>CANCEL</button>
                       </div>
                     </div>
                   </div>
