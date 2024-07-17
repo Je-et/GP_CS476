@@ -1,41 +1,61 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: #6BDD97;
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logo {
-    font-size: 1.5em;
-    font-weight: bold;
-  }
-  
-  .search {
-    flex: 2;
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
-    margin: 0 20px;
-  }
-  
-  .profile-cart {
-    display: flex;
-    align-items: center;
-  }
-  
-  .profile, .cart {
-    margin-left: 20px;
-    padding: 8px;
-    border: 1px solid white;
-    border-radius: 20%;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .profile:hover, .cart:hover {
-    background-color: #1DAF55;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #6BDD97;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.header-logo-image {
+  height: 100px;
+  width: 100px;
+}
+
+.search {
+  flex: 2;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  margin: 0 20px;
+}
+
+.profile-cart {
+  display: flex;
+  align-items: center;
+}
+
+.profile, .cart {
+  margin-left: 20px;
+  padding: 8px;
+  border: 1px solid white;
+  border-radius: 20%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.profile:hover, .cart:hover {
+  background-color: #1DAF55;
+}
+
+input[type="text"].search::placeholder {
+  color: #666;
+  opacity: 1; 
+  text-align: left;
+}
+
+.header-cart-image {
+  height: 30px;
+  width: 30px; /* Adjust the width to fit your design */
+}
+
+.profile-logo-image{
+  height: 30px;
+  width: 30px;
+}
