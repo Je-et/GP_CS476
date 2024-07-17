@@ -6,6 +6,7 @@ import steak from './assets/Steak.jpg';
 import rice from './assets/Rice.jpg';
 import salmon from './assets/Salmon.jpg';
 import CartItem from './CartItem';
+import Footer from './Footer';
 
 const initialCartItems = [
   { id: 'item1', image: chicken, description: 'Whole Chicken', price: 6.99, quantity: 5 },
@@ -64,7 +65,7 @@ function Cart() {
           <button type="button" className="cart-button-checkout" onClick={goToCheckout}>Checkout</button>
           <button type="button" className="cart-button-meal">Meal Planning</button>
         </div>
-        <footer>&copy; Green Basket 2024</footer>
+        <Footer />
       </div>
     </div>
   );
