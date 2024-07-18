@@ -6,6 +6,7 @@
   min-height: 100vh;
   color: black;
   font-weight: bold;
+  padding: 0.5px 0.5px;
 }
 
 .checkout-page {
@@ -16,13 +17,13 @@
 
 .checkout-container {
   background: #FFFFFF;
-  Height: 970px;
-  Margin-left: 500px;
-  Width: 900px;
+  height: 970px;
+  margin-left: 500px;
+  width: 900px;
   text-align: center;
   position: relative;
-  Margin-Top: 10px;
-  Margin-Bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 2px;
 }
 
