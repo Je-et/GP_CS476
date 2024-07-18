@@ -10,7 +10,7 @@
   border-radius: 10px;
   width: 500px;
   height: 590px;
-  padding: 0px 0px;
+  padding: 0;
   margin: 200px auto;
 }
 
@@ -54,7 +54,7 @@ form {
 .login-input {
   padding: 10px;
   margin-top: 10px;
-  width: 105%;
+  width: 100%;
   border-radius: 10px;
   background: transparent;
   border: 1px solid #fff;
@@ -103,7 +103,7 @@ input:focus {
   cursor: pointer;
   margin-top: 15px;
   text-align: center;
-  width: 112%;
+  width: 100%;
 }
 
 .login-button:hover {
