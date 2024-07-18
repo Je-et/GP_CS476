@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css';
-import Loginheader from './Loginheader';
+import LogoWhite from './assets/LogoWhite.png';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -69,10 +69,15 @@ function Login() {
 
   return (
     <div>
-      <Loginheader />
+
       <div className="background-middle-login">
         <div className="login-container">
           <div className="login-form">
+            <div className="logo">
+              <Link to='/' >
+                <img src={LogoWhite} alt="Logo" className="login-logo-image" />
+              </Link>
+            </div>
             <header className="login-header">Sign in to your account</header>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -106,7 +111,6 @@ function Login() {
                   <input type="checkbox" id="remember" name="remember" className="login-checkbox" />
                   Remember me
                 </label>
-                <a href="#" className="forgot-password-link">Forgot Password?</a>
               </div>
 
               <button type="submit" className="login-button">SIGN IN</button>
@@ -117,9 +121,6 @@ function Login() {
           </div>
         </div>
       </div>
-      <footer>
-        <p>© Green Basket 2024</p>
-      </footer>
     </div>
   );
 }

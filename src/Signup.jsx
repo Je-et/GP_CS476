@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Signup.css';
-import Loginheader from './Loginheader';
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -65,7 +64,6 @@ function Signup() {
 
   return (
     <div>
-      <Loginheader />
       <div className="background-middle-signin">
         <div className="signup-container">
           <div className="signup-form">
@@ -117,9 +115,6 @@ function Signup() {
           </div>
         </div>
       </div>
-      <footer>
-        <p>© Green Basket 2024</p>
-      </footer>
     </div>  
   );
 }

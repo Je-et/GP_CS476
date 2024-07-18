@@ -1,4 +1,3 @@
-/* Base styles */
 .login-container {
   position: relative;
   display: flex;
@@ -9,11 +8,12 @@
   box-shadow: 0 4px 6px green;
   border: 1px solid white;
   border-radius: 10px;
+  width: 500px;
+  height: 590px;
+  padding: 0px 0px;
   margin: 200px auto;
-  width: 400px;
-  height: 320px;
-  padding: 100px 40px;
 }
+
 
 .login-container::before {
   content: '';
@@ -27,9 +27,9 @@
 }
 
 .background-middle-login {
-  width: 100%;
-  padding: 80px 40px;
-  margin: 5px auto;
+   width: 100%; 
+   padding: 0.5px 0.5px; 
+   margin: 0px auto; 
   background-image: url('./assets/background-image.jpeg');
   background-size: cover;
 }
@@ -42,7 +42,7 @@
 
 .login-header {
   color: #fff;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: -20px;
 }
 
@@ -56,7 +56,7 @@ form {
 .login-input {
   padding: 10px;
   margin-top: 10px;
-  width: 80%;
+  width: 105%;
   border-radius: 10px;
   background: transparent;
   border: 1px solid #fff;
@@ -97,12 +97,6 @@ input:focus {
   margin-right: 5px;
 }
 
-.forgot-password-link {
-  text-decoration: none;
-  color: red;
-  font-size: 12px;
-}
-
 /* Button styles */
 .login-button {
   background-color: red;
@@ -113,6 +107,9 @@ input:focus {
   cursor: pointer;
   margin-top: 15px;
   text-align: center;
+  width: 112%;
+
+  /* margin-left: 15px; */
 }
 
 .login-button:hover {
@@ -138,4 +135,9 @@ input:focus {
 .login-p a {
   color: red;
   text-decoration: none;
+}
+
+.login-logo-image {
+  height: 280px;
+  width: 280px;
 }
