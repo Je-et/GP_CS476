@@ -1,26 +1,26 @@
+/* app.css */
 .App {
-    font-family: Arial, sans-serif;
-  }
-  
-  
-  .categories {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-  }
-  
-  .categories button {
-    padding: 10px 20px;
-    background-color: #6BDD97;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .categories button:hover {
-    background-color: #1DAF55;
-  }
+  font-family: Arial, sans-serif;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.categories button {
+  padding: 10px 20px;
+  background-color: #6BDD97;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.categories button:hover {
+  background-color: #1DAF55;
+}
