@@ -1,11 +1,12 @@
 {
   "files": {
-    "main.css": "/GP_CS476/static/css/main.51eb6a89.css",
-    "main.js": "/GP_CS476/static/js/main.42508d53.js",
+    "main.css": "/GP_CS476/static/css/main.5346aeef.css",
+    "main.js": "/GP_CS476/static/js/main.92afa6f4.js",
     "static/media/banana.jpg": "/GP_CS476/static/media/banana.4a7860bc175bf9b70869.jpg",
     "static/media/nygirl.jpeg": "/GP_CS476/static/media/nygirl.d705cd84e5a40c6fd15b.jpeg",
     "static/media/background-image.jpeg": "/GP_CS476/static/media/background-image.785ce9409a9d447041f4.jpeg",
     "static/media/Joker.jpg": "/GP_CS476/static/media/Joker.7035739f4a42671e0173.jpg",
+    "static/media/LogoWhite.png": "/GP_CS476/static/media/LogoWhite.e99b95c1bcc74477c223.png",
     "static/media/chicken.jpg": "/GP_CS476/static/media/chicken.d62c78551a6728db6487.jpg",
     "static/media/Logo.png": "/GP_CS476/static/media/Logo.639a3f3f463aebf90187.png",
     "static/media/Steak.jpg": "/GP_CS476/static/media/Steak.36c29fdcafc783c12047.jpg",
@@ -13,11 +14,11 @@
     "static/media/Salmon.jpg": "/GP_CS476/static/media/Salmon.a6bc50eac7b9ca3acd0f.jpg",
     "static/media/Cart.png": "/GP_CS476/static/media/Cart.c9453af96380ef70d94c.png",
     "index.html": "/GP_CS476/index.html",
-    "main.51eb6a89.css.map": "/GP_CS476/static/css/main.51eb6a89.css.map",
-    "main.42508d53.js.map": "/GP_CS476/static/js/main.42508d53.js.map"
+    "main.5346aeef.css.map": "/GP_CS476/static/css/main.5346aeef.css.map",
+    "main.92afa6f4.js.map": "/GP_CS476/static/js/main.92afa6f4.js.map"
   },
   "entrypoints": [
-    "static/css/main.51eb6a89.css",
-    "static/js/main.42508d53.js"
+    "static/css/main.5346aeef.css",
+    "static/js/main.92afa6f4.js"
   ]
 }
