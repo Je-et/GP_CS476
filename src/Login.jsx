@@ -52,7 +52,7 @@ function Login() {
               </Link>
             </div>
             <header className="login-header">Sign in to your account</header>
-            <form onSubmit={handleLogin}>
+            <form className="Login-form" onSubmit={handleLogin}>
               <div className="form-group">
                 <input
                   type="text"

@@ -45,7 +45,7 @@
   margin-bottom: -20px;
 }
 
-form {
+.Login-form {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
@@ -54,7 +54,7 @@ form {
 .login-input {
   padding: 10px;
   margin-top: 10px;
-  width: 100%;
+  width: 400px;
   border-radius: 10px;
   background: transparent;
   border: 1px solid #fff;
@@ -62,7 +62,7 @@ form {
   font-size: 13px;
 }
 
-.login-input.login-invalid-input {
+.login-invalid-input {
   border-color: red;
 }
 
@@ -103,7 +103,8 @@ input:focus {
   cursor: pointer;
   margin-top: 15px;
   text-align: center;
-  width: 100%;
+  width: 250px;
+  margin-left: 100px;
 }
 
 .login-button:hover {
@@ -113,9 +114,9 @@ input:focus {
 
 .error-message {
   color: red;
-  font-size: 12px;
+  font-size: 15px;
   margin-top: 5px; 
-  text-align: left;
+  text-align: center;
 }
 
 .login-p {
@@ -126,7 +127,6 @@ input:focus {
 
 .login-p a {
   color: red;
-  text-decoration: none;
 }
 
 .login-logo-image {
