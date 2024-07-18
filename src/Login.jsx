@@ -9,88 +9,61 @@ function Login() {
   const [errors, setErrors] = useState({});
   const [loginError, setLoginError] = useState('');
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!username) newErrors.username = 'Username is required!';
-    if (!password) newErrors.password = 'Password is required!';
-    return newErrors;
+  const validate = () => {
+    const errors = {};
+
+    // Validate username
+    if (!username) {
+      errors.username = 'Username is required';
+    }
+
+    // Validate password
+    if (!password) {
+      errors.password = 'Password is required';
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters long';
+    }
+
+    return errors;
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    // Apply character limit
-    if (value.length > 16) {
-      setErrors({
-        ...errors,
-        [name]: `${capitalizeFirstLetter(name)} must be 16 characters or less.`,
-      });
-
-      // Truncate the value to 16 characters
-      if (name === 'username') {
-        setUsername(value.slice(0, 16));
-      } else if (name === 'password') {
-        setPassword(value.slice(0, 16));
-      }
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const errors = validate();
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      setLoginError('Please fix the errors above and try again.');
     } else {
-      setErrors({
-        ...errors,
-        [name]: '',
-      });
-
-      // Update state with new value
-      if (name === 'username') {
-        setUsername(value);
-      } else if (name === 'password') {
-        setPassword(value);
-      }
+      setErrors({});
+      setLoginError('');
+      // Implement login logic here
+      alert('Login successful!');
     }
   };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const formErrors = validateForm();
-    setErrors(formErrors);
-
-    if (Object.keys(formErrors).length === 0) {
-      if (username === 'user' && password === 'pass') {
-        alert('Login successful!');
-      } else {
-        setLoginError('Invalid username or password!');
-      }
-    }
-  };
-
-  // Function to capitalize the first letter of a string
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
 
   return (
     <div>
-
       <div className="background-middle-login">
         <div className="login-container">
           <div className="login-form">
             <div className="logo">
-              <Link to='/' >
+              <Link to='/'>
                 <img src={LogoWhite} alt="Logo" className="login-logo-image" />
               </Link>
             </div>
             <header className="login-header">Sign in to your account</header>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleLogin}>
               <div className="form-group">
                 <input
                   type="text"
                   id="username"
                   name="username"
                   placeholder="Username"
-                  className={`login-input ${errors.username ? 'error' : ''}`}
+                  className={`login-input ${errors.username ? 'login-invalid-input' : ''}`}
                   value={username}
-                  onChange={handleChange}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
-                {errors.username && <span className="login-error-message">{errors.username}</span>}
+                {errors.username && <span className="error-message">{errors.username}</span>}
               </div>
 
               <div className="form-group">
@@ -99,11 +72,11 @@ function Login() {
                   id="password"
                   name="password"
                   placeholder="Password"
-                  className={`login-input ${errors.password ? 'error' : ''}`}
+                  className={`login-input ${errors.password ? 'login-invalid-input' : ''}`}
                   value={password}
-                  onChange={handleChange}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
-                {errors.password && <span className="login-error-message">{errors.password}</span>}
+                {errors.password && <span className="error-message">{errors.password}</span>}
               </div>
 
               <div className="login-options">
