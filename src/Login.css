@@ -132,4 +132,5 @@ input:focus {
 .login-logo-image {
   height: 280px;
   width: 280px;
+  margin-left: 80px;
 }
