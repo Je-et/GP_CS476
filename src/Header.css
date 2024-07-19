@@ -1,61 +1,99 @@
+/* Header.css */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 20px 40px;
   background-color: #6BDD97;
   color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-  font-size: 1.5em;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 .header-logo-image {
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+}
+
+.search-mealplanning-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  margin: 0 20px;
+  gap: 10px;
 }
 
 .search {
-  flex: 2;
-  padding: 8px;
+  flex-grow: 1;
+  padding: 12px 20px;
   border: none;
-  border-radius: 4px;
-  margin: 0 20px;
+  border-radius: 30px;
+  font-size: 16px;
+}
+
+.meal-planning-button {
+  padding: 12px 20px;
+  background-color: #148f42;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.meal-planning-button:hover {
+  background-color: #1DAF55;
+}
+
+.profile-cart-container {
+  display: flex;
+  align-items: center;
 }
 
 .profile-cart {
   display: flex;
   align-items: center;
+  gap: 20px;
 }
 
 .profile, .cart {
-  margin-left: 20px;
-  padding: 8px;
-  border: 1px solid white;
-  border-radius: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto; /* Adjusted from fixed size */
+  padding: 8px 12px; /* Adjusted padding for text fit */
+  height: 40px;
+  border: 2px solid white;
+  border-radius: 30px; /* Adjusted from 50% */
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .profile:hover, .cart:hover {
   background-color: #1DAF55;
+  border-color: #148f42;
 }
 
 input[type="text"].search::placeholder {
   color: #666;
   opacity: 1; 
-  text-align: left;
 }
 
-.header-cart-image {
-  height: 30px;
-  width: 30px; /* Adjust the width to fit your design */
+.header-cart-image, .profile-logo-image {
+  height: 24px;
+  width: 24px;
 }
 
-.profile-logo-image{
-  height: 30px;
-  width: 30px;
+.sign-in-text {
+  color: white;
+  font-size: 14px; /* Adjust the size as needed */
+  font-weight: bold;
+  text-align: center;
 }
