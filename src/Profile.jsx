@@ -12,19 +12,9 @@ function Profile() {
   const handleButtonClick = (section) => {
     setActiveSection(section);
   };
+  
   // useEffect(() => {
   //   // Fetch profile data from backend
-  //   axios.get('http://localhost:5000/profile')
-  //     .then(response => {
-  //       setProfileData(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error("There was an error fetching the profile data!", error);
-  //     });
-  // }, []);
-
-  // if (!profileData) {
-  //   return <div>Loading...</div>;
   // }
 
   // Function that handles the cancellation button - confirmation
