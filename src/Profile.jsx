@@ -46,7 +46,7 @@ function Profile() {
 
   const fetchOrderHistory = async () => {
     try {
-      const response = await axios.get('/api/history', { 
+      const response = await axios.get('/api/orders/history', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -64,15 +64,15 @@ function Profile() {
   const cancelOrder = async (orderId) => {
     // Find the order in the current orders state
     const order = orders.find(order => order.order_id === orderId);
-  
+
     // Check if the order is already processed
     if (order && order.status === 'processed') {
       console.error("Cannot cancel order: Order has already been processed.");
       return;
     }
-  
+
     try {
-      const response = await axios.post('/api/cancel', { order_id: orderId }, {
+      const response = await axios.post('/api/orders/cancel', { order_id: orderId }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -86,7 +86,7 @@ function Profile() {
 
   const buyAgain = async (orderId) => {
     try {
-      const response = await axios.post('/api/buy_again', { order_id: orderId }, {
+      const response = await axios.post('/api/orders/buy_again', { order_id: orderId }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
