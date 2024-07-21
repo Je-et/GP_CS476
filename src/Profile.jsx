@@ -133,8 +133,8 @@ function Profile() {
           </div>
           <div id="items-container">
             {activeSection === 'orders' && (
-              <>
-                {orders.map((order) => (
+              orders.length > 0 ? (
+                orders.map((order) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-images">
                       <img src={itemImage} alt="Item" id="item-image" />
@@ -157,12 +157,20 @@ function Profile() {
                       </div>
                     </div>
                   </div>
-                ))}
-              </>
+                ))
+              ) : (
+                <div id="items">
+                  <div id="item-description">
+                    <div id="item-description-text">
+                      <p id="item-name">No Orders Available.</p>
+                    </div>
+                  </div>
+                </div>
+              )
             )}
             {activeSection === 'history' && (
-              <>
-                {orderHistory.map((order) => (
+              orderHistory.length > 0 ? (
+                orderHistory.map((order) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-images">
                       <img src={itemImage} alt="Item" id="item-image" />
@@ -176,8 +184,16 @@ function Profile() {
                       </div>
                     </div>
                   </div>
-                ))}
-              </>
+                ))
+              ) : (
+                <div id="items">
+                  <div id="item-description">
+                    <div id="item-description-text">
+                      <p id="item-name">No History Available.</p>
+                    </div>
+                  </div>
+                </div>
+              )
             )}
           </div>
         </div>
