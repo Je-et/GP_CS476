@@ -1,26 +1,46 @@
-import { useState } from 'react';
-import React from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Checkout.css';
-import chicken from './assets/chicken.jpg';
-import steak from './assets/Steak.jpg';
-import rice from './assets/Rice.jpg';
-import salmon from './assets/Salmon.jpg';
+
+// import chicken from './assets/chicken.jpg';
+// import steak from './assets/Steak.jpg';
+// import rice from './assets/Rice.jpg';
+// import salmon from './assets/Salmon.jpg';
+
 import CheckoutItem from './CheckoutItem';
 import Footer from './Footer';
 
-const initialCheckoutItems = [
-  { id: 'item1', image: chicken, description: 'Whole Chicken', price: 6.99, quantity: 5 },
-  { id: 'item2', image: steak, description: 'Steak', price: 9.99, quantity: 2 },
-  { id: 'item3', image: rice, description: 'White Rice', price: 4.99, quantity: 3 },
-  { id: 'item4', image: salmon, description: 'Salmon', price: 5.99, quantity: 6 },
-];
+// const initialCheckoutItems = [
+//   { id: 'item1', image: chicken, description: 'Whole Chicken', price: 6.99, quantity: 5 },
+//   { id: 'item2', image: steak, description: 'Steak', price: 9.99, quantity: 2 },
+//   { id: 'item3', image: rice, description: 'White Rice', price: 4.99, quantity: 3 },
+//   { id: 'item4', image: salmon, description: 'Salmon', price: 5.99, quantity: 6 },
+// ];
 
 function Checkout() {
-  const [checkoutItems, setCheckoutItems] = useState(initialCheckoutItems);
+  // const [checkoutItems, setCheckoutItems] = useState(initialCheckoutItems);
+  const [checkoutItems, setCheckoutItems] = useState([]);
   const [ccNumber, setCcNumber] = useState('');
   const [expiry, setExpiry] = useState('');
   const [csc, setCsc] = useState('');
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    fetchCheckoutItems();
+  }, []);
+
+  const fetchCheckoutItems = async () => {
+    try {
+      const response = await axios.get('/api/checkout/items', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      setCheckoutItems(response.data);
+    } catch (error) {
+      console.error("Error fetching checkout items:", error);
+    }
+  };
 
   const increaseQuantity = (id) => {
     setCheckoutItems(checkoutItems.map(item =>
@@ -54,13 +74,31 @@ function Checkout() {
     return errors;
   };
 
-  const handlePayment = () => {
+  // const handlePayment = () => {
+  //   const errors = validate();
+  //   if (Object.keys(errors).length > 0) {
+  //     setErrors(errors);
+  //   } else {
+  //     // temporary placeholder to show if there are no errors
+  //     alert('Payment successful!');
+  //   }
+  // };
+
+  const handlePayment = async () => {
     const errors = validate();
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
     } else {
-      // temporary placeholder to show if there are no errors
-      alert('Payment successful!');
+      try {
+        const response = await axios.post('/api/checkout/payment', { ccNumber, expiry, csc }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        });
+        alert(response.data.message);
+      } catch (error) {
+        console.error("Error processing payment:", error);
+      }
     }
   };
 
