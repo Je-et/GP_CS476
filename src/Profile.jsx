@@ -1,30 +1,100 @@
-import React, { useState } from 'react';
-// import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Profile.css';
 import Footer from './Footer';
-import profileImage from './assets/Joker.jpg';
-import itemImage from './assets/banana.jpg';
+import profileImage from './assets/Joker.jpg'; // Default image, update this dynamically
+import itemImage from './assets/banana.jpg'; // Default image, update this dynamically
 
 function Profile() {
   const [activeSection, setActiveSection] = useState('orders');
-  const [orderProcessed, setOrderProcessed] = useState(false);
-  // const [profileData, setProfileData] = useState(null);
+  // const [orderProcessed, setOrderProcessed] = useState(false); Might use later on
+  const [profileData, setProfileData] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [orderHistory, setOrderHistory] = useState([]);
+
+  useEffect(() => {
+    fetchProfileData();
+    fetchOrders();
+    fetchOrderHistory();
+  }, []);
+
+  const fetchProfileData = async () => {
+    try {
+      const response = await axios.get('/api/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      setProfileData(response.data);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
+  };
+
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get('/api/orders', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      setOrders(response.data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  const fetchOrderHistory = async () => {
+    try {
+      const response = await axios.get('/api/history', { 
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      setOrderHistory(response.data);
+    } catch (error) {
+      console.error("Error fetching order history:", error);
+    }
+  };
+
   const handleButtonClick = (section) => {
     setActiveSection(section);
   };
-  
-  // useEffect(() => {
-  //   // Fetch profile data from backend
-  // }
 
-  // Function that handles the cancellation button - confirmation
-  const cancelButton  = () => {
-    if (!orderProcessed) {
-      if (window.confirm("Confirm cancellation?")) {
-        console.log("Order successfully cancelled.");
-      }
-    } else {
-      console.log("Order has already been processed.");
+  const cancelOrder = async (orderId) => {
+    // Find the order in the current orders state
+    const order = orders.find(order => order.order_id === orderId);
+  
+    // Check if the order is already processed
+    if (order && order.status === 'processed') {
+      console.error("Cannot cancel order: Order has already been processed.");
+      return;
+    }
+  
+    try {
+      const response = await axios.post('/api/cancel', { order_id: orderId }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      console.log("Order canceled:", response.data);
+      fetchOrders(); // Refresh orders
+    } catch (error) {
+      console.error("Error canceling order:", error);
+    }
+  };
+
+  const buyAgain = async (orderId) => {
+    try {
+      const response = await axios.post('/api/buy_again', { order_id: orderId }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      console.log("Order placed again:", response.data);
+      fetchOrders(); // Refresh orders
+    } catch (error) {
+      console.error("Error placing order again:", error);
     }
   };
 
@@ -35,10 +105,10 @@ function Profile() {
           <div id="profile-info-container">
             <div id="profile-info">
               <div id="pfp_photo">
-                <img src={profileImage} alt="Profile" id="profile-image" />
+                <img src={profileData?.profile_picture || profileImage} alt="Profile" id="profile-image" />
               </div>
               <div id="pfp_text">
-                <div id="pfp_text_name">JOKER</div>
+                <div id="pfp_text_name">{profileData?.username || 'JOKER'}</div>
                 <div id="pfp_text_id">#1234567890</div>
               </div>
             </div>
@@ -64,27 +134,26 @@ function Profile() {
           <div id="items-container">
             {activeSection === 'orders' && (
               <>
-                {[...Array(7)].map((_, index) => (
-                  <div id="items" key={index}>
+                {orders.map((order) => (
+                  <div id="items" key={order.order_id}>
                     <div id="item-images">
                       <img src={itemImage} alt="Item" id="item-image" />
                     </div>
                     <div id="item-description">
                       <div id="item-description-text">
-                        <p id="item-name">BANANA</p>
-                        <p>Qty: 999</p>
-                        <p>
-                          Item description: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Amet voluptatum ullam vero reprehenderit veritatis neque quisquam itaque.
-                        </p>
+                        <p id="item-name">{order.item_name}</p>
+                        <p>Qty: {order.quantity}</p>
+                        <p>Total Price: ${order.total_price}</p>
+                        <p>Status: {order.status}</p>
                       </div>
                     </div>
                     <div id="item-buttons">
-                      <div id="total-price">TOTAL: $99.99</div>
+                      <div id="total-price">TOTAL: ${order.total_price}</div>
                       <div id="buy-again">
-                        <button id="buy-again-button">BUY AGAIN</button>
+                        <button id="buy-again-button" onClick={() => buyAgain(order.order_id)}>BUY AGAIN</button>
                       </div>
                       <div id="cancel-order">
-                        <button id="cancel-order-button" onClick={cancelButton}>CANCEL</button>
+                        <button id="cancel-order-button" onClick={() => cancelOrder(order.order_id)}>CANCEL</button>
                       </div>
                     </div>
                   </div>
@@ -92,14 +161,23 @@ function Profile() {
               </>
             )}
             {activeSection === 'history' && (
-              <div id="items">
-                {/* Placeholder for history content */}
-                <div id="item-description">
-                  <div id="item-description-text">
-                    <p id="item-name">No history available.</p>
+              <>
+                {orderHistory.map((order) => (
+                  <div id="items" key={order.order_id}>
+                    <div id="item-images">
+                      <img src={itemImage} alt="Item" id="item-image" />
+                    </div>
+                    <div id="item-description">
+                      <div id="item-description-text">
+                        <p id="item-name">{order.item_name}</p>
+                        <p>Qty: {order.quantity}</p>
+                        <p>Total Price: ${order.total_price}</p>
+                        <p>Status: {order.status}</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                ))}
+              </>
             )}
           </div>
         </div>
