@@ -7,28 +7,37 @@ function Signup() {
     email: '',
     username: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    profilePicture: null  // Added for storing the uploaded profile picture
   });
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, type, value, files } = e.target;
 
-    // Apply character limit
-    if (value.length > 16) {
-      setErrors({
-        ...errors,
-        [name]: `${capitalizeFirstLetter(name)} must be 16 characters or less.`,
-      });
-    } else {
-      setErrors({
-        ...errors,
-        [name]: '',
-      });
+    if (type === "file") {
+      // Handle file input separately
       setFormData({
         ...formData,
-        [name]: value,
+        profilePicture: files[0]
       });
+    } else {
+      // Apply character limit
+      if (value.length > 16 && name !== 'email') {  // Email can exceed 16 characters
+        setErrors({
+          ...errors,
+          [name]: `${capitalizeFirstLetter(name)} must be 16 characters or less.`,
+        });
+      } else {
+        setErrors({
+          ...errors,
+          [name]: '',
+        });
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      }
     }
   };
 
@@ -49,11 +58,15 @@ function Signup() {
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match!';
     }
+    if (!formData.profilePicture) {
+      newErrors.profilePicture = 'Profile picture is required!';
+    }
     setErrors(newErrors);
 
     // Proceed with form submission if no errors
     if (Object.keys(newErrors).length === 0) {
       console.log('Form submitted:', formData); 
+      // Include logic to handle the form submission, like sending data to the server
     }
   };
 
@@ -108,6 +121,14 @@ function Signup() {
                 onChange={handleChange}
               />
               {errors.confirmPassword && <p className="signup-error-message">{errors.confirmPassword}</p>}
+              
+              <input
+                type="file"
+                name="profilePicture"
+                className={`file-input ${errors.profilePicture ? 'error' : ''}`}
+                onChange={handleChange}
+              />
+              {errors.profilePicture && <p className="signup-error-message">{errors.profilePicture}</p>}
               
               <button type="submit" className="signup-button">GET STARTED</button>
               <p className='signup-p'>Already have an account? Click <Link to="/login">here</Link> to sign in!</p>
