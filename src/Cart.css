@@ -189,3 +189,7 @@
   text-decoration: underline;
   color:red;
 }
+
+.cart-empty-item{
+ font-size: 50px;
+}

@@ -1,46 +1,50 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import './Checkout.css';
 
-// import chicken from './assets/chicken.jpg';
-// import steak from './assets/Steak.jpg';
-// import rice from './assets/Rice.jpg';
-// import salmon from './assets/Salmon.jpg';
+//for temporary testing of hardcoded items
+import chicken from './assets/chicken.jpg';
+import steak from './assets/Steak.jpg';
+import rice from './assets/Rice.jpg';
+import salmon from './assets/Salmon.jpg';
 
 import CheckoutItem from './CheckoutItem';
 import Footer from './Footer';
 
-// const initialCheckoutItems = [
-//   { id: 'item1', image: chicken, description: 'Whole Chicken', price: 6.99, quantity: 5 },
-//   { id: 'item2', image: steak, description: 'Steak', price: 9.99, quantity: 2 },
-//   { id: 'item3', image: rice, description: 'White Rice', price: 4.99, quantity: 3 },
-//   { id: 'item4', image: salmon, description: 'Salmon', price: 5.99, quantity: 6 },
-// ];
+//for temporary testing of hardcoded items
+const initialCheckoutItems = [
+  { id: 'item1', image: chicken, description: 'Whole Chicken', price: 6.99, quantity: 5 },
+  { id: 'item2', image: steak, description: 'Steak', price: 9.99, quantity: 2 },
+  { id: 'item3', image: rice, description: 'White Rice', price: 4.99, quantity: 3 },
+  { id: 'item4', image: salmon, description: 'Salmon', price: 5.99, quantity: 6 },
+];
 
 function Checkout() {
-  // const [checkoutItems, setCheckoutItems] = useState(initialCheckoutItems);
-  const [checkoutItems, setCheckoutItems] = useState([]);
+  //for temporary testing of hardcoded items
+  const [checkoutItems, setCheckoutItems] = useState(initialCheckoutItems);
+
+  // const [checkoutItems, setCheckoutItems] = useState([]);
   const [ccNumber, setCcNumber] = useState('');
   const [expiry, setExpiry] = useState('');
   const [csc, setCsc] = useState('');
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    fetchCheckoutItems();
-  }, []);
+  // useEffect(() => {
+  //   fetchCheckoutItems();
+  // }, []);
 
-  const fetchCheckoutItems = async () => {
-    try {
-      const response = await axios.get('/api/checkout/items', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      });
-      setCheckoutItems(response.data);
-    } catch (error) {
-      console.error("Error fetching checkout items:", error);
-    }
-  };
+  // const fetchCheckoutItems = async () => {
+  //   try {
+  //     const response = await axios.get('/api/checkout/items', {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem('access_token')}`
+  //       }
+  //     });
+  //     setCheckoutItems(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching checkout items:", error);
+  //   }
+  // };
 
   const increaseQuantity = (id) => {
     setCheckoutItems(checkoutItems.map(item =>
@@ -67,38 +71,31 @@ function Checkout() {
     }
     if (!expiry) {
       errors.expiry = 'Expiry date is required';
-    }
+    }``
     if (!csc.match(/^[0-9]{3,4}$/)) {
       errors.csc = 'Security Code must be 3 or 4 digits';
     }
     return errors;
   };
 
-  // const handlePayment = () => {
-  //   const errors = validate();
-  //   if (Object.keys(errors).length > 0) {
-  //     setErrors(errors);
-  //   } else {
-  //     // temporary placeholder to show if there are no errors
-  //     alert('Payment successful!');
-  //   }
-  // };
-
   const handlePayment = async () => {
     const errors = validate();
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
     } else {
-      try {
-        const response = await axios.post('/api/checkout/payment', { ccNumber, expiry, csc }, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`
-          }
-        });
-        alert(response.data.message);
-      } catch (error) {
-        console.error("Error processing payment:", error);
-      }
+      // try {
+      //   const response = await axios.post('/api/checkout/payment', { ccNumber, expiry, csc }, {
+      //     headers: {
+      //       Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      //     }
+      //   });
+      //   alert(response.data.message);
+      // } catch (error) {
+      //   console.error("Error processing payment:", error);
+      // }
+
+      //for temporary testing of hardcoded items
+      alert("Payment successful!");
     }
   };
 
@@ -109,16 +106,26 @@ function Checkout() {
           <h1>CHECKOUT</h1>
           <p>Your Total is: ${totalPrice.toFixed(2)}</p>
           <div className="checkout-content">
-            {checkoutItems.map(item => (
-              <CheckoutItem
-                key={item.id}
-                item={item}
-                quantity={item.quantity}
-                increaseQuantity={increaseQuantity}
-                decreaseQuantity={decreaseQuantity}
-                removeItem={removeItem}
-              />
-            ))}
+          {checkoutItems.length > 0 ? (
+              checkoutItems.map(item => (
+                <CheckoutItem
+                  key={item.id}
+                  item={item}
+                  quantity={item.quantity}
+                  increaseQuantity={increaseQuantity}
+                  decreaseQuantity={decreaseQuantity}
+                  removeItem={removeItem}
+                />
+              ))
+            ) : (
+              <div className="checkout-empty">
+                <div className="checkout-empty-description">
+                  <div className="checkout-empty-description-text">
+                    <p className="checkout-empty-item">Your Cart Is Empty</p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div className="checkout-payment-items">
             <div className="checkout-payment-form">

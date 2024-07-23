@@ -217,3 +217,7 @@ input[type="text"].checkout-sc::placeholder {
   color: #666;
   opacity: 1;
 }
+
+.checkout-empty-item{
+  font-size: 50px;
+ }
