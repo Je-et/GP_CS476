@@ -1,5 +1,5 @@
 /* Header.css */
-.header {
+.header-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,7 +28,7 @@
   gap: 10px;
 }
 
-.search {
+.header-search {
   flex-grow: 1;
   padding: 12px 20px;
   border: none;

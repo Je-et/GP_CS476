@@ -13,14 +13,14 @@ function Header() {
   };
 
   return (
-    <header className="header">
+    <header className="header-header">
       <div className="logo">
         <Link to='/' >
           <img src={Logo} alt="Logo" className="header-logo-image" />
         </Link>
       </div>
       <div className="search-mealplanning-container">
-        <input type="text" className="search" placeholder="Search for Products ..." />
+        <input type="text" className="header-search" placeholder="Search for Products ..." />
         <button className="meal-planning-button" onClick={handleMealPlanningClick}>
           Meal Planning
         </button>
