@@ -71,7 +71,7 @@ function Checkout() {
     }
     if (!expiry) {
       errors.expiry = 'Expiry date is required';
-    }``
+    }
     if (!csc.match(/^[0-9]{3,4}$/)) {
       errors.csc = 'Security Code must be 3 or 4 digits';
     }
