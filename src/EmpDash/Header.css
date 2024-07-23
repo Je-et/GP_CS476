@@ -1,0 +1,82 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #6BDD97;
+  color: white;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.vertical_line {
+  border-left: 2px solid white;
+  height: 100px;
+  margin: 0 20px;
+  position:relative; 
+  margin-inline-start: 200px;
+  margin-inline-end: -10px;
+  
+ 
+}
+
+.title {
+
+  font-size: 2em;
+  font-weight: bold;
+  color: #f3f9f5;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+
+}
+
+.header-logo{
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  align-items: center;
+  margin-right: 20px;
+}
+
+
+
+.btn:hover {
+  background-color: #1DAF55;
+}
+
+
+
+.profile-cart {
+  display: flex;
+  align-items: center;
+}
+
+
+.order_history,
+.logout {
+  margin-left: 20px;
+  font-size: large;
+  background-color:  #6BDD97;
+  padding: 20px 40px;
+  color: white;
+  border: 1px;
+  border-radius: 20%;
+  cursor: pointer;
+  margin-inline-start: 200px;
+  margin-inline-end: -10px;
+  transition: background-color 0.3s;
+}
+
+
+.order_history:hover,
+.logout:hover {
+  background-color: #1DAF55;
+}
