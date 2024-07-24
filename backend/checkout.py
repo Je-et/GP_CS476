@@ -36,8 +36,8 @@ class ProcessPayment(Resource):
         if errors:
             return errors, 400
 
-        # new_checkout_item = CheckoutItem(ccNumber=ccNumber, expiry=expiry, ccv=ccv)
-        # new_checkout_item.save()
+        new_checkout_item = CheckoutItem(ccNumber=ccNumber, expiry=expiry, ccv=ccv)
+        new_checkout_item.save()
 
         return {"message": "Success! Payment received."}, 200
 

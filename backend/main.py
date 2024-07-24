@@ -5,13 +5,13 @@ from exts import db
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from auth import auth_ns
-from config import Config
-from profile import profile
-from orders import orders
 from profile import profile_ns
 from cart import cart_ns
 from checkout import checkout_ns
 from orders import orders_ns
+from config import Config
+from flask_cors import CORS
+import os
 
 
 app = Flask(__name__)
@@ -25,6 +25,10 @@ migrate = Migrate(app, db)
 JWTManager(app)
 
 api = Api(app, doc='/docs')
+
+@app.route('/test')
+def test():
+    return 'Server is running'
 
 api.add_namespace(auth_ns)
 api.add_namespace(auth_ns, path='/auth')

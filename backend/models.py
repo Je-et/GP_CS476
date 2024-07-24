@@ -75,7 +75,7 @@ class CartItem(db.Model):
             'id': self.id,
             'item_id': self.item_id,
             'quantity': self.quantity,
-            'item': self.item.serialize()
+            'item': self.item.serialize() if self.item else None
         }
 
 class CheckoutItem(db.Model):
