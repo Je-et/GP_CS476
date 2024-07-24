@@ -18,7 +18,7 @@ function Header() {
       </div>
       <div className="profile-cart-container">
         <div className="profile-cart">
-          <div className="profile">
+          <div className="login-head">
             <Link to='/login' style={{ textDecoration: 'none' }}> Sign In</Link>
           </div>
           <div className="profile">

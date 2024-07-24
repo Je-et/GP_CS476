@@ -63,17 +63,22 @@
   gap: 20px;
 }
 
-.profile, .cart {
+.cart {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: auto; /* Adjusted from fixed size */
+  width: 17px; /* Adjusted from fixed size */
   padding: 8px 12px; /* Adjusted padding for text fit */
-  height: 40px;
-  border: 2px solid white;
-  border-radius: 30px; /* Adjusted from 50% */
+  height: 28px;
+  border: 1px solid white;
+  border-radius: 10px; /* Adjusted from 50% */
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s;
+}
+
+.profile {
+  display: flex;
+  border: 2px solid white;
 }
 
 .profile:hover, .cart:hover {
