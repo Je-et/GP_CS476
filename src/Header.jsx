@@ -6,12 +6,6 @@ import defaultProfile from './assets/defaultProfile.png';
 import Logo from './assets/Logo.png';
 
 function Header() {
-  const navigate = useNavigate();
-
-  const handleMealPlanningClick = () => {
-    navigate('/mealplanning');
-  };
-
   return (
     <header className="header-header">
       <div className="logo">
@@ -21,9 +15,6 @@ function Header() {
       </div>
       <div className="search-mealplanning-container">
         <input type="text" className="header-search" placeholder="Search for Products ..." />
-        <button className="meal-planning-button" onClick={handleMealPlanningClick}>
-          Meal Planning
-        </button>
       </div>
       <div className="profile-cart-container">
         <div className="profile-cart">

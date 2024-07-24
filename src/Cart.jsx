@@ -20,7 +20,6 @@ const initialCartItems = [
   { id: 'item4', image: salmon, description: 'Salmon', price: 5.99, quantity: 6 },
 ];
 
-
 function Cart() {
   //for temporary testing of hardcoded items
   const [cartItems, setCartItems] = useState(initialCartItems);
@@ -108,6 +107,10 @@ function Cart() {
     navigate('/checkout');
   };
 
+  const handleMealPlanningClick = () => {
+    navigate('/mealplanning');
+  };
+
   const totalPrice = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 
   return (
@@ -141,7 +144,7 @@ function Cart() {
             )}
           </div>
           <button type="button" className="cart-button-checkout" onClick={goToCheckout}>Checkout</button>
-          <button type="button" className="cart-button-meal">Meal Planning</button>
+          <button type="button" className="cart-button-meal" onClick={handleMealPlanningClick}>Meal Planning</button>
         </div>
         <Footer />
       </div>
