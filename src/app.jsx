@@ -43,16 +43,7 @@ function MainContent() {
     <>
       {showContent && (
         <div className="categories">
-          <button>Produce</button>
-          <button>Baby</button>
-          <button>Home Essentials</button>
-          <button>Meat</button>
-          <button>Clothing</button>
-          <button>Health</button>
-          <button>Beauty</button>
-          <button>Category</button>
           <button onClick={() => gotToNewPage()}>Employee Dashboard </button>
-
         </div>
       )}
       <Routes>
