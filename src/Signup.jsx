@@ -80,7 +80,7 @@ function Signup() {
       <div className="background-middle-signin">
         <div className="signup-container">
           <div className="signup-form">
-            <header className='signup-header'>Create an Account</header>
+            <header className='signup-header'>Start Your Green Journey Today!</header>
             <form onSubmit={handleSubmit}>
               <input
                 type="email"
@@ -131,7 +131,7 @@ function Signup() {
               {errors.profilePicture && <p className="signup-error-message">{errors.profilePicture}</p>}
               
               <button type="submit" className="signup-button">GET STARTED</button>
-              <p className='signup-p'>Already have an account? Click <Link to="/login">here</Link> to sign in!</p>
+              <p className='signup-p'>Already have an account? Click <Link to="/login">here</Link> to login!</p>
             </form>
           </div>
         </div>
