@@ -101,7 +101,7 @@ function Signup() {
       <div className="background-middle-signin">
         <div className="signup-container">
           <div className="signup-form">
-            <header className='signup-header'>Create an Account</header>
+            <header className='signup-header'>Join us in our Green Journey today!</header>
             <form onSubmit={handleSubmit}>
               <input
                 type="email"

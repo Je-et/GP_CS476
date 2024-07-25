@@ -71,7 +71,7 @@ function Login() {
                 <img src={LogoWhite} alt="Logo" className="login-logo-image" />
               </Link>
             </div>
-            <header className="login-header">Sign in to your account</header>
+            <header className="login-header">Login and start your Green Journey!</header>
             <form className="Login-form" onSubmit={handleLogin}>
               <div className="form-group">
                 <input
