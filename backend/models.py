@@ -1,18 +1,19 @@
 from exts import db
 
-"""
-class User:
-    id:int
-    username:str
-    email:str
-    password:str
+# Association table for many-to-many relationship between User and Items
+previous_purchases = db.Table('previous_purchases',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('item_id', db.Integer, db.ForeignKey('items.id'), primary_key=True)
+)
 
-"""
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), nullable=False, unique=True)
     email = db.Column(db.String(60), nullable=False)
     password = db.Column(db.Text(), nullable=False)
+    profile_picture = db.Column(db.String(200), nullable=True)
+    items = db.relationship('Items', secondary=previous_purchases, lazy='subquery',
+        backref=db.backref('users', lazy=True))
 
     def __repr__(self):
         return f"<User {self.username}>"
@@ -21,23 +22,14 @@ class User(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    '''converts models to JSON'''
-    def serialize(self):
-        return {
-            'id': self.id,
-            'username': self.username,
-            'email': self.email
-        }
-
-'''Need a way to pictures here below'''
-class Item(db.Model):
+class Items(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
     price = db.Column(db.Float(), nullable=False)
-    calorie = db.Column(db.Integer, nullable=False)
-    vegan = db.Column(db.Boolean, nullable=False)
-    glutenFree = db.Column(db.Boolean, nullable=False)
-    '''try and add more attributes here'''
+    calorie = db.Column(db.Integer(), nullable=False)
+    vegan = db.Column(db.Boolean(), nullable=False)
+    glutenFree = db.Column(db.Boolean(), nullable=False)
+    discount = db.Column(db.Float(), nullable=False, default=0.0)
 
     def __repr__(self):
         return f"<Item {self.name}>"
@@ -46,22 +38,13 @@ class Item(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def serialize(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'price': self.price,
-            'calorie': self.calorie,
-            'vegan': self.vegan,
-            'glutenFree': self.glutenFree
-        }
 
 class CartItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('items.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
 
-    item = db.relationship('Item', backref=db.backref('cart_items', lazy=True))
+    item = db.relationship('Items', backref=db.backref('cart_items', lazy=True))
 
     def __repr__(self):
         return f"<CartItem {self.item.name} x {self.quantity}>"
@@ -102,13 +85,13 @@ class CheckoutItem(db.Model):
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('items.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Float, nullable=False)
     status = db.Column(db.String(20), nullable=False)
 
     user = db.relationship('User', backref=db.backref('orders', lazy=True))
-    item = db.relationship('Item', backref=db.backref('orders', lazy=True))
+    item = db.relationship('Items', backref=db.backref('orders', lazy=True))
 
     def __repr__(self):
         return f"<Order {self.id} by {self.user.username}>"

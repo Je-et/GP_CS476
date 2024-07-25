@@ -16,10 +16,11 @@ item_model=homepage_ns.model(
         "glutenFree": fields.Boolean(),
     }
 )
-
+'''
 @homepage_ns.route('/items')
 class Item(Resource):
 
     @homepage_ns.expect(item_model)
     def (self):
         data = request.get_json()
+'''

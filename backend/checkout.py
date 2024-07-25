@@ -43,7 +43,7 @@ class ProcessPayment(Resource):
 
 # Retrieve checkout items, use to show orders in profile
 # or for API recommendations
-@checkout_ns.route('/items')
+@checkout_ns.route('/checkoutItems')
 class CheckoutItems(Resource):
     def get(self):
         checkout_items = CheckoutItem.query.all()

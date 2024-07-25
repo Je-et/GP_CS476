@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css';
 import LogoWhite from './assets/LogoWhite.png';
 
@@ -8,16 +9,15 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [loginError, setLoginError] = useState('');
+  const navigate = useNavigate();
 
   const validate = () => {
     const errors = {};
 
-    // Validate username
     if (!username) {
       errors.username = 'Username is required';
     }
 
-    // Validate password
     if (!password) {
       errors.password = 'Password is required';
     } else if (password.length < 6) {
@@ -27,7 +27,7 @@ function Login() {
     return errors;
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const errors = validate();
     if (Object.keys(errors).length > 0) {
@@ -36,8 +36,23 @@ function Login() {
     } else {
       setErrors({});
       setLoginError('');
-      // Implement login logic here
-      alert('Login successful!');
+      
+      try {
+        const response = await axios.post('http://localhost:5000/auth/login', {
+          username,
+          password
+        });
+
+        if (response.data.access_token) {
+          localStorage.setItem('access_token', response.data.access_token);
+          localStorage.setItem('refresh_token', response.data.refresh_token);
+          navigate('/');
+        } else {
+          setLoginError('Invalid username or password. Please try again.');
+        }
+      } catch (error) {
+        setLoginError('An error occurred during login. Please try again.');
+      }
     }
   };
 

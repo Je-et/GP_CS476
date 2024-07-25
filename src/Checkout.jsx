@@ -35,7 +35,7 @@ function Checkout() {
 
   // const fetchCheckoutItems = async () => {
   //   try {
-  //     const response = await axios.get('/api/checkout/items', {
+  //     const response = await axios.get('/api/checkout/checkoutItems', {
   //       headers: {
   //         Authorization: `Bearer ${localStorage.getItem('access_token')}`
   //       }

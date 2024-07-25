@@ -1,13 +1,14 @@
-from flask_restx import Api, Resource, fields, Namespace
-from models import User
+from flask_restx import Namespace, Resource, fields
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required
-from flask import Flask, request, jsonify
+from flask_jwt_extended import create_access_token, create_refresh_token
+from flask import request, jsonify, current_app
+import os
+from exts import db
+from models import User
 
+auth_ns = Namespace('auth', description='Authentication related operations')
 
-auth_ns=Namespace('auth', description='Authentication related operations')
-
-signup_model=auth_ns.model(
+signup_model = auth_ns.model(
     'Signup',
     {
         "username": fields.String(),
@@ -16,7 +17,7 @@ signup_model=auth_ns.model(
     }
 )
 
-login_model=auth_ns.model(
+login_model = auth_ns.model(
     'Login',
     {
         "username": fields.String(),
@@ -24,55 +25,59 @@ login_model=auth_ns.model(
     }
 )
 
-
 @auth_ns.route('/signup')
 class Signup(Resource):
 
     @auth_ns.expect(signup_model)
     def post(self):
-        data = request.get_json()
+        data = request.form
 
-        #check if user already exists
+        # Check if user already exists
         username = data.get('username')
         db_user = User.query.filter_by(username=username).first()
-        
-        #check if user already exists
+
         if db_user is not None:
             return jsonify({"message": f"User with username {username} already exists"})
 
-        #create new user if unique
+        # Handle profile picture upload
+        profile_picture = request.files.get('profilePicture')
+        if profile_picture:
+            profile_picture_dir = current_app.config['UPLOAD_FOLDER']
+            if not os.path.exists(profile_picture_dir):
+                os.makedirs(profile_picture_dir)
+
+            profile_picture_path = os.path.join(profile_picture_dir, profile_picture.filename)
+            profile_picture.save(profile_picture_path)
+        else:
+            return jsonify({"message": "Profile picture is required!"})
+
+        # Create new user if unique
         new_user = User(
             username=data.get('username'),
             email=data.get('email'),
-            password= generate_password_hash(data.get('password'))
+            password=generate_password_hash(data.get('password')),
+            profile_picture=profile_picture_path
         )
-        #save new user to database
         new_user.save()
 
-        #return to front
-        return jsonify({"message":"User created successfully"})
+        return jsonify({"message": "User created successfully"})
 
 @auth_ns.route('/login')
 class Login(Resource):
-
     @auth_ns.expect(login_model)
     def post(self):
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
 
-        #check if user exists
-        db_user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username).first()
 
-        #check password hash
-        if db_user and check_password_hash(db_user.password, password):
-            
-            #generate tokens and return to frontend
-            access_token=create_access_token(identity=db_user.username)
-            refresh_token=create_refresh_token(identity=db_user.username)
+        if user and check_password_hash(user.password, password):
+            access_token = create_access_token(identity=user.id)
+            refresh_token = create_refresh_token(identity=user.id)
+            return jsonify({
+                'access_token': access_token,
+                'refresh_token': refresh_token
+            })
 
-            return jsonify(
-                {"access_token" : access_token, "refresh_token" : refresh_token}
-            )
-        #else return error message
-        return jsonify({"message":"Invalid credentials"})
+        return jsonify({'message': 'Invalid credentials'}), 401
