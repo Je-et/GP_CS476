@@ -86,6 +86,33 @@ class ProcessPayment(Resource):
 # Retrieve checkout items
 @checkout_ns.route('/items')
 class CheckoutItems(Resource):
+    @jwt_required()
     def get(self):
-        checkout_items = CheckoutItem.query.all()
-        return [item.serialize() for item in checkout_items], 200
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(username=current_user).first()
+        if not user:
+            return {'message': 'User not found'}, 404
+
+        orders = Order.query.filter_by(user_id=user.id).all()
+        result = []
+        for order in orders:
+            order_data = {
+                'id': order.id,
+                'total_price': order.total_price,
+                'status': order.status,
+                'items': []
+            }
+            order_items = OrderItem.query.filter_by(order_id=order.id).all()
+            for order_item in order_items:
+                item = Item.query.filter_by(id=order_item.item_id).first()
+                if item:
+                    order_data['items'].append({
+                        'id': item.id,
+                        'name': item.name,
+                        'price': item.price,
+                        'quantity': order_item.quantity,
+                        'total_price': order_item.total_price
+                    })
+            result.append(order_data)
+
+        return result, 200
