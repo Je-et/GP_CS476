@@ -94,4 +94,7 @@ class RemoveFromCart(Resource):
         item = CartItem.query.filter_by(user_id=user.id, item_id=item_id).first()
         if item:
             db.session.delete(item)
-            db.session
+            db.session.commit()
+
+            return {"message": "Item removed from cart"}, 200
+        return {"message": "Item not found"}, 404
