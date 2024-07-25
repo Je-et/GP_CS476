@@ -13,6 +13,7 @@ class User(db.Model):
     username = db.Column(db.String(25), nullable=False, unique=True)
     email = db.Column(db.String(60), nullable=False)
     password = db.Column(db.Text(), nullable=False)
+    profile_picture = db.Column(db.String(120), nullable=True)
 
     def __repr__(self):
         return f"<User {self.username}>"
@@ -21,12 +22,12 @@ class User(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    '''converts models to JSON'''
     def serialize(self):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'profile_picture': self.profile_picture
         }
 
 '''Need a way to pictures here below'''

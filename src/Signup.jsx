@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Signup.css';
 
 function Signup() {
@@ -11,6 +12,7 @@ function Signup() {
     profilePicture: null  // Added for storing the uploaded profile picture
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, type, value, files } = e.target;
@@ -41,7 +43,7 @@ function Signup() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
     if (!formData.email) {
@@ -65,8 +67,27 @@ function Signup() {
 
     // Proceed with form submission if no errors
     if (Object.keys(newErrors).length === 0) {
-      console.log('Form submitted:', formData); 
-      // Include logic to handle the form submission, like sending data to the server
+      try {
+        const formDataToSend = new FormData();
+        formDataToSend.append('username', formData.username);
+        formDataToSend.append('email', formData.email);
+        formDataToSend.append('password', formData.password);
+        formDataToSend.append('profilePicture', formData.profilePicture);
+
+        const response = await axios.post('http://localhost:5000/auth/signup', formDataToSend, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        if (response.data.message === "User created successfully") {
+          navigate('/login'); // Redirect to login page after successful signup
+        } else {
+          setErrors({ general: response.data.message });
+        }
+      } catch (error) {
+        setErrors({ general: 'Something went wrong. Please try again.' });
+      }
     }
   };
 
@@ -131,6 +152,7 @@ function Signup() {
               {errors.profilePicture && <p className="signup-error-message">{errors.profilePicture}</p>}
               
               <button type="submit" className="signup-button">GET STARTED</button>
+              {errors.general && <p className="signup-error-message">{errors.general}</p>}
               <p className='signup-p'>Already have an account? Click <Link to="/login">here</Link> to sign in!</p>
             </form>
           </div>

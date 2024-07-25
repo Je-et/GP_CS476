@@ -19,7 +19,8 @@ cart_item_model = cart_ns.model(
 class CartItems(Resource):
     def get(self):
         cart_items = CartItem.query.all()
-        return [item.serialize() for item in cart_items], 200
+        
+        return cart_items
 
 # Add item into the cart
 @cart_ns.route('/add')
@@ -30,10 +31,10 @@ class AddToCart(Resource):
         itemId = data.get('itemId')
         quantity = data.get('quantity')
 
-        # new_item = CartItem(itemId=itemId, quantity=quantity)
-        # new_item.save()
+        new_item = CartItem(item_id=itemId, quantity=quantity)
+        new_item.save()
 
-        return {"message": "Item added to cart"}, 201
+        return {'message': 'Item added to cart'}, 201
 
 # Update cart item quantity
 @cart_ns.route('/update')
