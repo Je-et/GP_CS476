@@ -18,8 +18,7 @@ cart_item_model = cart_ns.model(
 class CartItems(Resource):
     def get(self):
         cart_items = CartItem.query.all()
-        
-        return cart_items
+        return [item.serialize() for item in cart_items], 200
 
 # Add item into the cart
 @cart_ns.route('/add')
