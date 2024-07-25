@@ -39,7 +39,7 @@ class Item(db.Model):
     vegan = db.Column(db.Boolean, nullable=False)
     glutenFree = db.Column(db.Boolean, nullable=False)
     '''try and add more attributes here'''
-
+    
     def __repr__(self):
         return f"<Item {self.name}>"
 
@@ -59,9 +59,11 @@ class Item(db.Model):
 
 class CartItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
 
+    user = db.relationship('User', backref=db.backref('cart_items', lazy=True))
     item = db.relationship('Item', backref=db.backref('cart_items', lazy=True))
 
     def __repr__(self):
@@ -74,6 +76,7 @@ class CartItem(db.Model):
     def serialize(self):
         return {
             'id': self.id,
+            'user_id': self.user_id,
             'item_id': self.item_id,
             'quantity': self.quantity,
             'item': self.item.serialize() if self.item else None
@@ -103,13 +106,10 @@ class CheckoutItem(db.Model):
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
-    total_price = db.Column(db.Float, nullable=False)
     status = db.Column(db.String(20), nullable=False)
+    total_price = db.Column(db.Float(), nullable=False)
 
     user = db.relationship('User', backref=db.backref('orders', lazy=True))
-    item = db.relationship('Item', backref=db.backref('orders', lazy=True))
 
     def __repr__(self):
         return f"<Order {self.id} by {self.user.username}>"
@@ -122,10 +122,34 @@ class Order(db.Model):
         return {
             'id': self.id,
             'user_id': self.user_id,
+            'status': self.status,
+            'total_price': self.total_price,
+            'user': self.user.serialize()
+        }
+
+class OrderItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    total_price = db.Column(db.Float(), nullable=False)
+
+    order = db.relationship('Order', backref=db.backref('order_items', lazy=True))
+    item = db.relationship('Item', backref=db.backref('order_items', lazy=True))
+
+    def __repr__(self):
+        return f"<OrderItem {self.item.name} x {self.quantity}>"
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'order_id': self.order_id,
             'item_id': self.item_id,
             'quantity': self.quantity,
             'total_price': self.total_price,
-            'status': self.status,
-            'user': self.user.serialize(),
-            'item': self.item.serialize()
+            'item': self.item.serialize() if self.item else None
         }

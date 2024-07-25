@@ -1,8 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models import User
+from models import User, CartItem, Order, OrderItem, CheckoutItem, Item
 from flask import Blueprint, jsonify, request
-from models import CheckoutItem
 from exts import db
 
 checkout_ns = Namespace('checkout', description='Checkout related operations')
@@ -15,9 +14,10 @@ payment_model = checkout_ns.model(
     }
 )
 
-# Processes the payment
+# Processes the payment and creates an order
 @checkout_ns.route('/payment')
 class ProcessPayment(Resource):
+    @jwt_required()
     @checkout_ns.expect(payment_model)
     def post(self):
         data = request.get_json()
@@ -36,10 +36,42 @@ class ProcessPayment(Resource):
         if errors:
             return errors, 400
 
-        new_checkout_item = CheckoutItem(ccNumber=ccNumber, expiry=expiry, ccv=ccv)
-        new_checkout_item.save()
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(username=current_user).first()
+        if not user:
+            return {'message': 'User not found'}, 404
 
-        return {"message": "Success! Payment received."}, 200
+        # Create a new order
+        new_order = Order(
+            user_id=user.id,
+            status='Pending'
+        )
+        db.session.add(new_order)
+        db.session.commit()
+
+        # Add items from the cart to the order
+        cart_items = CartItem.query.filter_by(user_id=user.id).all()
+        for cart_item in cart_items:
+            item = Item.query.filter_by(id=cart_item.item_id).first()
+            order_item = OrderItem(
+                order_id=new_order.id,
+                item_id=item.id,
+                quantity=cart_item.quantity,
+                total_price=item.price * cart_item.quantity
+            )
+            db.session.add(order_item)
+
+        db.session.commit()
+
+        # Clear the cart
+        CartItem.query.filter_by(user_id=user.id).delete()
+        db.session.commit()
+
+        new_checkout_item = CheckoutItem(ccNumber=ccNumber, expiry=expiry, ccv=ccv)
+        db.session.add(new_checkout_item)
+        db.session.commit()
+
+        return {"message": "Success! Payment has been received."}, 200
 
 # Retrieve checkout items, use to show orders in profile
 # or for API recommendations

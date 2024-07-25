@@ -16,34 +16,53 @@ cart_item_model = cart_ns.model(
 # Fetch the cart items
 @cart_ns.route('/items')
 class CartItems(Resource):
+    @jwt_required()
     def get(self):
-        cart_items = CartItem.query.all()
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(username=current_user).first()
+        if not user:
+            return {'message': 'User not found'}, 404
+
+        cart_items = CartItem.query.filter_by(user_id=user.id).all()
         return [item.serialize() for item in cart_items], 200
 
 # Add item into the cart
 @cart_ns.route('/add')
 class AddToCart(Resource):
+    @jwt_required()
     @cart_ns.expect(cart_item_model)
     def post(self):
         data = request.get_json()
         item_id = data.get('itemId')
         quantity = data.get('quantity')
 
-        new_item = CartItem(item_id=item_id, quantity=quantity)
-        new_item.save()
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(username=current_user).first()
+        if not user:
+            return {'message': 'User not found'}, 404
+
+        new_item = CartItem(user_id=user.id, item_id=item_id, quantity=quantity)
+        db.session.add(new_item)
+        db.session.commit()
 
         return {'message': 'Item added to cart'}, 201
 
 # Update cart item quantity
 @cart_ns.route('/update')
 class UpdateCartItem(Resource):
+    @jwt_required()
     @cart_ns.expect(cart_item_model)
     def put(self):
         data = request.get_json()
         item_id = data.get('itemId')
         quantity = data.get('quantity')
 
-        item = CartItem.query.filter_by(item_id=item_id).first()
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(username=current_user).first()
+        if not user:
+            return {'message': 'User not found'}, 404
+
+        item = CartItem.query.filter_by(user_id=user.id, item_id=item_id).first()
         if item:
             item.quantity = quantity
             db.session.commit()
@@ -53,8 +72,14 @@ class UpdateCartItem(Resource):
 # Remove item from the cart
 @cart_ns.route('/remove/<string:item_id>')
 class RemoveFromCart(Resource):
+    @jwt_required()
     def delete(self, item_id):
-        item = CartItem.query.filter_by(item_id=item_id).first()
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(username=current_user).first()
+        if not user:
+            return {'message': 'User not found'}, 404
+
+        item = CartItem.query.filter_by(user_id=user.id, item_id=item_id).first()
         if item:
             db.session.delete(item)
             db.session.commit()
