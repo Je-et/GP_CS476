@@ -1,7 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models import User, CartItem, Order, OrderItem, CheckoutItem, Item
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request
 from exts import db
 
 checkout_ns = Namespace('checkout', description='Checkout related operations')
@@ -41,25 +41,35 @@ class ProcessPayment(Resource):
         if not user:
             return {'message': 'User not found'}, 404
 
+        # Calculate the total price for the order
+        cart_items = CartItem.query.filter_by(user_id=user.id).all()
+        total_price = 0
+        for cart_item in cart_items:
+            item = Item.query.filter_by(id=cart_item.item_id).first()
+            if item is None:
+                return {'message': f'Item with id {cart_item.item_id} not found'}, 404
+            total_price += item.price * cart_item.quantity
+
         # Create a new order
         new_order = Order(
             user_id=user.id,
+            total_price=total_price,
             status='Pending'
         )
         db.session.add(new_order)
         db.session.commit()
 
         # Add items from the cart to the order
-        cart_items = CartItem.query.filter_by(user_id=user.id).all()
         for cart_item in cart_items:
             item = Item.query.filter_by(id=cart_item.item_id).first()
-            order_item = OrderItem(
-                order_id=new_order.id,
-                item_id=item.id,
-                quantity=cart_item.quantity,
-                total_price=item.price * cart_item.quantity
-            )
-            db.session.add(order_item)
+            if item:
+                order_item = OrderItem(
+                    order_id=new_order.id,
+                    item_id=item.id,
+                    quantity=cart_item.quantity,
+                    total_price=item.price * cart_item.quantity
+                )
+                db.session.add(order_item)
 
         db.session.commit()
 
@@ -67,14 +77,13 @@ class ProcessPayment(Resource):
         CartItem.query.filter_by(user_id=user.id).delete()
         db.session.commit()
 
+        # Save the checkout details
         new_checkout_item = CheckoutItem(ccNumber=ccNumber, expiry=expiry, ccv=ccv)
-        db.session.add(new_checkout_item)
-        db.session.commit()
+        new_checkout_item.save()
 
         return {"message": "Success! Payment has been received."}, 200
 
-# Retrieve checkout items, use to show orders in profile
-# or for API recommendations
+# Retrieve checkout items
 @checkout_ns.route('/items')
 class CheckoutItems(Resource):
     def get(self):

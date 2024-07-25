@@ -8,7 +8,7 @@ orders_ns = Namespace('orders', description='Order related operations')
 
 order_model = orders_ns.model(
     'Order', {
-        'order_id': fields.String(),
+        'order_id': fields.Integer(),
         'item_name': fields.String(),
         'quantity': fields.Integer(),
         'total_price': fields.Float(),

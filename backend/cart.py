@@ -1,15 +1,15 @@
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models import User, CartItem
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request
 from exts import db
 
 cart_ns = Namespace('cart', description='Cart related operations')
 
 cart_item_model = cart_ns.model(
     'CartItem', {
-        'itemId': fields.String(),
-        'quantity': fields.Integer()
+        'itemId': fields.String(required=True, description='The ID of the item'),
+        'quantity': fields.Integer(required=True, description='The quantity of the item')
     }
 )
 
@@ -36,10 +36,16 @@ class AddToCart(Resource):
         item_id = data.get('itemId')
         quantity = data.get('quantity')
 
+        # Debugging: Log the received data
+        cart_ns.logger.debug(f"Received data: item_id={item_id}, quantity={quantity}")
+
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user).first()
         if not user:
             return {'message': 'User not found'}, 404
+
+        if not item_id or not quantity:
+            return {'message': 'Item ID and quantity are required'}, 400
 
         new_item = CartItem(user_id=user.id, item_id=item_id, quantity=quantity)
         db.session.add(new_item)
@@ -57,17 +63,23 @@ class UpdateCartItem(Resource):
         item_id = data.get('itemId')
         quantity = data.get('quantity')
 
+        # Debugging: Log the received data
+        cart_ns.logger.debug(f"Received data: item_id={item_id}, quantity={quantity}")
+
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user).first()
         if not user:
             return {'message': 'User not found'}, 404
 
+        if not item_id or not quantity:
+            return {'message': 'Item ID and quantity are required'}, 400
+
         item = CartItem.query.filter_by(user_id=user.id, item_id=item_id).first()
         if item:
             item.quantity = quantity
             db.session.commit()
-
-        return {"message": "Cart item updated"}, 200
+            return {"message": "Cart item updated"}, 200
+        return {"message": "Item not found"}, 404
 
 # Remove item from the cart
 @cart_ns.route('/remove/<string:item_id>')
@@ -82,7 +94,4 @@ class RemoveFromCart(Resource):
         item = CartItem.query.filter_by(user_id=user.id, item_id=item_id).first()
         if item:
             db.session.delete(item)
-            db.session.commit()
-
-            return {"message": "Item removed from cart"}, 200
-        return {"message": "Item not found"}, 404
+            db.session
