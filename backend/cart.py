@@ -8,7 +8,7 @@ cart_ns = Namespace('cart', description='Cart related operations')
 
 cart_item_model = cart_ns.model(
     'CartItem', {
-        'itemId': fields.String(required=True, description='The ID of the item'),
+        'itemId': fields.Integer(required=True, description='The ID of the item'),
         'quantity': fields.Integer(required=True, description='The quantity of the item')
     }
 )
@@ -23,6 +23,7 @@ class CartItems(Resource):
         
         user = User.query.filter_by(username=current_user).first()
         if not user:
+            cart_ns.logger.debug("User not found")
             return {'message': 'User not found'}, 404
         
         cart_items = CartItem.query.filter_by(user_id=user.id).all()
@@ -41,21 +42,23 @@ class AddToCart(Resource):
         item_id = data.get('itemId')
         quantity = data.get('quantity')
 
-        # Debugging: Log the received data
         cart_ns.logger.debug(f"Received data: item_id={item_id}, quantity={quantity}")
 
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user).first()
         if not user:
+            cart_ns.logger.debug("User not found")
             return {'message': 'User not found'}, 404
 
         if not item_id or not quantity:
+            cart_ns.logger.debug("Item ID and quantity are required")
             return {'message': 'Item ID and quantity are required'}, 400
 
         new_item = CartItem(user_id=user.id, item_id=item_id, quantity=quantity)
         db.session.add(new_item)
         db.session.commit()
 
+        cart_ns.logger.debug("Item added to cart")
         return {'message': 'Item added to cart'}, 201
 
 # Update cart item quantity
@@ -68,38 +71,47 @@ class UpdateCartItem(Resource):
         item_id = data.get('itemId')
         quantity = data.get('quantity')
 
-        # Debugging: Log the received data
         cart_ns.logger.debug(f"Received data: item_id={item_id}, quantity={quantity}")
 
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user).first()
         if not user:
+            cart_ns.logger.debug("User not found") 
             return {'message': 'User not found'}, 404
 
         if not item_id or not quantity:
+            cart_ns.logger.debug("Item ID and quantity are required")
             return {'message': 'Item ID and quantity are required'}, 400
 
         item = CartItem.query.filter_by(user_id=user.id, item_id=item_id).first()
         if item:
             item.quantity = quantity
             db.session.commit()
+            cart_ns.logger.debug(f"Cart item updated: {item.serialize()}")
             return {"message": "Cart item updated"}, 200
+        cart_ns.logger.debug("Item not found")
         return {"message": "Item not found"}, 404
 
 # Remove item from the cart
-@cart_ns.route('/remove/<string:item_id>')
+@cart_ns.route('/remove/<int:item_id>')
 class RemoveFromCart(Resource):
     @jwt_required()
     def delete(self, item_id):
         current_user = get_jwt_identity()
+        cart_ns.logger.debug(f"Received item_id: {item_id}")
+        cart_ns.logger.debug(f"Current User: {current_user}")
         user = User.query.filter_by(username=current_user).first()
         if not user:
+            cart_ns.logger.debug("User not found")
             return {'message': 'User not found'}, 404
+
+        cart_ns.logger.debug(f"Removing item with id: {item_id} for user {user.username}")
 
         item = CartItem.query.filter_by(user_id=user.id, item_id=item_id).first()
         if item:
             db.session.delete(item)
             db.session.commit()
-
+            cart_ns.logger.debug("Item removed from cart")
             return {"message": "Item removed from cart"}, 200
+        cart_ns.logger.debug("Item not found")
         return {"message": "Item not found"}, 404
