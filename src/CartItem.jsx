@@ -3,10 +3,10 @@ import React from 'react';
 const CartItem = ({ item, quantity, increaseQuantity, decreaseQuantity, removeItem }) => (
   <div className="cart-item">
     <div className="cart-item-picture">
-      <img src={item.image} alt={item.description} id="cart-item-image" />
+      <img src={item.item.image} alt={item.item.description} id="cart-item-image" />
     </div>
     <div className="cart-item-description">
-      <p>Description: {item.description}</p>
+      <p>Description: {item.item.description}</p>
       <div className="cart-quantity-container">
         <div className="cart-quantity-text">Quantity: </div>
         <div className="cart-quantity">
@@ -16,7 +16,7 @@ const CartItem = ({ item, quantity, increaseQuantity, decreaseQuantity, removeIt
         </div>
       </div>
       <button className="cart-remove-link" onClick={() => removeItem(item.id)}>Remove</button>
-      <p>Price: ${item.price.toFixed(2)}</p>
+      <p>Price: ${item.item.price.toFixed(2)}</p>
     </div>
   </div>
 );

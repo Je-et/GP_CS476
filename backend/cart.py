@@ -19,12 +19,17 @@ class CartItems(Resource):
     @jwt_required()
     def get(self):
         current_user = get_jwt_identity()
+        cart_ns.logger.debug(f"Current User: {current_user}")
+        
         user = User.query.filter_by(username=current_user).first()
         if not user:
             return {'message': 'User not found'}, 404
-
+        
         cart_items = CartItem.query.filter_by(user_id=user.id).all()
-        return [item.serialize() for item in cart_items], 200
+        serialized_items = [item.serialize() for item in cart_items]
+        cart_ns.logger.debug(f"Serialized Cart Items for user {user.username}: {serialized_items}")
+        
+        return serialized_items, 200
 
 # Add item into the cart
 @cart_ns.route('/add')
