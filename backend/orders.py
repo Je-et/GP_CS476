@@ -1,7 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models import User, Order, Item
+from models import User, Order, Items
 from exts import db
 
 orders_ns = Namespace('orders', description='Order related operations')

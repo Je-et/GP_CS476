@@ -1,9 +1,11 @@
+import os
 from flask import Flask
 from flask_restx import Api
-from models import User
-from exts import db
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
+from exts import db
+from models import User
 from auth import auth_ns
 from profile import profile_ns
 from cart import cart_ns
@@ -42,6 +44,7 @@ app = create_app()
 def make_shell_context():
     return {
         "db": db,
+        "User": User
         "User": User
     }
 

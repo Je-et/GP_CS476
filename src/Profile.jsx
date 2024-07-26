@@ -10,6 +10,7 @@ function Profile() {
   const [orders, setOrders] = useState([]);
   const [orderHistory, setOrderHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();

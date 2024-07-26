@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css';
 import LogoWhite from './assets/LogoWhite.png';
 
@@ -10,16 +12,15 @@ function Login() {
   const [errors, setErrors] = useState({});
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const validate = () => {
     const errors = {};
 
-    // Validate username
     if (!username) {
       errors.username = 'Username is required';
     }
 
-    // Validate password
     if (!password) {
       errors.password = 'Password is required';
     } else if (password.length < 6) {
@@ -29,6 +30,7 @@ function Login() {
     return errors;
   };
 
+  const handleLogin = async (e) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const errors = validate();
@@ -119,3 +121,4 @@ function Login() {
 }
 
 export default Login;
+
