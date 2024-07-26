@@ -9,7 +9,6 @@ import rice from './assets/Rice.jpg';
 import salmon from './assets/Salmon.jpg';
 
 import CheckoutItem from './CheckoutItem';
-import Footer from './Footer';
 
 //for temporary testing of hardcoded items
 const initialCheckoutItems = [
@@ -35,7 +34,7 @@ function Checkout() {
 
   // const fetchCheckoutItems = async () => {
   //   try {
-  //     const response = await axios.get('/api/checkout/checkoutItems', {
+  //     const response = await axios.get('/api/checkout/items', {
   //       headers: {
   //         Authorization: `Bearer ${localStorage.getItem('access_token')}`
   //       }
@@ -179,7 +178,6 @@ function Checkout() {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     </div>
   );
