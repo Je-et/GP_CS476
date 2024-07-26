@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource
-from models import Items, User
+from models import Item, User
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import jsonify
 import random
@@ -9,7 +9,7 @@ items_ns = Namespace('items', description='Items related operations')
 @items_ns.route('/')
 class ItemList(Resource):
     def get(self):
-        items = Items.query.all()
+        items = Item.query.all()
         return jsonify([{
             "id": item.id,
             "name": item.name,
@@ -44,7 +44,7 @@ class PreviousItemList(Resource):
 @items_ns.route('/recommendations')
 class Recommendations(Resource):
     def get(self):
-        items = Items.query.all()
+        items = Item.query.all()
         recommendations = random.sample(items, min(len(items), 10))  # Get up to 10 random items
         return jsonify([{
             "id": item.id,
