@@ -7,15 +7,25 @@ import itemImage from './assets/banana.jpg'; // Default image, update this dynam
 
 function Profile() {
   const [activeSection, setActiveSection] = useState('orders');
-  // const [orderProcessed, setOrderProcessed] = useState(false); Might use later on
   const [profileData, setProfileData] = useState(null);
   const [orders, setOrders] = useState([]);
   const [orderHistory, setOrderHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProfileData();
-    fetchOrders();
-    fetchOrderHistory();
+    const fetchData = async () => {
+      try {
+        await fetchProfileData();
+        await fetchOrders();
+        await fetchOrderHistory();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Set loading to false when done
+      }
+    };
+
+    fetchData();
   }, []);
 
   const fetchProfileData = async () => {
@@ -98,6 +108,37 @@ function Profile() {
     }
   };
 
+  const updateProfilePicture = async (newProfilePicture) => {
+    try {
+      await axios.put('/api/profile', { profile_picture: newProfilePicture }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      fetchProfileData(); // Refresh profile data
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
+  const handleProfilePictureChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const newProfilePicture = reader.result;
+        updateProfilePicture(newProfilePicture);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      console.error('Please select a valid image file.');
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>; // Display loading state
+  }
+
   return (
     <div id="profile-body">
       <div id="profile-page">
@@ -106,6 +147,7 @@ function Profile() {
             <div id="profile-info">
               <div id="pfp_photo">
                 <img src={profileData?.profile_picture || profileImage} alt="Profile" id="profile-image" />
+                <input type="file" accept="image/*" onChange={handleProfilePictureChange} />
               </div>
               <div id="pfp_text">
                 <div id="pfp_text_name">{profileData?.username || 'JOKER'}</div>

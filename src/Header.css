@@ -1,5 +1,4 @@
-/* Header.css */
-.header {
+.header-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,28 +27,12 @@
   gap: 10px;
 }
 
-.search {
+.header-search {
   flex-grow: 1;
   padding: 12px 20px;
   border: none;
   border-radius: 30px;
   font-size: 16px;
-}
-
-.meal-planning-button {
-  padding: 12px 20px;
-  background-color: #148f42;
-  color: white;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.meal-planning-button:hover {
-  background-color: #1DAF55;
 }
 
 .profile-cart-container {
@@ -63,17 +46,22 @@
   gap: 20px;
 }
 
-.profile, .cart {
+.cart {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: auto; /* Adjusted from fixed size */
+  width: 17px; /* Adjusted from fixed size */
   padding: 8px 12px; /* Adjusted padding for text fit */
-  height: 40px;
-  border: 2px solid white;
-  border-radius: 30px; /* Adjusted from 50% */
+  height: 28px;
+  border: 1px solid white;
+  border-radius: 10px; /* Adjusted from 50% */
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s;
+}
+
+.profile {
+  display: flex;
+  border: 2px solid white;
 }
 
 .profile:hover, .cart:hover {
@@ -81,7 +69,7 @@
   border-color: #148f42;
 }
 
-input[type="text"].search::placeholder {
+input[type="text"].header-search::placeholder {
   color: #666;
   opacity: 1; 
 }
@@ -96,4 +84,34 @@ input[type="text"].search::placeholder {
   font-size: 14px; /* Adjust the size as needed */
   font-weight: bold;
   text-align: center;
+}
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 50px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 0;
+  z-index: 1;
+  margin-top: 40px;
+  margin-right: 85px;
+  border-radius: 10px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 10px;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
 }
