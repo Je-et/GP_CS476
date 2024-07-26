@@ -1,8 +1,9 @@
 from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask import request, jsonify
+from flask import request, jsonify, send_from_directory
 from models import User
 from exts import db
+import os
 
 profile_ns = Namespace('profile', description='Profile related operations')
 
@@ -44,3 +45,8 @@ class UserProfile(Resource):
 
         db.session.commit()
         return jsonify({"message": "Profile updated successfully"})
+
+@profile_ns.route('/profile_picture/<filename>')
+class ProfilePicture(Resource):
+    def get(self, filename):
+        return send_from_directory('static/uploads', filename)

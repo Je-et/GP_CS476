@@ -47,7 +47,9 @@ class Signup(Resource):
             if not os.path.exists(profile_picture_dir):
                 os.makedirs(profile_picture_dir)
 
-            profile_picture_path = os.path.join(profile_picture_dir, profile_picture.filename)
+            # Save only the filename
+            profile_picture_filename = profile_picture.filename
+            profile_picture_path = os.path.join(profile_picture_dir, profile_picture_filename)
             profile_picture.save(profile_picture_path)
         else:
             return jsonify({"message": "Profile picture is required!"})
@@ -57,7 +59,7 @@ class Signup(Resource):
             username=data.get('username'),
             email=data.get('email'),
             password=generate_password_hash(data.get('password')),
-            profile_picture=profile_picture_path
+            profile_picture=profile_picture_filename  # Save only the filename
         )
         new_user.save()
 

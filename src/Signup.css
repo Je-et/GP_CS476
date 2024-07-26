@@ -66,6 +66,8 @@ form {
   color: black;
   font-size: 13px;
   transition: border-color 0.3s ease;
+  font-weight: bolder;
+  color: white;
 }
 
 .file-input {

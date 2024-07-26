@@ -145,12 +145,13 @@ footer {
     width: 190px;
     border-radius: 50%;
     object-fit: cover;
-    margin-top: 5px;
+    margin-top: 20px;
+    border: 4px black solid;
 }
 
 #pfp_text {
     /* border: 1px solid black; */
-    height: 65px;
+    height: 20px;
     width: 250px;
     display: flex;
     flex-direction: column;

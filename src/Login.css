@@ -60,10 +60,11 @@
   width: 100%; /* Full width of container */
   max-width: 400px; /* Constrain maximum width */
   border-radius: 10px;
-  background: transparent;
+  background: transparent; 
   border: 1px solid white;
-  color: black;
+  color: white;
   font-size: 13px;
+  font-weight: bolder;
 }
 
 .login-invalid-input {
@@ -73,7 +74,7 @@
 input::placeholder {
   color: red;
   text-align: center;
-  font-size: medium;
+  font-size: bold;
 }
 
 input:focus {

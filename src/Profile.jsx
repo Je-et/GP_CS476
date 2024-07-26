@@ -2,58 +2,32 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile.css';
 import Footer from './Footer';
-import profileImage from './assets/Joker.jpg'; // Default image, update this dynamically
-import itemImage from './assets/banana.jpg'; // Default image, update this dynamically
+import defaultProfileImage from './assets/defaultProfile.png'; // Default image
 
 function Profile() {
   const [activeSection, setActiveSection] = useState('orders');
-  // const [orderProcessed, setOrderProcessed] = useState(false); Might use later on
   const [profileData, setProfileData] = useState(null);
   const [orders, setOrders] = useState([]);
   const [orderHistory, setOrderHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProfileData();
-    fetchOrders();
-    fetchOrderHistory();
+    fetchData();
   }, []);
 
-  const fetchProfileData = async () => {
+  const fetchData = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get('/api/profile', {
+      const profileResponse = await axios.get('/profile/', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       });
-      setProfileData(response.data);
+      setProfileData(profileResponse.data);
     } catch (error) {
-      console.error("Error fetching profile data:", error);
-    }
-  };
-
-  const fetchOrders = async () => {
-    try {
-      const response = await axios.get('/api/orders', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      });
-      setOrders(response.data);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    }
-  };
-
-  const fetchOrderHistory = async () => {
-    try {
-      const response = await axios.get('/api/orders/history', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-      });
-      setOrderHistory(response.data);
-    } catch (error) {
-      console.error("Error fetching order history:", error);
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,10 +36,8 @@ function Profile() {
   };
 
   const cancelOrder = async (orderId) => {
-    // Find the order in the current orders state
     const order = orders.find(order => order.order_id === orderId);
 
-    // Check if the order is already processed
     if (order && order.status === 'processed') {
       console.error("Cannot cancel order: Order has already been processed.");
       return;
@@ -78,7 +50,7 @@ function Profile() {
         }
       });
       console.log("Order canceled:", response.data);
-      fetchOrders(); // Refresh orders
+      fetchData(); // Refresh data
     } catch (error) {
       console.error("Error canceling order:", error);
     }
@@ -92,11 +64,15 @@ function Profile() {
         }
       });
       console.log("Order placed again:", response.data);
-      fetchOrders(); // Refresh orders
+      fetchData(); // Refresh data
     } catch (error) {
       console.error("Error placing order again:", error);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>; // Display loading indicator
+  }
 
   return (
     <div id="profile-body">
@@ -105,11 +81,18 @@ function Profile() {
           <div id="profile-info-container">
             <div id="profile-info">
               <div id="pfp_photo">
-                <img src={profileData?.profile_picture || profileImage} alt="Profile" id="profile-image" />
+                <img
+                  src={profileData?.profile_picture ? `/profile/profile_picture/${profileData.profile_picture}` : defaultProfileImage}
+                  alt={profileData?.profile_picture ? "Profile" : "Default"}
+                  id="profile-image"
+                  onError={(e) => {
+                    console.error('Error loading image:', e.target.src);
+                    e.target.src = defaultProfileImage;
+                  }}
+                />
               </div>
               <div id="pfp_text">
-                <div id="pfp_text_name">{profileData?.username || 'JOKER'}</div>
-                <div id="pfp_text_id">#1234567890</div>
+                <div id="pfp_text_name">{profileData?.username || 'GUEST'}</div>
               </div>
             </div>
             <div id="profile-buttons">
@@ -137,7 +120,7 @@ function Profile() {
                 orders.map((order) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-images">
-                      <img src={itemImage} alt="Item" id="item-image" />
+                      <img src={defaultProfileImage} alt="Item" id="item-image" />
                     </div>
                     <div id="item-description">
                       <div id="item-description-text">
@@ -173,7 +156,7 @@ function Profile() {
                 orderHistory.map((order) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-images">
-                      <img src={itemImage} alt="Item" id="item-image" />
+                      <img src={defaultProfileImage} alt="Item" id="item-image" />
                     </div>
                     <div id="item-description">
                       <div id="item-description-text">
@@ -197,7 +180,6 @@ function Profile() {
             )}
           </div>
         </div>
-        <Footer />
       </div>
     </div>
   );
