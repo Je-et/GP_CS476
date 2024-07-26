@@ -1,21 +1,13 @@
 from flask_restx import Namespace, Resource, fields
-from flask_restx import Namespace, Resource, fields
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token
 from flask import request, jsonify, current_app
 import os
 from exts import db
 from models import User
-from flask_jwt_extended import create_access_token, create_refresh_token
-from flask import request, jsonify, current_app
-import os
-from exts import db
-from models import User
 
 auth_ns = Namespace('auth', description='Authentication related operations')
-auth_ns = Namespace('auth', description='Authentication related operations')
 
-signup_model = auth_ns.model(
 signup_model = auth_ns.model(
     'Signup',
     {
@@ -26,7 +18,6 @@ signup_model = auth_ns.model(
     }
 )
 
-login_model = auth_ns.model(
 login_model = auth_ns.model(
     'Login',
     {
@@ -41,13 +32,10 @@ class Signup(Resource):
     @auth_ns.expect(signup_model)
     def post(self):
         data = request.form
-        data = request.form
 
-        # Check if user already exists
         # Check if user already exists
         username = data.get('username')
         db_user = User.query.filter_by(username=username).first()
-
 
         if db_user is not None:
             return jsonify({"message": f"User with username {username} already exists"})
@@ -76,10 +64,10 @@ class Signup(Resource):
         new_user.save()
 
         return jsonify({"message": "User created successfully"})
-        return jsonify({"message": "User created successfully"})
 
 @auth_ns.route('/login')
 class Login(Resource):
+
     @auth_ns.expect(login_model)
     def post(self):
         data = request.get_json()
