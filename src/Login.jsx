@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import './Login.css';
 import LogoWhite from './assets/LogoWhite.png';
 
@@ -11,7 +9,6 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [loginError, setLoginError] = useState('');
-  const navigate = useNavigate();
   const navigate = useNavigate();
 
   const validate = () => {
@@ -31,7 +28,6 @@ function Login() {
   };
 
   const handleLogin = async (e) => {
-  const handleLogin = async (e) => {
     e.preventDefault();
     const errors = validate();
     if (Object.keys(errors).length > 0) {
@@ -48,11 +44,8 @@ function Login() {
         });
 
         if (response.data.access_token) {
-          // Save the access token (and optionally the refresh token) to localStorage
           localStorage.setItem('access_token', response.data.access_token);
           localStorage.setItem('refresh_token', response.data.refresh_token);
-          
-          // Redirect to the home page
           navigate('/');
         } else {
           setLoginError('Invalid username or password. Please try again.');
@@ -73,7 +66,7 @@ function Login() {
                 <img src={LogoWhite} alt="Logo" className="login-logo-image" />
               </Link>
             </div>
-            <header className="login-header">Login and start your Green Journey!</header>
+            <header className="login-header">Sign in to your account</header>
             <form className="Login-form" onSubmit={handleLogin}>
               <div className="form-group">
                 <input
@@ -121,4 +114,3 @@ function Login() {
 }
 
 export default Login;
-

@@ -7,29 +7,32 @@ from flask_cors import CORS
 from exts import db
 from models import User
 from auth import auth_ns
+from items import items_ns
+from config import Config
+from profile import profile_ns
 from profile import profile_ns
 from cart import cart_ns
 from checkout import checkout_ns
 from orders import orders_ns
-from config import Config
-from flask_cors import CORS
-import os
 
 def create_app():
     app = Flask(__name__)
     
     app.config.from_object(Config)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dev.db?timeout=10"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dev.db"
     app.config["UPLOAD_FOLDER"] = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'static/uploads')
-    
+    app.config['JWT_SECRET_KEY'] = 'your_secret_key' #Set it later
+
+
     db.init_app(app)
     migrate = Migrate(app, db)
-    JWTManager(app)
+    jwt = JWTManager(app)
     
-    # Enable CORS for the frontend server
-    CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:3000", "http://localhost:3000"]}})
+    CORS(app, resources={r"/*": {"origins": "*"}})
 
     api = Api(app, doc='/docs')
+    api.add_namespace(auth_ns)
+    api.add_namespace(items_ns, path='/items')
     api.add_namespace(auth_ns, path='/auth')
     api.add_namespace(profile_ns, path='/profile')
     api.add_namespace(cart_ns, path='/cart')
@@ -44,7 +47,6 @@ app = create_app()
 def make_shell_context():
     return {
         "db": db,
-        "User": User
         "User": User
     }
 
