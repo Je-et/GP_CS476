@@ -1,6 +1,6 @@
 .signup-container {
   display: flex;
-  position: relative;
+  position: absolute;
   z-index: 1;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 6px green;
@@ -9,10 +9,12 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin: 300px auto;
-  padding: 150px 25px;
+  padding: 150px 55px;
   width: 400px;
   height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .signup-container::before {
@@ -34,10 +36,13 @@
 
 .background-middle-signin {
   width: 100%;
-  padding: 0.5px 0.5px;
-  margin: 5px auto;
+  height: 100vh;
+  padding: 0;
+  margin: 0 auto;
   background-image: url('./assets/nygirl.jpeg');
   background-size: cover;
+  background-position: center;
+  position: absolute;
 }
 
 .signup-header {
@@ -61,12 +66,13 @@ form {
   color: black;
   font-size: 13px;
   transition: border-color 0.3s ease;
+  font-weight: bolder;
+  color: white;
 }
 
 .file-input {
   padding: 10px;
   margin-top: 10px;
-  
   background: transparent;
   color: black;
   font-size: 13px;
@@ -87,7 +93,7 @@ input:focus {
 }
 
 .signup-button {
-  background-color: red;
+  background-color: green;
   color: white;
   padding: 10px;
   border: none;
@@ -98,7 +104,7 @@ input:focus {
 }
 
 .signup-button:hover {
-  background: green;
+  background: darkgreen;
   outline: 1px solid #fff;
 }
 
