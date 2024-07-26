@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile.css';
 import Footer from './Footer';
-import defaultProfileImage from './assets/defaultProfile.png'; // Default image
+import profileImage from './assets/Joker.jpg'; // Default image, update this dynamically
+import itemImage from './assets/banana.jpg'; // Default image, update this dynamically
 
 function Profile() {
   const [activeSection, setActiveSection] = useState('orders');
@@ -12,22 +13,57 @@ function Profile() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await fetchProfileData();
+        await fetchOrders();
+        await fetchOrderHistory();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Set loading to false when done
+      }
+    };
+
     fetchData();
   }, []);
 
-  const fetchData = async () => {
-    setLoading(true);
+  const fetchProfileData = async () => {
     try {
-      const profileResponse = await axios.get('/profile/', {
+      const response = await axios.get('/api/profile', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       });
-      setProfileData(profileResponse.data);
+      setProfileData(response.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
+      console.error("Error fetching profile data:", error);
+    }
+  };
+
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get('/api/orders', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      setOrders(response.data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  const fetchOrderHistory = async () => {
+    try {
+      const response = await axios.get('/api/orders/history', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      setOrderHistory(response.data);
+    } catch (error) {
+      console.error("Error fetching order history:", error);
     }
   };
 
@@ -36,8 +72,10 @@ function Profile() {
   };
 
   const cancelOrder = async (orderId) => {
+    // Find the order in the current orders state
     const order = orders.find(order => order.order_id === orderId);
 
+    // Check if the order is already processed
     if (order && order.status === 'processed') {
       console.error("Cannot cancel order: Order has already been processed.");
       return;
@@ -50,7 +88,7 @@ function Profile() {
         }
       });
       console.log("Order canceled:", response.data);
-      fetchData(); // Refresh data
+      fetchOrders(); // Refresh orders
     } catch (error) {
       console.error("Error canceling order:", error);
     }
@@ -64,14 +102,41 @@ function Profile() {
         }
       });
       console.log("Order placed again:", response.data);
-      fetchData(); // Refresh data
+      fetchOrders(); // Refresh orders
     } catch (error) {
       console.error("Error placing order again:", error);
     }
   };
 
+  const updateProfilePicture = async (newProfilePicture) => {
+    try {
+      await axios.put('/api/profile', { profile_picture: newProfilePicture }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+      });
+      fetchProfileData(); // Refresh profile data
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
+  const handleProfilePictureChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const newProfilePicture = reader.result;
+        updateProfilePicture(newProfilePicture);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      console.error('Please select a valid image file.');
+    }
+  };
+
   if (loading) {
-    return <div>Loading...</div>; // Display loading indicator
+    return <div>Loading...</div>; // Display loading state
   }
 
   return (
@@ -81,18 +146,12 @@ function Profile() {
           <div id="profile-info-container">
             <div id="profile-info">
               <div id="pfp_photo">
-                <img
-                  src={profileData?.profile_picture ? `/profile/profile_picture/${profileData.profile_picture}` : defaultProfileImage}
-                  alt={profileData?.profile_picture ? "Profile" : "Default"}
-                  id="profile-image"
-                  onError={(e) => {
-                    console.error('Error loading image:', e.target.src);
-                    e.target.src = defaultProfileImage;
-                  }}
-                />
+                <img src={profileData?.profile_picture || profileImage} alt="Profile" id="profile-image" />
+                <input type="file" accept="image/*" onChange={handleProfilePictureChange} />
               </div>
               <div id="pfp_text">
-                <div id="pfp_text_name">{profileData?.username || 'GUEST'}</div>
+                <div id="pfp_text_name">{profileData?.username || 'JOKER'}</div>
+                <div id="pfp_text_id">#1234567890</div>
               </div>
             </div>
             <div id="profile-buttons">
@@ -120,7 +179,7 @@ function Profile() {
                 orders.map((order) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-images">
-                      <img src={defaultProfileImage} alt="Item" id="item-image" />
+                      <img src={itemImage} alt="Item" id="item-image" />
                     </div>
                     <div id="item-description">
                       <div id="item-description-text">
@@ -156,7 +215,7 @@ function Profile() {
                 orderHistory.map((order) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-images">
-                      <img src={defaultProfileImage} alt="Item" id="item-image" />
+                      <img src={itemImage} alt="Item" id="item-image" />
                     </div>
                     <div id="item-description">
                       <div id="item-description-text">
@@ -180,6 +239,7 @@ function Profile() {
             )}
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );
