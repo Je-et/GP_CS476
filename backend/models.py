@@ -1,11 +1,13 @@
 from exts import db
 
-# Association table for many-to-many relationship between User and Items
-previous_purchases = db.Table('previous_purchases',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
-)
+"""
+class User:
+    id:int
+    username:str
+    email:str
+    password:str
 
+"""
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), nullable=False, unique=True)
@@ -31,7 +33,7 @@ class User(db.Model):
 '''Need a way to pictures here below'''
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(20), nullable=False)
     price = db.Column(db.Float(), nullable=False)
     calorie = db.Column(db.Integer, nullable=False)
     vegan = db.Column(db.Boolean, nullable=False)
@@ -45,6 +47,15 @@ class Item(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price,
+            'calorie': self.calorie,
+            'vegan': self.vegan,
+            'glutenFree': self.glutenFree
+        }
 
 class CartItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
