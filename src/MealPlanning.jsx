@@ -3,23 +3,23 @@ import Item from './Item';
 import './MealPlanning.css';
 
 const dummyRecipes = [
-    { id: 1, name: 'Vegan Salad', price: '$10', discount: '15%', image: 'https://via.placeholder.com/100', onSale: true, ingredients: [
-        { id: 1, name: 'Lettuce', price: '$2', discount: '10%', image: 'https://via.placeholder.com/100', onSale: true },
-        { id: 2, name: 'Tomatoes', price: '$3', discount: '5%', image: 'https://via.placeholder.com/100', onSale: false },
-        { id: 3, name: 'Cucumbers', price: '$1.5', discount: '15%', image: 'https://via.placeholder.com/100', onSale: true },
-        { id: 4, name: 'Olive Oil', price: '$7', discount: '0%', image: 'https://via.placeholder.com/100', onSale: false },
+    { id: 1, name: 'Vegan Salad', price: 10, discount: '15%', image: 'https://via.placeholder.com/100', onSale: true, ingredients: [
+        { id: 1, name: 'Lettuce', price: 2, discount: '10%', image: 'https://via.placeholder.com/100', onSale: true },
+        { id: 2, name: 'Tomatoes', price: 3, discount: '5%', image: 'https://via.placeholder.com/100', onSale: false },
+        { id: 3, name: 'Cucumbers', price: 1.5, discount: '15%', image: 'https://via.placeholder.com/100', onSale: true },
+        { id: 4, name: 'Olive Oil', price: 7, discount: '0%', image: 'https://via.placeholder.com/100', onSale: false },
     ]},
-    { id: 2, name: 'Chicken Soup', price: '$12', discount: '10%', image: 'https://via.placeholder.com/100', onSale: true, ingredients: [
-        { id: 5, name: 'Chicken', price: '$5', discount: '10%', image: 'https://via.placeholder.com/100', onSale: true },
-        { id: 6, name: 'Carrots', price: '$1', discount: '5%', image: 'https://via.placeholder.com/100', onSale: false },
-        { id: 7, name: 'Onions', price: '$0.5', discount: '15%', image: 'https://via.placeholder.com/100', onSale: true },
-        { id: 8, name: 'Garlic', price: '$0.2', discount: '0%', image: 'https://via.placeholder.com/100', onSale: false },
+    { id: 2, name: 'Chicken Soup', price: 12, discount: '10%', image: 'https://via.placeholder.com/100', onSale: true, ingredients: [
+        { id: 5, name: 'Chicken', price: 5, discount: '10%', image: 'https://via.placeholder.com/100', onSale: true },
+        { id: 6, name: 'Carrots', price: 1, discount: '5%', image: 'https://via.placeholder.com/100', onSale: false },
+        { id: 7, name: 'Onions', price: 0.5, discount: '15%', image: 'https://via.placeholder.com/100', onSale: true },
+        { id: 8, name: 'Garlic', price: 0.2, discount: '0%', image: 'https://via.placeholder.com/100', onSale: false },
     ]},
-    { id: 3, name: 'Pasta', price: '$8', discount: '5%', image: 'https://via.placeholder.com/100', onSale: true, ingredients: [
-        { id: 9, name: 'Pasta', price: '$2', discount: '10%', image: 'https://via.placeholder.com/100', onSale: true },
-        { id: 10, name: 'Tomato Sauce', price: '$3', discount: '5%', image: 'https://via.placeholder.com/100', onSale: false },
-        { id: 11, name: 'Basil', price: '$1.5', discount: '15%', image: 'https://via.placeholder.com/100', onSale: true },
-        { id: 12, name: 'Parmesan', price: '$4', discount: '0%', image: 'https://via.placeholder.com/100', onSale: false },
+    { id: 3, name: 'Pasta', price: 8, discount: '5%', image: 'https://via.placeholder.com/100', onSale: true, ingredients: [
+        { id: 9, name: 'Pasta', price: 2, discount: '10%', image: 'https://via.placeholder.com/100', onSale: true },
+        { id: 10, name: 'Tomato Sauce', price: 3, discount: '5%', image: 'https://via.placeholder.com/100', onSale: false },
+        { id: 11, name: 'Basil', price: 1.5, discount: '15%', image: 'https://via.placeholder.com/100', onSale: true },
+        { id: 12, name: 'Parmesan', price: 4, discount: '0%', image: 'https://via.placeholder.com/100', onSale: false },
     ]},
 ];
 
