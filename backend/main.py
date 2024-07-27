@@ -10,7 +10,6 @@ from auth import auth_ns
 from items import items_ns
 from config import Config
 from profile import profile_ns
-from profile import profile_ns
 from cart import cart_ns
 from checkout import checkout_ns
 from orders import orders_ns
@@ -28,7 +27,7 @@ def create_app():
     migrate = Migrate(app, db)
     jwt = JWTManager(app)
     
-    CORS(app, resources={r"/*": {"origins": "*"}})
+    CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:3000", "http://localhost:3000"]}})
 
     api = Api(app, doc='/docs')
     api.add_namespace(auth_ns)

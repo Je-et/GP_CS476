@@ -118,6 +118,9 @@ function Cart() {
     if (!isLoggedIn) {
       alert("Must be logged in to proceed!");
       return;
+    } if (cartItems.length === 0) {
+      alert("Your cart is empty!");
+      return;
     }
     navigate('/checkout');
   };
