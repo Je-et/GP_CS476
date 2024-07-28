@@ -49,11 +49,10 @@ function Profile() {
   };
 
   const cancelOrder = async (orderId) => {
-    // Show confirmation popup
     const isConfirmed = window.confirm('Are you sure you want to cancel this order?');
 
     if (!isConfirmed) {
-      return; // User clicked "No", exit function
+      return;
     }
 
     const order = orders.find(order => order.order_id === orderId);
@@ -70,7 +69,7 @@ function Profile() {
         }
       });
       console.log("Order canceled:", response.data);
-      fetchData(); // Refresh data
+      fetchData();
     } catch (error) {
       console.error("Error canceling order:", error);
     }
@@ -84,14 +83,14 @@ function Profile() {
         }
       });
       console.log("Order placed again:", response.data);
-      fetchData(); // Refresh data
+      fetchData();
     } catch (error) {
       console.error("Error placing order again:", error);
     }
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Display loading indicator
+    return <div>Loading...</div>;
   }
 
   return (
@@ -154,7 +153,7 @@ function Profile() {
                       </div>
                     </div>
                     <div id="item-buttons">
-                      <div id="total-price">TOTAL: ${order.total_price}</div>
+                      <div id="total-price">TOTAL: ${order.total_price.toFixed(2)}</div>
                       <div id="buy-again">
                         <button id="buy-again-button" onClick={() => buyAgain(order.order_id)}>BUY AGAIN</button>
                       </div>
@@ -185,7 +184,7 @@ function Profile() {
                       <div id="item-description-text">
                         <p id="item-name">{order.item_name}</p>
                         <p>Qty: {order.quantity}</p>
-                        <p>Total Price: ${order.total_price}</p>
+                        <p>Total Price: ${order.total_price.toFixed(2)}</p>
                         <p>Status: {order.status}</p>
                       </div>
                     </div>

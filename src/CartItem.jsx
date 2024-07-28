@@ -7,7 +7,7 @@ function CartItem({ item, increaseQuantity, decreaseQuantity, removeItem }) {
         <img src={item.item.image} alt={item.item.description} id="cart-item-image" />
       </div>
       <div className="cart-item-description">
-        <p>Description: {item.item.description}</p>
+        <p>Description: {item.item.name}</p>
         <div className="cart-quantity-container">
           <div className="cart-quantity-text">Quantity: </div>
           <div className="cart-quantity">

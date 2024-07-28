@@ -6,7 +6,7 @@ const CheckoutItem = ({ item, quantity, increaseQuantity, decreaseQuantity, remo
       <img src={item.image} alt={item.description} id="checkout-item-image" />
     </div>
     <div className="checkout-item-description">
-      <p>Description: {item.description}</p>
+      <p>Description: {item.name}</p>
       <div className="checkout-quantity-container">
         <div className="checkout-quantity-text">Quantity: </div>
         <div className="checkout-quantity">

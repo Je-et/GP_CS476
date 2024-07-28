@@ -143,7 +143,7 @@ function Cart() {
             {cartItems.length > 0 ? (
               cartItems.map(item => (
                 <CartItem 
-                  key={item.id} 
+                  key={item.item.id} 
                   item={item} 
                   increaseQuantity={increaseQuantity} 
                   decreaseQuantity={decreaseQuantity} 

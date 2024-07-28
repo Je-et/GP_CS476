@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Checkout.css';
 
@@ -9,8 +10,9 @@ function Checkout() {
   const [checkoutItems, setCheckoutItems] = useState([]);
   const [ccNumber, setCcNumber] = useState('');
   const [expiry, setExpiry] = useState('');
-  const [ccv, setccv] = useState('');
+  const [ccv, setCcv] = useState('');
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCheckoutItems();
@@ -30,6 +32,10 @@ function Checkout() {
       });
       console.log("Checkout Items Response:", response.data);
       setCheckoutItems(response.data);
+
+      if (response.data.length === 0) {
+        navigate('/cart');
+      }
     } catch (error) {
       console.error("Error fetching checkout items:", error);
       console.log("Error Response Data:", error.response ? error.response.data : 'No response data');
@@ -112,13 +118,24 @@ function Checkout() {
     if (!ccNumber.match(/^[0-9]{16}$/)) {
       errors.ccNumber = 'Credit Card Number must be 16 digits';
     }
-    if (!expiry) {
-      errors.expiry = 'Expiry date is required';
+    if (!expiry.match(/^\d{4}-\d{2}-\d{2}$/) || !isValidDate(expiry)) {
+      errors.expiry = 'Expiry date must be valid';
     }
     if (!ccv.match(/^[0-9]{3,4}$/)) {
       errors.ccv = 'Security Code must be 3 or 4 digits';
     }
     return errors;
+  };
+
+  const isValidDate = (date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset today's date to midnight
+
+    const [year, month, day] = date.split('-').map(Number);
+    const selectedDate = new Date(year, month - 1, day);
+    selectedDate.setHours(0, 0, 0, 0); // Reset selected date to midnight
+
+    return selectedDate >= today;
   };
 
   const handlePayment = async () => {
@@ -127,17 +144,37 @@ function Checkout() {
       setErrors(errors);
     } else {
       try {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+          console.error("No access token found");
+          return;
+        }
         const response = await axios.post('/checkout/payment', { ccNumber, expiry, ccv }, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+            Authorization: `Bearer ${token}`
           }
         });
+        console.log("Payment Response:", response.data);
         alert(response.data.message);
+
+        if (response.data.message === "Success! Payment has been received.") {
+          console.log("Payment successful, redirecting to profile...");
+          navigate('/profile');
+        } else {
+          console.log("Payment was not successful, no redirection.");
+        }
       } catch (error) {
         console.error("Error processing payment:", error);
         console.log("Error Response Data:", error.response ? error.response.data : 'No response data');
+        if (error.response && error.response.data) {
+          alert(error.response.data.message || "Payment failed");
+        }
       }
     }
+  };
+
+  const handleExpiryChange = (e) => {
+    setExpiry(e.target.value);
   };
 
   return (
@@ -189,10 +226,10 @@ function Checkout() {
                   <input
                     type="date"
                     name="exp"
-                    placeholder="MM/YY"
+                    placeholder="yyyy-mm-dd"
                     className={`checkout-expiry ${errors.expiry ? 'checkout-invalid-input' : ''}`}
                     value={expiry}
-                    onChange={(e) => setExpiry(e.target.value)}
+                    onChange={handleExpiryChange}
                   />
                   {errors.expiry && <span className="checkout-error">{errors.expiry}</span>}
                 </p>
@@ -204,7 +241,7 @@ function Checkout() {
                     placeholder="Security Code"
                     className={`checkout-sc ${errors.ccv ? 'checkout-invalid-input' : ''}`}
                     value={ccv}
-                    onChange={(e) => setccv(e.target.value)}
+                    onChange={(e) => setCcv(e.target.value)}
                   />
                   {errors.ccv && <span className="checkout-error">{errors.ccv}</span>}
                 </p>
