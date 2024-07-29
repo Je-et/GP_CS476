@@ -3,67 +3,84 @@ import Item from './Item';
 import axios from 'axios';
 import './Itemlist.css';
 
-function ItemList() {
-  const [previousItems, setPreviousItems] = useState([]);
+function ItemList({ items, updateCartCount, handleItemSelect, fetchFromAPI = true }) {
+  const [bestSellers, setBestSellers] = useState([]);
+  const [newArrivals, setNewArrivals] = useState([]);
   const [recommendedItems, setRecommendedItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(fetchFromAPI);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchPreviousItems = async () => {
-      try {
-        const accessToken = localStorage.getItem('access_token');
-        if (!accessToken) {
-          throw new Error('No access token found');
+    if (fetchFromAPI) {
+      const fetchItems = async () => {
+        try {
+          const [bestSellersRes, newArrivalsRes, recommendedItemsRes] = await Promise.all([
+            axios.get('http://localhost:5000/items/best-sellers'),
+            axios.get('http://localhost:5000/items/new-arrivals'),
+            axios.get('http://localhost:5000/items/recommendations')
+          ]);
+
+          setBestSellers(bestSellersRes.data);
+          setNewArrivals(newArrivalsRes.data);
+          setRecommendedItems(recommendedItemsRes.data);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error fetching items:', error);
+          setError('Failed to load items. Please try again later.');
+          setLoading(false);
         }
+      };
 
-        const response = await axios.get('http://localhost:5000/items/previous', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        });
-        setPreviousItems(response.data);
-      } catch (error) {
-        setError('Error fetching previous items');
-      }
-    };
-
-    const fetchRecommendedItems = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/items/recommendations');
-        setRecommendedItems(response.data);
-      } catch (error) {
-        setError('Error fetching recommended items');
-      }
-    };
-
-    fetchPreviousItems();
-    fetchRecommendedItems();
-    setLoading(false);
-  }, []);
+      fetchItems();
+    }
+  }, [fetchFromAPI]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <div className="loading">Loading...</div>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <div className="error">{error}</div>;
+  }
+
+  const renderItems = (itemList) => (
+    <div className="item-grid">
+      {itemList.map(item => (
+        <Item key={item.id} item={item} updateCartCount={updateCartCount} handleItemSelect={handleItemSelect} />
+      ))}
+    </div>
+  );
+
+  if (!fetchFromAPI) {
+    return (
+      <div className="item-list-container">
+        <section className="item-section">
+          <div className="item-grid">
+            {items.map(item => (
+              <Item key={item.id} item={item} updateCartCount={updateCartCount} handleItemSelect={handleItemSelect} />
+            ))}
+          </div>
+        </section>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h2 className="item-list-heading">Previous Purchases</h2>
-      <div className="item-list">
-        {previousItems.map(item => (
-          <Item key={item.id} item={item} />
-        ))}
-      </div>
-      <h2 className="item-list-heading">Recommended Items</h2>
-      <div className="item-list">
-        {recommendedItems.map(item => (
-          <Item key={item.id} item={item} />
-        ))}
-      </div>
+    <div className="item-list-container">
+      <section className="item-section">
+        <h2 className="item-list-heading">Best Sellers</h2>
+        {renderItems(bestSellers)}
+      </section>
+
+      <section className="item-section">
+        <h2 className="item-list-heading">New Arrivals</h2>
+        {renderItems(newArrivals)}
+      </section>
+
+      <section className="item-section">
+        <h2 className="item-list-heading">Recommended Items</h2>
+        {renderItems(recommendedItems)}
+      </section>
     </div>
   );
 }

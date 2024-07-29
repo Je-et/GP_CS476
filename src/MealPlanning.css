@@ -1,131 +1,136 @@
-/* MealPlanning.css */
 .meal-planning-container {
   display: flex;
-  flex-direction: row;
-  margin: 20px;
   gap: 20px;
-}
-
-.search-bar {
-  width: 25%;
   padding: 20px;
-  background-color: #f7f7f7;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--background-light);
 }
 
-.search-bar input[type="text"] {
-  width: 100%;
-  padding: 12px;
+.meal-planning-sidebar {
+  flex: 0 0 250px;
+  background-color: var(--background-white);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.meal-planning-content {
+  flex: 1;
+}
+
+.search-form {
   margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
   font-size: 16px;
+  border: 2px solid var(--light-green);
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.search-button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-green);
+  color: var(--text-light);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.search-button:hover {
+  background-color: var(--dark-green);
 }
 
 .filter-options {
-  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.filter-options h3 {
+  margin-bottom: 10px;
 }
 
 .filter-options label {
   display: block;
   margin-bottom: 10px;
-  font-size: 16px;
 }
 
-.filter-options input[type="checkbox"] {
-  margin-right: 10px;
-}
-
-.recipe-list {
-  width: 75%;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.recipes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .recipe-item {
-  margin-bottom: 30px;
+  background-color: var(--background-white);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.recipe-item h3 {
+.recipe-name {
+  font-size: 24px;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.recipe-description {
+  color: var(--text-muted);
   margin-bottom: 15px;
-  font-size: 20px;
-  color: #333;
 }
 
-.item-list {
+.recipe-tags {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.recipe-tag {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.recipe-tag.vegan {
+  background-color: var(--primary-green);
+}
+
+.recipe-tag.plant-based {
+  background-color: var(--light-green);
+}
+
+.ingredients-grid {
   display: flex;
   overflow-x: auto;
-  padding: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  white-space: nowrap;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  gap: 15px;
+  padding-bottom: 10px;
 }
 
-.item {
-  display: inline-block;
-  flex: 0 0 auto;
-  width: 200px;
-  margin-right: 20px;
-  text-align: center;
-  background: linear-gradient(135deg, #f3f3f3 0%, #e2e2e2 100%);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 20px;
-  transition: transform 0.3s, box-shadow 0.3s;
+.ingredients-grid::-webkit-scrollbar {
+  height: 8px;
 }
 
-.item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 40px rgba(0, 0, 0, 0.2);
+.ingredients-grid::-webkit-scrollbar-track {
+  background: var(--background-light);
 }
 
-.item-picture img {
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
+.ingredients-grid::-webkit-scrollbar-thumb {
+  background-color: var(--primary-green);
+  border-radius: 20px;
 }
 
-.item-details {
-  margin-top: 10px;
-}
+@media (max-width: 768px) {
+  .meal-planning-container {
+    flex-direction: column;
+  }
 
-.item-discount {
-  background-color: #ff4444;
-  color: white;
-  padding: 5px;
-  margin-left: 40px;
-  margin-right: 40px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
-
-.item-name {
-  font-size: 1.1em;
-  margin-bottom: 10px;
-}
-
-.item-price {
-  font-size: 1.2em;
-  margin-bottom: 10px;
-}
-
-.add-to-cart {
-  padding: 10px 20px;
-  background-color: #6BDD97;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.add-to-cart:hover {
-  background-color: #1DAF55;
+  .meal-planning-sidebar {
+    flex: none;
+    width: 100%;
+  }
 }

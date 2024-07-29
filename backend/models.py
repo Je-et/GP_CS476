@@ -1,19 +1,19 @@
 from exts import db
 
-"""
-class User:
-    id:int
-    username:str
-    email:str
-    password:str
+# Association table for many-to-many relationship between User and Items
+previous_purchases = db.Table('previous_purchases',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
+)
 
-"""
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), nullable=False, unique=True)
     email = db.Column(db.String(60), nullable=False)
     password = db.Column(db.Text(), nullable=False)
     profile_picture = db.Column(db.String(120), nullable=True)
+    items = db.relationship('Item', secondary=previous_purchases, lazy='subquery',
+        backref=db.backref('users', lazy=True))
 
     def __repr__(self):
         return f"<User {self.username}>"
@@ -30,7 +30,6 @@ class User(db.Model):
             'profile_picture': self.profile_picture
         }
 
-'''Need a way to pictures here below'''
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
@@ -38,8 +37,11 @@ class Item(db.Model):
     calorie = db.Column(db.Integer, nullable=False)
     vegan = db.Column(db.Boolean, nullable=False)
     glutenFree = db.Column(db.Boolean, nullable=False)
-    '''try and add more attributes here'''
-    
+    discount = db.Column(db.Float(), nullable=False, default=0.0)
+    picture = db.Column(db.String(120), nullable=True)
+    sales = db.Column(db.Integer, nullable=False, default=0)
+    description = db.Column(db.Text, nullable=True)
+
     def __repr__(self):
         return f"<Item {self.name}>"
 
@@ -54,7 +56,10 @@ class Item(db.Model):
             'price': self.price,
             'calorie': self.calorie,
             'vegan': self.vegan,
-            'glutenFree': self.glutenFree
+            'glutenFree': self.glutenFree,
+            'discount': self.discount,
+            'picture': self.picture,  # Include picture in serialization
+            'sales': self.sales  # Include sales in serialization
         }
 
 class CartItem(db.Model):
@@ -152,4 +157,38 @@ class OrderItem(db.Model):
             'quantity': self.quantity,
             'total_price': self.total_price,
             'item': self.item.serialize() if self.item else None
+        }
+
+
+class Recipe(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    is_vegan = db.Column(db.Boolean, default=False)
+    is_plant_based = db.Column(db.Boolean, default=False)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'is_vegan': self.is_vegan,
+            'is_plant_based': self.is_plant_based,
+            'ingredients': [ri.serialize() for ri in self.recipe_items]
+        }
+
+class RecipeItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+    quantity = db.Column(db.Float, nullable=False)
+
+    recipe = db.relationship('Recipe', backref=db.backref('recipe_items', lazy=True))
+    item = db.relationship('Item', backref=db.backref('recipe_items', lazy=True))
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'item': self.item.serialize(),
+            'quantity': self.quantity
         }

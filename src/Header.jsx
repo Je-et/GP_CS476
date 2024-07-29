@@ -4,14 +4,14 @@ import './Header.css';
 import Cart from './assets/Cart.png';
 import defaultProfile from './assets/defaultProfile.png';
 import Logo from './assets/Logo.png';
+import SearchBar from './SearchBar';
 
-function Header() {
+function Header({ cartItemCount, onItemSelect }) {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is logged in by checking the presence of an access token
     const token = localStorage.getItem('access_token');
     setIsLoggedIn(!!token);
   }, []);
@@ -23,7 +23,11 @@ function Header() {
   const handleLogout = () => {
     localStorage.removeItem('access_token');
     setIsLoggedIn(false);
-    navigate('/'); // Redirect to homepage
+    navigate('/');
+  };
+
+  const handleMealPlanningClick = () => {
+    navigate('/mealplanning');
   };
 
   return (
@@ -34,7 +38,10 @@ function Header() {
         </Link>
       </div>
       <div className="search-mealplanning-container">
-        <input type="text" className="header-search" placeholder="Search for Products ..." />
+        <SearchBar handleItemSelect={onItemSelect} />
+        <button className="meal-planning-button" onClick={handleMealPlanningClick}>
+          Meal Planning
+        </button>
       </div>
       <div className="profile-cart-container">
         <div className="profile-cart">
@@ -52,6 +59,9 @@ function Header() {
           <div className="cart">
             <Link to='/cart'>
               <img src={Cart} alt="Cart" className="header-cart-image" />
+              {cartItemCount > 0 && (
+                <span className="cart-item-count">{cartItemCount}</span>
+              )}
             </Link>
           </div>
         </div>

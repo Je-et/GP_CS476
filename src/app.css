@@ -1,26 +1,130 @@
-/* app.css */
+:root {
+  --primary-green: #4CAF50;
+  --dark-green: #2E7D32;
+  --light-green: #8BC34A;
+  --accent-green: #00C853;
+  --background-light: #F1F8E9;
+  --background-white: #FFFFFF;
+  --text-dark: #1B5E20;
+  --text-light: #FFFFFF;
+  --text-muted: #689F38;
+  --border-color: #DCEDC8;
+}
+
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  margin: 0;
+  padding: 0;
+}
+
 .App {
-  font-family: Arial, sans-serif;
-}
-
-.categories {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  flex-direction: column;
 }
 
-.categories button {
-  padding: 10px 20px;
-  background-color: #6BDD97;
-  color: white;
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Utility classes */
+.text-green {
+  color: var(--primary-green);
+}
+
+.bg-green {
+  background-color: var(--primary-green);
+  color: var(--text-light);
+}
+
+.btn-green {
+  background-color: var(--primary-green);
+  color: var(--text-light);
   border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.categories button:hover {
-  background-color: #1DAF55;
+.btn-green:hover {
+  background-color: var(--dark-green);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-green);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-green);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 10px;
+  }
+}
+
+.employee-dashboard-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: var(--primary-green);
+  color: var(--text-light);
+  border: none;
+  border-radius: 50px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.employee-dashboard-btn:hover {
+  background-color: var(--dark-green);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.employee-dashboard-btn .btn-icon {
+  font-size: 20px;
+}
+
+.employee-dashboard-btn .btn-text {
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .employee-dashboard-btn {
+    padding: 10px;
+  }
+
+  .employee-dashboard-btn .btn-text {
+    display: none;
+  }
 }

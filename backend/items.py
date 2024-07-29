@@ -1,8 +1,8 @@
 from flask_restx import Namespace, Resource
-from models import Item, User
-from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask import jsonify
+from models import Item
+from flask import jsonify, request
 import random
+import logging
 
 items_ns = Namespace('items', description='Items related operations')
 
@@ -17,29 +17,55 @@ class ItemList(Resource):
             "calorie": item.calorie,
             "vegan": item.vegan,
             "glutenFree": item.glutenFree,
-            "discount": item.discount
+            "discount": item.discount,
+            "picture": item.picture
         } for item in items])
 
-@items_ns.route('/previous')
-class PreviousItemList(Resource):
-    @jwt_required()
+@items_ns.route('/best-sellers')
+class BestSellers(Resource):
     def get(self):
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        if not user:
-            return jsonify({"message": "User not found"}), 404
-
-        previous_items = user.items
-        items_list = [{
+        best_sellers = Item.query.order_by(Item.sales.desc()).limit(10).all()  # Assuming you have a sales attribute
+        return jsonify([{
             "id": item.id,
             "name": item.name,
             "price": item.price,
             "calorie": item.calorie,
             "vegan": item.vegan,
             "glutenFree": item.glutenFree,
-            "discount": item.discount
-        } for item in previous_items]
-        return jsonify(items_list)
+            "discount": item.discount,
+            "picture": item.picture
+        } for item in best_sellers])
+
+@items_ns.route('/new-arrivals')
+class NewArrivals(Resource):
+    def get(self):
+        new_arrivals = Item.query.order_by(Item.id.desc()).limit(10).all()
+        return jsonify([{
+            "id": item.id,
+            "name": item.name,
+            "price": item.price,
+            "calorie": item.calorie,
+            "vegan": item.vegan,
+            "glutenFree": item.glutenFree,
+            "discount": item.discount,
+            "picture": item.picture
+        } for item in new_arrivals])
+    
+@items_ns.route('/<int:item_id>')
+class ItemDetail(Resource):
+    def get(self, item_id):
+        item = Item.query.get_or_404(item_id)
+        return jsonify({
+            "id": item.id,
+            "name": item.name,
+            "price": item.price,
+            "calorie": item.calorie,
+            "vegan": item.vegan,
+            "glutenFree": item.glutenFree,
+            "discount": item.discount,
+            "picture": item.picture,
+            "description": item.description  # Assuming you have a description field
+        })
 
 @items_ns.route('/recommendations')
 class Recommendations(Resource):
@@ -53,5 +79,18 @@ class Recommendations(Resource):
             "calorie": item.calorie,
             "vegan": item.vegan,
             "glutenFree": item.glutenFree,
-            "discount": item.discount
+            "discount": item.discount,
+            "picture": item.picture
         } for item in recommendations])
+
+
+
+@items_ns.route('/search')
+class SearchItems(Resource):
+    def get(self):
+        query = request.args.get('q', '')
+        logging.info(f"Received search query: {query}")
+        items = Item.query.filter(Item.name.ilike(f'%{query}%')).all()
+        result = [item.serialize() for item in items]
+        logging.info(f"Returning {len(result)} results")
+        return jsonify(result)
