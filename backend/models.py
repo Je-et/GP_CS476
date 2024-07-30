@@ -166,6 +166,8 @@ class Recipe(db.Model):
     description = db.Column(db.Text, nullable=True)
     is_vegan = db.Column(db.Boolean, default=False)
     is_plant_based = db.Column(db.Boolean, default=False)
+    items = db.relationship('Item', secondary='recipe_item', lazy='subquery',
+                            backref=db.backref('recipes', lazy=True))
 
     def serialize(self):
         return {
@@ -174,21 +176,11 @@ class Recipe(db.Model):
             'description': self.description,
             'is_vegan': self.is_vegan,
             'is_plant_based': self.is_plant_based,
-            'ingredients': [ri.serialize() for ri in self.recipe_items]
+            'ingredients': [item.serialize() for item in self.items]
         }
 
-class RecipeItem(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
-    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
-    quantity = db.Column(db.Float, nullable=False)
-
-    recipe = db.relationship('Recipe', backref=db.backref('recipe_items', lazy=True))
-    item = db.relationship('Item', backref=db.backref('recipe_items', lazy=True))
-
-    def serialize(self):
-        return {
-            'id': self.id,
-            'item': self.item.serialize(),
-            'quantity': self.quantity
-        }
+# Association table for many-to-many relationship between Recipe and Item
+recipe_item = db.Table('recipe_item',
+    db.Column('recipe_id', db.Integer, db.ForeignKey('recipe.id'), primary_key=True),
+    db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
+)

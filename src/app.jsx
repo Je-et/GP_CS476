@@ -101,7 +101,7 @@ function MainContent({updateCartCount, handleItemSelect}) {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/mealplanning" element={<MealPlanning updateCartCount={updateCartCount} />} />
+        <Route path="/mealplanning" element={<MealPlanning updateCartCount={updateCartCount} handleItemSelect={handleItemSelect}/>} />
         <Route path="/empdashboard" element={<AppEmp />} />
         <Route path="/orderhistory" element={<OrderHistory />} />
       </Routes>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import RecipeItem from './RecipeItem';
 import './MealPlanning.css';
+import Item from './Item'
 
 const MealPlanning = ({ updateCartCount, handleItemSelect }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -54,6 +54,7 @@ const MealPlanning = ({ updateCartCount, handleItemSelect }) => {
         fetchRecipes();
     };
 
+
     return (
         <div className="meal-planning-container">
             <div className="meal-planning-sidebar">
@@ -92,20 +93,26 @@ const MealPlanning = ({ updateCartCount, handleItemSelect }) => {
                 <h1>Meal Planning</h1>
                 {loading && <div className="loading">Loading recipes...</div>}
                 {error && <div className="error">{error}</div>}
-                <div className="recipes-container">
-                    {recipes.length > 0 ? (
-                        recipes.map(recipe => (
-                            <RecipeItem
-                                key={recipe.id}
-                                recipe={recipe}
-                                updateCartCount={updateCartCount}
-                                handleItemSelect={handleItemSelect}
-                            />
-                        ))
-                    ) : (
-                        <p>No recipes found. Try adjusting your search or filters.</p>
-                    )}
-            </div>
+                {recipes.map(recipe => (
+                    <div key={recipe.id} className="recipe-section">
+                        <h2 className="recipe-name">{recipe.name}</h2>
+                        <p className="recipe-description">{recipe.description}</p>
+                        <div className="recipe-tags">
+                            {recipe.is_vegan && <span className="recipe-tag vegan">Vegan</span>}
+                            {recipe.is_plant_based && <span className="recipe-tag plant-based">Plant-Based</span>}
+                        </div>
+                        <div className="ingredients-container">
+                            {recipe.ingredients.map(ingredient => (
+                                <Item
+                                    key={ingredient.id}
+                                    item={ingredient}
+                                    updateCartCount={updateCartCount}
+                                    handleItemSelect={handleItemSelect}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );

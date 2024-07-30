@@ -1,9 +1,21 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
-from models import Recipe, RecipeItem, Item
+from models import Recipe, Item
 from exts import db
 
 recipes_ns = Namespace('recipes', description='Recipe operations')
+
+item_model = recipes_ns.model('Item', {
+    'id': fields.Integer(readonly=True),
+    'name': fields.String(required=True),
+    'price': fields.Float(required=True),
+    'calorie': fields.Integer(required=True),
+    'vegan': fields.Boolean(required=True),
+    'glutenFree': fields.Boolean(required=True),
+    'discount': fields.Float(required=True),
+    'picture': fields.String(),
+    'sales': fields.Integer(required=True)
+})
 
 recipe_model = recipes_ns.model('Recipe', {
     'id': fields.Integer(readonly=True),
@@ -11,25 +23,30 @@ recipe_model = recipes_ns.model('Recipe', {
     'description': fields.String(),
     'is_vegan': fields.Boolean(),
     'is_plant_based': fields.Boolean(),
+    'ingredients': fields.List(fields.Nested(item_model))
 })
 
 @recipes_ns.route('')
 class RecipeList(Resource):
     @recipes_ns.marshal_list_with(recipe_model)
     def get(self):
-        return Recipe.query.all()
+        """Get all recipes"""
+        return [recipe.serialize() for recipe in Recipe.query.all()]
 
 @recipes_ns.route('/<int:id>')
 class RecipeResource(Resource):
     @recipes_ns.marshal_with(recipe_model)
     def get(self, id):
+        """Get a specific recipe by ID"""
         recipe = Recipe.query.get_or_404(id)
         return recipe.serialize()
 
 @recipes_ns.route('/search')
 class RecipeSearch(Resource):
     @recipes_ns.marshal_list_with(recipe_model)
+    @recipes_ns.doc(params={'q': 'Search term', 'vegan': 'Filter for vegan recipes', 'plant_based': 'Filter for plant-based recipes'})
     def get(self):
+        """Search for recipes"""
         search_term = request.args.get('q', '')
         is_vegan = request.args.get('vegan', '').lower() == 'true'
         is_plant_based = request.args.get('plant_based', '').lower() == 'true'
@@ -45,3 +62,11 @@ class RecipeSearch(Resource):
 
         recipes = query.all()
         return [recipe.serialize() for recipe in recipes]
+
+@recipes_ns.route('/<int:id>/ingredients')
+class RecipeIngredients(Resource):
+    @recipes_ns.marshal_list_with(item_model)
+    def get(self, id):
+        """Get ingredients for a specific recipe"""
+        recipe = Recipe.query.get_or_404(id)
+        return [item.serialize() for item in recipe.items]
