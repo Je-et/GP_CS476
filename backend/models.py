@@ -165,7 +165,7 @@ class Recipe(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=True)
     is_vegan = db.Column(db.Boolean, default=False)
-    is_plant_based = db.Column(db.Boolean, default=False)
+    is_gluten_free = db.Column(db.Boolean, default=False)
     items = db.relationship('Item', secondary='recipe_item', lazy='subquery',
                             backref=db.backref('recipes', lazy=True))
 
@@ -175,7 +175,7 @@ class Recipe(db.Model):
             'name': self.name,
             'description': self.description,
             'is_vegan': self.is_vegan,
-            'is_plant_based': self.is_plant_based,
+            'is_gluten_free': self.is_gluten_free,
             'ingredients': [item.serialize() for item in self.items]
         }
 

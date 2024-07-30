@@ -1,17 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 import './MealPlanning.css';
-import Item from './Item'
+import Item from './Item';
 
 const MealPlanning = ({ updateCartCount, handleItemSelect }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [recipes, setRecipes] = useState([]);
     const [filters, setFilters] = useState({
         vegan: false,
-        plantBased: false,
+        glutenFree: false,
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+
+    const observer = useRef();
 
     const fetchRecipes = useCallback(async () => {
         try {
@@ -21,18 +25,29 @@ const MealPlanning = ({ updateCartCount, handleItemSelect }) => {
                 params: {
                     q: searchTerm,
                     vegan: filters.vegan,
-                    plant_based: filters.plantBased
+                    gluten_free: filters.glutenFree,
+                    page: page,
+                    per_page: 20
                 }
             });
-            setRecipes(response.data || []);
+            setRecipes(prevRecipes => {
+                const newRecipes = response.data || [];
+                setHasMore(newRecipes.length > 0);
+                return [...prevRecipes, ...newRecipes];
+            });
         } catch (error) {
             console.error('Error fetching recipes:', error);
             setError('Failed to fetch recipes. Please try again.');
-            setRecipes([]);
         } finally {
             setLoading(false);
         }
-    }, [searchTerm, filters.vegan, filters.plantBased]);
+    }, [searchTerm, filters.vegan, filters.glutenFree, page]);
+
+    useEffect(() => {
+        setRecipes([]);
+        setPage(1);
+        setHasMore(true);
+    }, [searchTerm, filters]);
 
     useEffect(() => {
         fetchRecipes();
@@ -51,9 +66,21 @@ const MealPlanning = ({ updateCartCount, handleItemSelect }) => {
 
     const handleSearch = (e) => {
         e.preventDefault();
+        setRecipes([]);
+        setPage(1);
         fetchRecipes();
     };
 
+    const lastRecipeElementRef = useCallback(node => {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPage(prevPage => prevPage + 1);
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [loading, hasMore]);
 
     return (
         <div className="meal-planning-container">
@@ -82,10 +109,10 @@ const MealPlanning = ({ updateCartCount, handleItemSelect }) => {
                     <label>
                         <input
                             type="checkbox"
-                            checked={filters.plantBased}
-                            onChange={() => handleFilterChange('plantBased')}
+                            checked={filters.glutenFree}
+                            onChange={() => handleFilterChange('glutenFree')}
                         />
-                        Plant-Based
+                        Gluten-free
                     </label>
                 </div>
             </div>
@@ -93,13 +120,17 @@ const MealPlanning = ({ updateCartCount, handleItemSelect }) => {
                 <h1>Meal Planning</h1>
                 {loading && <div className="loading">Loading recipes...</div>}
                 {error && <div className="error">{error}</div>}
-                {recipes.map(recipe => (
-                    <div key={recipe.id} className="recipe-section">
+                {recipes.map((recipe, index) => (
+                    <div
+                        key={recipe.id}
+                        className="recipe-section"
+                        ref={recipes.length === index + 1 ? lastRecipeElementRef : null}
+                    >
                         <h2 className="recipe-name">{recipe.name}</h2>
                         <p className="recipe-description">{recipe.description}</p>
                         <div className="recipe-tags">
                             {recipe.is_vegan && <span className="recipe-tag vegan">Vegan</span>}
-                            {recipe.is_plant_based && <span className="recipe-tag plant-based">Plant-Based</span>}
+                            {recipe.is_gluten_free && <span className="recipe-tag gluten-free">Gluten-Free</span>}
                         </div>
                         <div className="ingredients-container">
                             {recipe.ingredients.map(ingredient => (

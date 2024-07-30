@@ -83,16 +83,17 @@ function MainContent({updateCartCount, handleItemSelect}) {
   const navigate = useNavigate();
   const showContent = location.pathname !== '/profile' && location.pathname !== '/cart' && location.pathname !== '/checkout' && location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/mealplanning' && location.pathname !== "/empdashboard" && location.pathname !== "/orderhistory";
 
-  const gotToNewPage = () => {
+  const goToEmployeeDashboard = () => {
     navigate("/empdashboard");
   }
 
   return (
     <>
       {showContent && (
-        <div className="categories">
-          <button onClick={() => gotToNewPage()}>Employee Dashboard </button>
-        </div>
+        <button className="employee-dashboard-btn" onClick={goToEmployeeDashboard}>
+          <span className="btn-icon">👤</span>
+          <span className="btn-text">Employee Dashboard</span>
+        </button>
       )}
       <Routes>
         <Route path="/" element={<ItemList updateCartCount={updateCartCount} handleItemSelect={handleItemSelect} />} />

@@ -22,7 +22,7 @@ recipe_model = recipes_ns.model('Recipe', {
     'name': fields.String(required=True),
     'description': fields.String(),
     'is_vegan': fields.Boolean(),
-    'is_plant_based': fields.Boolean(),
+    'is_gluten_free': fields.Boolean(),
     'ingredients': fields.List(fields.Nested(item_model))
 })
 
@@ -44,12 +44,14 @@ class RecipeResource(Resource):
 @recipes_ns.route('/search')
 class RecipeSearch(Resource):
     @recipes_ns.marshal_list_with(recipe_model)
-    @recipes_ns.doc(params={'q': 'Search term', 'vegan': 'Filter for vegan recipes', 'plant_based': 'Filter for plant-based recipes'})
+    @recipes_ns.doc(params={'q': 'Search term', 'vegan': 'Filter for vegan recipes', 'gluten_free': 'Filter for gluten-free recipes', 'page': 'Page number', 'per_page': 'Recipes per page'})
     def get(self):
         """Search for recipes"""
         search_term = request.args.get('q', '')
         is_vegan = request.args.get('vegan', '').lower() == 'true'
-        is_plant_based = request.args.get('plant_based', '').lower() == 'true'
+        is_gluten_free = request.args.get('gluten_free', '').lower() == 'true'
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 20, type=int)
 
         query = Recipe.query
 
@@ -57,11 +59,11 @@ class RecipeSearch(Resource):
             query = query.filter(Recipe.name.ilike(f'%{search_term}%'))
         if is_vegan:
             query = query.filter_by(is_vegan=True)
-        if is_plant_based:
-            query = query.filter_by(is_plant_based=True)
+        if is_gluten_free:
+            query = query.filter_by(is_gluten_free=True)
 
-        recipes = query.all()
-        return [recipe.serialize() for recipe in recipes]
+        paginated_recipes = query.paginate(page=page, per_page=per_page)
+        return [recipe.serialize() for recipe in paginated_recipes.items]
 
 @recipes_ns.route('/<int:id>/ingredients')
 class RecipeIngredients(Resource):

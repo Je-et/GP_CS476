@@ -38,6 +38,13 @@ sqlalchemy = "==2.0.31"
 typing-extensions = "==4.12.2"
 virtualenv = "==20.26.3"
 werkzeug = "==3.0.3"
+pandas = "*"
+google-images-download = "*"
+bing-image-downloader = "*"
+requests = "*"
+beautifulsoup4 = "*"
+pillow = "*"
+openai = "==0.28"
 
 [dev-packages]
 
