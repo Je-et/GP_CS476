@@ -28,7 +28,8 @@ class User(db.Model):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'profile_picture': self.profile_picture
+            'profile_picture': self.profile_picture,
+            'is_employee': self.is_employee
         }
 
 class Item(db.Model):
