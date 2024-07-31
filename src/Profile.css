@@ -233,6 +233,8 @@ footer {
     /* border: black solid 2px; */
     height: 190px;
     width: 500px;
+
+    overflow-y: auto;
 }
 
 /* #item-description-text {
