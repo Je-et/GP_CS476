@@ -162,3 +162,29 @@ class CancelOrder(Resource):
             return {'message': 'Order cancelled successfully'}, 200
         else:
             return {'message': 'Order unable to be cancelled'}, 400
+        
+# Retrieve all customer orders for employees
+@orders_ns.route('/employee/orders')
+class EmployeeOrders(Resource):
+    @jwt_required()
+    @orders_ns.marshal_list_with(order_model)
+    def get(self):
+        orders = Order.query.all()
+        orders_data = []
+        for order in orders:
+            order_items = OrderItem.query.filter_by(order_id=order.id).all()
+            items_data = []
+            for order_item in order_items:
+                item = Item.query.get(order_item.item_id)
+                items_data.append({
+                    'item_name': item.name,
+                    'quantity': order_item.quantity,
+                    'total_price': order_item.total_price
+                })
+            orders_data.append({
+                'order_id': order.id,
+                'items': items_data,
+                'total_price': order.total_price,
+                'status': order.status
+            })
+        return orders_data, 200

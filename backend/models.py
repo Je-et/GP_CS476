@@ -12,6 +12,7 @@ class User(db.Model):
     email = db.Column(db.String(60), nullable=False)
     password = db.Column(db.Text(), nullable=False)
     profile_picture = db.Column(db.String(120), nullable=True)
+    is_employee = db.Column(db.Boolean, nullable=False, default=False)
     items = db.relationship('Item', secondary=previous_purchases, lazy='subquery',
         backref=db.backref('users', lazy=True))
 
