@@ -76,13 +76,11 @@ class Login(Resource):
         db_user = User.query.filter_by(username=username).first()
 
         if db_user and check_password_hash(db_user.password, password):
-            if db_user.is_employee or username.endswith('.emp'):
-                # Employee login
-                access_token = create_access_token(identity={'username': db_user.username, 'is_employee': True})
-                return jsonify({"access_token": access_token, "message": "Employee login successful"})
-            else:
-                # Regular user login
-                access_token = create_access_token(identity={'username': db_user.username, 'is_employee': False})
-                return jsonify({"access_token": access_token, "message": "User login successful"})
+            access_token = create_access_token(identity=db_user.username)
+            refresh_token = create_refresh_token(identity=db_user.username)
 
-        return jsonify({"message": "Invalid credentials"}), 401
+            return jsonify(
+                {"access_token": access_token, "refresh_token": refresh_token}
+            )
+
+        return jsonify({"message": "Invalid credentials"})
