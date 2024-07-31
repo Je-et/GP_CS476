@@ -86,31 +86,3 @@ class Login(Resource):
                 return jsonify({"access_token": access_token, "message": "User login successful"})
 
         return jsonify({"message": "Invalid credentials"}), 401
-
-# Create an account for employee - do this with postman
-@auth_ns.route('/create_employee')
-class CreateEmployee(Resource):
-
-    @auth_ns.expect(signup_model)
-    def post(self):
-        data = request.get_json()
-        username = data.get('username')
-        email = data.get('email')
-        password = data.get('password')
-
-        if not username.endswith('.emp'):
-            username += '.emp'
-
-        hashed_password = generate_password_hash(password)
-
-        new_employee = User(
-            username=username,
-            email=email,
-            password=hashed_password,
-            is_employee=True  # Set to True to indicate employee
-        )
-
-        db.session.add(new_employee)
-        db.session.commit()
-
-        return jsonify({"message": "Employee account created successfully"}), 201
