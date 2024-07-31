@@ -20,6 +20,7 @@ import axios from 'axios';
 function App() {
   const [cartCount, setCartCount] = useState(0);
   const [selectedItemId, setSelectedItemId] = useState(null);
+  const [isEmployee, setIsEmployee] = useState(false); // Add state for user role
 
   useEffect(() => {
     fetchCartCount();
@@ -54,10 +55,12 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <ConditionalHeader cartCount={cartCount} onItemSelect={handleItemSelect} />
+        <ConditionalHeader cartCount={cartCount} onItemSelect={handleItemSelect} isEmployee={isEmployee} />
         <MainContent 
           updateCartCount={updateCartCount} 
           handleItemSelect={handleItemSelect}
+          isEmployee={isEmployee} // Pass isEmployee to MainContent
+          setIsEmployee={setIsEmployee} // Pass the setIsEmployee function
         />
         {selectedItemId && (
           <ItemDetail 
@@ -72,13 +75,13 @@ function App() {
   );
 }
 
-function ConditionalHeader({cartCount, onItemSelect}) {
+function ConditionalHeader({cartCount, onItemSelect, isEmployee}) {
   const location = useLocation();
   const showHeader = location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== "/empdashboard" && location.pathname !== "/orderhistory";
-  return showHeader ? <Header cartItemCount={cartCount} onItemSelect={onItemSelect} /> : null;
+  return showHeader ? <Header cartItemCount={cartCount} onItemSelect={onItemSelect} isEmployee={isEmployee} /> : null;
 }
 
-function MainContent({updateCartCount, handleItemSelect}) {
+function MainContent({updateCartCount, handleItemSelect, isEmployee, setIsEmployee}) {
   const location = useLocation();
   const navigate = useNavigate();
   const showContent = location.pathname !== '/profile' && location.pathname !== '/cart' && location.pathname !== '/checkout' && location.pathname !== '/login' && location.pathname !== '/signup' && location.pathname !== '/mealplanning' && location.pathname !== "/empdashboard" && location.pathname !== "/orderhistory";
@@ -89,7 +92,7 @@ function MainContent({updateCartCount, handleItemSelect}) {
 
   return (
     <>
-      {showContent && (
+      {showContent && isEmployee && ( // Only show the button if the user is an employee
         <button className="employee-dashboard-btn" onClick={goToEmployeeDashboard}>
           <span className="btn-icon">👤</span>
           <span className="btn-text">Employee Dashboard</span>
@@ -100,7 +103,7 @@ function MainContent({updateCartCount, handleItemSelect}) {
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<Cart updateCartCount={updateCartCount} />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setIsEmployee={setIsEmployee} />} /> {/* Pass the setIsEmployee function */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/mealplanning" element={<MealPlanning updateCartCount={updateCartCount} handleItemSelect={handleItemSelect}/>} />
         <Route path="/empdashboard" element={<AppEmp />} />

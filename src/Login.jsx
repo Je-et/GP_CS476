@@ -4,7 +4,7 @@ import axios from 'axios';
 import './Login.css';
 import LogoWhite from './assets/LogoWhite.png';
 
-function Login() {
+function Login({ setIsEmployee }) { // Receive setIsEmployee as a prop
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
@@ -46,7 +46,14 @@ function Login() {
         if (response.data.access_token) {
           localStorage.setItem('access_token', response.data.access_token);
           localStorage.setItem('refresh_token', response.data.refresh_token);
-          navigate('/');
+
+          if (username.endsWith('.emp')) {
+            setIsEmployee(true); // Set user role as employee
+            navigate('/empdashboard');
+          } else {
+            setIsEmployee(false); // Set user role as shopper
+            navigate('/');
+          }
         } else {
           setLoginError('Invalid username or password. Please try again.');
         }
