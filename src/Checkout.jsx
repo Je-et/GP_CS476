@@ -42,6 +42,28 @@ function Checkout() {
     }
   };
 
+  const increaseQuantity = async (itemId) => {
+    const item = checkoutItems.find(item => item.item_id === itemId);
+    if (item) {
+      const newQuantity = item.quantity + 1;
+      console.log(`Increasing quantity of item ${itemId} to ${newQuantity}`);
+      await updateCheckoutItem(itemId, newQuantity);
+    } else {
+      console.error(`Item with id ${itemId} not found`);
+    }
+  };
+
+  const decreaseQuantity = async (itemId) => {
+    const item = checkoutItems.find(item => item.item_id === itemId);
+    if (item && item.quantity > 1) {
+      const newQuantity = item.quantity - 1;
+      console.log(`Decreasing quantity of item ${itemId} to ${newQuantity}`);
+      await updateCheckoutItem(itemId, newQuantity);
+    } else {
+      console.error(`Item with id ${itemId} not found or quantity is less than 1`);
+    }
+  };
+
   const updateCheckoutItem = async (itemId, quantity) => {
     try {
       const token = localStorage.getItem('access_token');
@@ -121,7 +143,6 @@ function Checkout() {
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
     } else {
-      const startTime = performance.now(); // Start timer
       try {
         const token = localStorage.getItem('access_token');
         if (!token) {
@@ -148,10 +169,6 @@ function Checkout() {
         if (error.response && error.response.data) {
           alert(error.response.data.message || "Payment failed");
         }
-      } finally {
-        const endTime = performance.now(); // End timer
-        const duration = endTime - startTime; // Calculate duration
-        console.log(`Payment processing took ${duration} ms`);
       }
     }
   };
@@ -173,6 +190,8 @@ function Checkout() {
                   key={item.item_id}
                   item={item.item}
                   quantity={item.quantity}
+                  increaseQuantity={() => increaseQuantity(item.item_id)}
+                  decreaseQuantity={() => decreaseQuantity(item.item_id)}
                   removeItem={() => removeItem(item.item_id)}
                 />
               ))
