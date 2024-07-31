@@ -14,7 +14,6 @@ signup_model = auth_ns.model(
         "username": fields.String(),
         "email": fields.String(),
         "password": fields.String(),
-        
     }
 )
 
@@ -77,11 +76,41 @@ class Login(Resource):
         db_user = User.query.filter_by(username=username).first()
 
         if db_user and check_password_hash(db_user.password, password):
-            access_token = create_access_token(identity=db_user.username)
-            refresh_token = create_refresh_token(identity=db_user.username)
+            if db_user.is_employee or username.endswith('.emp'):
+                # Employee login
+                access_token = create_access_token(identity={'username': db_user.username, 'is_employee': True})
+                return jsonify({"access_token": access_token, "message": "Employee login successful"})
+            else:
+                # Regular user login
+                access_token = create_access_token(identity={'username': db_user.username, 'is_employee': False})
+                return jsonify({"access_token": access_token, "message": "User login successful"})
 
-            return jsonify(
-                {"access_token": access_token, "refresh_token": refresh_token}
-            )
+        return jsonify({"message": "Invalid credentials"}), 401
 
-        return jsonify({"message": "Invalid credentials"})
+# Create an account for employee - do this with postman
+@auth_ns.route('/create_employee')
+class CreateEmployee(Resource):
+
+    @auth_ns.expect(signup_model)
+    def post(self):
+        data = request.get_json()
+        username = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+
+        if not username.endswith('.emp'):
+            username += '.emp'
+
+        hashed_password = generate_password_hash(password)
+
+        new_employee = User(
+            username=username,
+            email=email,
+            password=hashed_password,
+            is_employee=True  # Set to True to indicate employee
+        )
+
+        db.session.add(new_employee)
+        db.session.commit()
+
+        return jsonify({"message": "Employee account created successfully"}), 201
