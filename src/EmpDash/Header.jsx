@@ -27,9 +27,9 @@ function Header({ isEmployee }) {
       <div className="vertical_line"></div>
 
       <div className="profile-cart">
-        {isEmployee && (
-          <button onClick={gotToNewPage} className="order_history">Order-History</button>
-        )}
+       
+        <button onClick={gotToNewPage} className="order_history">Order-History</button>
+     
         <div className="logout" onClick={handleLogout}>Log Out</div>
       </div>
     </header>
