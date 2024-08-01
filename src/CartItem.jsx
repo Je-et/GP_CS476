@@ -1,10 +1,26 @@
 import React from 'react';
 
 function CartItem({ item, updateQuantity, removeItem }) {
+  const getImageUrl = (picture) => {
+    if (!picture) return 'https://via.placeholder.com/100';
+    if (picture.startsWith('http')) return picture;
+    if (picture.startsWith('/')) return `http://localhost:5000${picture}`;
+    return `http://localhost:5000/items/image/${encodeURIComponent(picture)}`;
+  };
+  
+  console.log('CartItem data:', item); // Add this line for debugging
+
   return (
     <div className="cart-item">
       <div className="cart-item-picture">
-        <img src={item.item.image} alt={item.item.name} id="cart-item-image" />
+        <img
+          src={getImageUrl(item.item.picture)}
+          alt={item.item.name}
+          onError={(e) => {
+            console.error('Error loading image:', e.target.src);
+            e.target.src = 'https://via.placeholder.com/100';
+          }}
+        />
       </div>
       <div className="cart-item-description">
         <h3 className="cart-item-name">{item.item.name}</h3>
@@ -32,8 +48,9 @@ function CartItem({ item, updateQuantity, removeItem }) {
         </div>
         <button 
           className="cart-remove-btn" 
-          onClick={() => removeItem()}
+          onClick={removeItem}
         >
+          x
           Remove
         </button>
       </div>
