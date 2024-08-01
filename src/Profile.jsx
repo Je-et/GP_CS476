@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Profile.css';
-import defaultProfileImage from './assets/defaultProfile.png'; // Default image
+import defaultProfileImage from './assets/defaultProfile.png';
 
 function Profile() {
   const [activeSection, setActiveSection] = useState('orders');
@@ -93,44 +93,43 @@ function Profile() {
     return <div>Loading...</div>;
   }
 
+  const getImageUrl = (picture) => {
+    if (!picture) return 'https://via.placeholder.com/100';
+    if (picture.startsWith('http')) return picture;
+    if (picture.startsWith('/')) return `http://localhost:5000${picture}`;
+    return `http://localhost:5000/items/image/${encodeURIComponent(picture)}`;
+  };
+
   return (
     <div id="profile-body">
       <div id="profile-page">
         <div id="profile-page-container">
           <div id="profile-info-container">
             <div id="profile-info">
-              <div id="pfp_photo">
-                <img
-                  src={profileData?.profile_picture ? `/profile/profile_picture/${profileData.profile_picture}` : defaultProfileImage}
-                  alt={profileData?.profile_picture ? "Profile" : "Default"}
-                  id="profile-image"
-                  onError={(e) => {
-                    console.error('Error loading image:', e.target.src);
-                    e.target.src = defaultProfileImage;
-                  }}
-                />
-              </div>
-              <div id="pfp_text">
-                <div id="pfp_text_name">{profileData?.username || 'GUEST'}</div>
-              </div>
+              <img
+                src={profileData?.profile_picture ? `/profile/profile_picture/${profileData.profile_picture}` : defaultProfileImage}
+                alt={profileData?.profile_picture ? "Profile" : "Default"}
+                id="profile-image"
+                onError={(e) => {
+                  console.error('Error loading image:', e.target.src);
+                  e.target.src = defaultProfileImage;
+                }}
+              />
+              <div id="pfp_text_name">{profileData?.username || 'GUEST'}</div>
             </div>
             <div id="profile-buttons">
-              <div id="profile-buttons-orders">
-                <button
-                  className={`profile-button ${activeSection === 'orders' ? 'active' : ''}`}
-                  onClick={() => handleButtonClick('orders')}
-                >
-                  ORDERS
-                </button>
-              </div>
-              <div id="profile-buttons-history">
-                <button
-                  className={`profile-button ${activeSection === 'history' ? 'active' : ''}`}
-                  onClick={() => handleButtonClick('history')}
-                >
-                  HISTORY
-                </button>
-              </div>
+              <button
+                className={`profile-button ${activeSection === 'orders' ? 'active' : ''}`}
+                onClick={() => handleButtonClick('orders')}
+              >
+                ORDERS
+              </button>
+              <button
+                className={`profile-button ${activeSection === 'history' ? 'active' : ''}`}
+                onClick={() => handleButtonClick('history')}
+              >
+                HISTORY
+              </button>
             </div>
           </div>
           <div id="items-container">
@@ -138,15 +137,19 @@ function Profile() {
               orders.length > 0 ? (
                 orders.map((order) => (
                   <div id="items" key={order.order_id}>
-                    <div id="item-images">
-                      <img src={'https://via.placeholder.com/100'} alt="Item" id="item-image" />
-                    </div>
                     <div id="item-description">
                       <div id="item-description-text">
                         {order.items.map((item, index) => (
-                          <div key={index}>
-                            <p id="item-name">Item Name: {item.item_name}</p>
-                            <p>Qty: {item.quantity}</p>
+                          <div key={index} className="order-item">
+                            <img
+                              src={getImageUrl(item.picture)}
+                              alt={item.item_name}
+                              className="order-item-image"
+                            />
+                            <div className="order-item-details">
+                              <p id="item-name">{item.item_name}</p>
+                              <p>Qty: {item.quantity}</p>
+                            </div>
                           </div>
                         ))}
                         <p>Status: {order.status}</p>
@@ -178,13 +181,13 @@ function Profile() {
                 orderHistory.map((order) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-images">
-                      <img src={'https://via.placeholder.com/100'} alt="Item" id="item-image" />
+                      <img src={getImageUrl(order.items[0]?.item_picture)} alt="Item" id="item-image" />
                     </div>
                     <div id="item-description">
                       <div id="item-description-text">
                         {order.items.map((item, index) => (
                           <div key={index}>
-                            <p id="item-name">Item Name: {item.item_name}</p>
+                            <p id="item-name">{item.item_name}</p>
                             <p>Qty: {item.quantity}</p>
                           </div>
                         ))}

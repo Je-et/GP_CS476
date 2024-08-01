@@ -50,7 +50,6 @@ function CartItem({ item, updateQuantity, removeItem }) {
           className="cart-remove-btn" 
           onClick={removeItem}
         >
-          x
           Remove
         </button>
       </div>

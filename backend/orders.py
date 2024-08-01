@@ -11,6 +11,7 @@ item_model = orders_ns.model(
         'item_name': fields.String(),
         'quantity': fields.Integer(),
         'total_price': fields.Float(),
+        'picture' : fields.String(),
     }
 )
 
@@ -50,7 +51,8 @@ class UserOrders(Resource):
                 items_data.append({
                     'item_name': item.name,
                     'quantity': order_item.quantity,
-                    'total_price': order_item.total_price
+                    'total_price': order_item.total_price,
+                    'picture' : item.picture
                 })
             orders_data.append({
                 'order_id': order.id,
@@ -81,7 +83,8 @@ class UserOrderHistory(Resource):
                 items_data.append({
                     'item_name': item.name,
                     'quantity': order_item.quantity,
-                    'total_price': order_item.total_price
+                    'total_price': order_item.total_price,
+                    'picture' : item.picture
                 })
             orders_data.append({
                 'order_id': order.id,

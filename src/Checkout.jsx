@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Checkout.css';
-
-import CheckoutItem from './CheckoutItem';
+import CartItem from './CartItem';
 import Footer from './Footer';
 
 function Checkout() {
@@ -189,12 +188,10 @@ function Checkout() {
           <div className="checkout-content">
             {checkoutItems.length > 0 ? (
               checkoutItems.map(item => (
-                <CheckoutItem
+                <CartItem
                   key={item.item_id}
-                  item={item.item}
-                  quantity={item.quantity}
-                  increaseQuantity={() => increaseQuantity(item.item_id)}
-                  decreaseQuantity={() => decreaseQuantity(item.item_id)}
+                  item={item}
+                  updateQuantity={(newQuantity) => updateCheckoutItem(item.item_id, newQuantity)}
                   removeItem={() => removeItem(item.item_id)}
                 />
               ))

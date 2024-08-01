@@ -5,6 +5,9 @@ import './Cart.css';
 import CartItem from './CartItem';
 import { toast } from 'react-toastify';
 
+// No longer needs checkoutItem.jsx
+// making it working with cartItem.jsx since similar structure
+
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
