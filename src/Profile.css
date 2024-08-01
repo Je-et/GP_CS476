@@ -226,14 +226,13 @@ footer {
     height: 190px;
     width: 20px;
     width: 220px;
-
+    margin-top: 7px;
 }
 
 #item-description {
     /* border: black solid 2px; */
     height: 190px;
     width: 500px;
-
     overflow-y: auto;
 }
 

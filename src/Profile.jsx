@@ -139,7 +139,7 @@ function Profile() {
                 orders.map((order) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-images">
-                      <img src="" alt="Item" id="item-image" />
+                      <img src={'https://via.placeholder.com/100'} alt="Item" id="item-image" />
                     </div>
                     <div id="item-description">
                       <div id="item-description-text">
@@ -149,7 +149,7 @@ function Profile() {
                             <p>Qty: {item.quantity}</p>
                           </div>
                         ))}
-                         <p>Status: {order.status}</p>
+                        <p>Status: {order.status}</p>
                       </div>
                     </div>
                     <div id="item-buttons">
@@ -178,12 +178,16 @@ function Profile() {
                 orderHistory.map((order) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-images">
-                      <img src={defaultProfileImage} alt="Item" id="item-image" />
+                      <img src={'https://via.placeholder.com/100'} alt="Item" id="item-image" />
                     </div>
                     <div id="item-description">
                       <div id="item-description-text">
-                        <p id="item-name">{order.item_name}</p>
-                        <p>Qty: {order.quantity}</p>
+                        {order.items.map((item, index) => (
+                          <div key={index}>
+                            <p id="item-name">Item Name: {item.item_name}</p>
+                            <p>Qty: {item.quantity}</p>
+                          </div>
+                        ))}
                         <p>Total Price: ${order.total_price.toFixed(2)}</p>
                         <p>Status: {order.status}</p>
                       </div>
