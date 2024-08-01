@@ -21,6 +21,7 @@ function Cart() {
   };
 
   const fetchCartItems = async () => {
+    const startTime = Date.now();
     try {
       const token = localStorage.getItem('access_token');
       if (!token) {
@@ -35,6 +36,8 @@ function Cart() {
       console.error('Error fetching cart items:', error);
       toast.error('Failed to fetch cart items. Please try again.');
     }
+    const endTime = Date.now();
+    console.log(`Fetching cart items took ${endTime - startTime}ms`);
   };
 
   const updateCartItem = async (itemId, quantity) => {
