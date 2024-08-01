@@ -133,12 +133,13 @@ function Checkout() {
 
     const [year, month, day] = date.split('-').map(Number);
     const selectedDate = new Date(year, month - 1, day);
-    selectedDate.setHours(0, 0, 0, 0); // Reset selected date to midnight
+    selectedDate.setHours(0, 0, 0, 0);
 
     return selectedDate >= today;
   };
 
   const handlePayment = async () => {
+    const startTime = Date.now();
     const errors = validate();
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
@@ -171,6 +172,8 @@ function Checkout() {
         }
       }
     }
+    const endTime = Date.now();
+    console.log(`Handling payment took ${endTime - startTime}ms`);
   };
 
   const handleExpiryChange = (e) => {
