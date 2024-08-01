@@ -21,7 +21,8 @@ def create_app():
     app.config.from_object(Config)
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dev.db"
     app.config["UPLOAD_FOLDER"] = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'static/uploads')
-    app.config['JWT_SECRET_KEY'] = 'your_secret_key'  # Set it later
+    app.config['JWT_SECRET_KEY'] = 'your_secret_key'
+    app.config['IMAGES_FOLDER'] = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'images')
 
     db.init_app(app)
     migrate = Migrate(app, db)

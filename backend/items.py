@@ -1,8 +1,9 @@
 from flask_restx import Namespace, Resource
 from models import Item
-from flask import jsonify, request
+from flask import jsonify, request, send_from_directory, current_app
 import random
 import logging
+import os
 
 items_ns = Namespace('items', description='Items related operations')
 
@@ -10,16 +11,7 @@ items_ns = Namespace('items', description='Items related operations')
 class ItemList(Resource):
     def get(self):
         items = Item.query.all()
-        return jsonify([{
-            "id": item.id,
-            "name": item.name,
-            "price": item.price,
-            "calorie": item.calorie,
-            "vegan": item.vegan,
-            "glutenFree": item.glutenFree,
-            "discount": item.discount,
-            "picture": item.picture
-        } for item in items])
+        return jsonify([item.serialize() for item in items])
 
 @items_ns.route('/best-sellers')
 class BestSellers(Resource):
@@ -94,3 +86,21 @@ class SearchItems(Resource):
         result = [item.serialize() for item in items]
         logging.info(f"Returning {len(result)} results")
         return jsonify(result)
+
+@items_ns.route('/image/<path:filename>')
+class ItemImage(Resource):
+    def get(self, filename):
+        uploads = os.path.join(current_app.root_path, current_app.config['IMAGES_FOLDER'])
+        return send_from_directory(uploads, filename)
+    
+
+@items_ns.route('/debug')
+class DebugItems(Resource):
+    def get(self):
+        items = Item.query.all()
+        return jsonify([{
+            'id': item.id,
+            'name': item.name,
+            'picture': item.picture
+        } for item in items])
+    

@@ -58,8 +58,8 @@ class Item(db.Model):
             'vegan': self.vegan,
             'glutenFree': self.glutenFree,
             'discount': self.discount,
-            'picture': self.picture,  # Include picture in serialization
-            'sales': self.sales  # Include sales in serialization
+            'picture': f"/items/image/{self.picture}" if self.picture else None,
+            'sales': self.sales
         }
 
 class CartItem(db.Model):

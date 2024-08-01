@@ -9,6 +9,13 @@ function Item({ item, updateCartCount, handleItemSelect }) {
     handleItemSelect(item.id);
   };
 
+  const getImageUrl = (picture) => {
+    if (!picture) return 'https://via.placeholder.com/100';
+    if (picture.startsWith('http')) return picture;
+    if (picture.startsWith('/')) return `http://localhost:5000${picture}`;
+    return `http://localhost:5000/items/image/${encodeURIComponent(picture)}`;
+  };
+
   const addToCart = async (event, itemId) => {
     event.stopPropagation(); // Prevent the item click event from firing
     try {
@@ -28,13 +35,21 @@ function Item({ item, updateCartCount, handleItemSelect }) {
       console.error('Failed to add item to cart:', error);
       toast.error('Failed to add item to cart. Please try again.');
     }
+    
   };
 
   return (
     <div className="item" onClick={handleItemClick}>
       <div className="item-content">
         <div className="item-picture">
-          <img src={item.picture || 'https://via.placeholder.com/100'} alt={item.name} />
+          <img
+            src={getImageUrl(item.picture)}
+            alt={item.name}
+            onError={(e) => {
+              console.error('Error loading image:', e.target.src);
+              e.target.src = 'https://via.placeholder.com/100';
+            }}
+          />
           {item.discount > 0 && (
             <div className="item-discount-badge">
               {item.discount}% OFF

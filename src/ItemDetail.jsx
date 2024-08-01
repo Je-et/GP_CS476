@@ -3,7 +3,7 @@ import axios from 'axios';
 import './ItemDetail.css';
 import { toast } from 'react-toastify';
 
-function ItemDetail({itemId, updateCartCount, onClose}) {
+function ItemDetail({ itemId, updateCartCount, onClose }) {
   const [item, setItem] = useState(null);
 
   useEffect(() => {
@@ -50,7 +50,12 @@ function ItemDetail({itemId, updateCartCount, onClose}) {
       <div className="item-detail-popup" onClick={(e) => e.stopPropagation()}>
         <button className="close-button" onClick={onClose}>×</button>
         <div className="item-detail-content">
-          <img src={item.picture || 'https://via.placeholder.com/100'} alt={item.name} className="item-detail-image" />
+          <div
+            className="item-detail-image-container"
+            style={{
+              backgroundImage: `url(${item.picture ? `http://localhost:5000/items/image/${encodeURIComponent(item.picture)}` : 'https://via.placeholder.com/300'})`
+            }}
+          />
           <div className="item-detail-info">
             <h2>{item.name}</h2>
             <p className="item-description">{item.description}</p>
@@ -64,7 +69,7 @@ function ItemDetail({itemId, updateCartCount, onClose}) {
         </div>
       </div>
     </div>
-  );
+      );
 }
 
-export default ItemDetail;
+      export default ItemDetail;
