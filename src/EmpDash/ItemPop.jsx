@@ -12,7 +12,7 @@ const ItemPop = ({ show, onClose, orderItems }) => {
         <h2>Order Details</h2>
         <ul className="item-list">
           {orderItems.map((item, index) => (
-            <li key={index} className="item">
+            <li key={index} className="item-pop">
               <span className="item-name">{item.item_name}</span> 
               <span className="item-quantity"> Quantity: {item.quantity}</span>
             </li>
