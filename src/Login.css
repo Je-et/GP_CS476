@@ -101,6 +101,11 @@ input:focus {
   margin-right: 5px;
 }
 
+/* Style for the login header */
+.login-header{
+  color: white;
+}
+
 /* Styling for the Login button. */
 .login-button {
   background-color: green;
