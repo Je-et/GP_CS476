@@ -19,7 +19,7 @@
     text-align: center; 
   }
   
-  .item-list {
+  .item-list-pop {
     list-style-type: none; 
     padding: 0;
     margin: 20px 0;
@@ -30,11 +30,11 @@
     background-color: lightgreen;
   }
   
-  .item-name {
+  .item-name-pop {
     font-weight: bold; 
   }
   
-  .item-quantity {
+  .item-quantity-pop {
     color: #555; 
   }
   
