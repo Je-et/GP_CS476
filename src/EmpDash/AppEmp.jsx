@@ -41,6 +41,7 @@ function AppEmp() {
       <Header />
       <div className="cart-body">
         <div id="profile-info-emp">
+          <div className='profile-image-container'>
           <img
             src={profileData?.profile_picture ? `/profile/profile_picture/${profileData.profile_picture}` : defaultProfileImage}
             alt={profileData?.profile_picture ? "Profile" : "Default"}
@@ -50,8 +51,10 @@ function AppEmp() {
               e.target.src = defaultProfileImage;
             }}
           />
+          </div>
           <div id="pfp_text_name-emp">Employee: {profileData?.username || 'Emp'}</div>
         </div>
+       
       
 
         <div className="cart-page">

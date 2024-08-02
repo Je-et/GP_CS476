@@ -391,14 +391,32 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 }
 
 #profile-image-emp{
-  padding-top: 20px;
-  padding-bottom: 20px;
+  width: 100%;
+  height: 100%;
+
+
 }
 
 #pfp_text_name-emp{
   font-size: 30px;
   font-weight: bold;
+  object-fit: cover;
+}
+
+/* Encapsulates the Profile Picture */
+.profile-image-container {
+  width: 300px; 
+  height: 350px; 
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  padding: 0;
 }
