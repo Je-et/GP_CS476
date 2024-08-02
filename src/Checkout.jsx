@@ -1,154 +1,89 @@
-/* useState for managing state in the component. */
-/* useEffect for fetching data. */
-import { useState, useEffect } from 'react';
+/* Essential for creating React components. */
+import { useState, useEffect, useCallback } from 'react';
 
-/* React Router hook for programmatic navigation. */
+/* For routing and navigation. */
 import { useNavigate } from 'react-router-dom';
 
-/* Used for making HTTP requests. */
+/* Used for sending HTTP Requests */
 import axios from 'axios';
 
-/* CSS for styling the component. */
+/* CSS styling for the Checkout components */
 import './Checkout.css';
 
-/* Import a component for displaying individual cart items. */
+/* Imports Cart Item component */
 import CartItem from './CartItem';
 
-/* Import a footer component. */
+/* Import Footer component */
 import Footer from './Footer';
 
-/* Defines the Checkout functional component. */
 function Checkout() {
-
-  /* checkoutItems for storing items in the checkout. */
-  /* setCheckoutItems to update checkoutItems. */
+  /* Stores the items currently in the user's cart. */
   const [checkoutItems, setCheckoutItems] = useState([]);
-
-  /* ccNumber for storing the credit card number input. */
-  /* setCcNumber to update ccNumber. */
+  /* Store the credit card information entered by the user. */
   const [ccNumber, setCcNumber] = useState('');
-
-  /* expiry for storing the expiry date input. */
-  /* setExpiry to update expiry. */
   const [expiry, setExpiry] = useState('');
-
-  /* ccv for storing the security code input. */
-  /* setCcv to update ccv. */
   const [ccv, setCcv] = useState('');
-
-  /* errors for storing form validation errors. */
-  /* setErrors to update errors. */
+  /* Stores validation error messages for the payment information. */
   const [errors, setErrors] = useState({});
-
-  /* Function for navigation. */
+  /* Used for navigation throughout the page. */
   const navigate = useNavigate();
 
-  /* Runs fetchCheckoutItems */
-  useEffect(() => {
-    fetchCheckoutItems();
-  }, []);
-
-  /* Async function to fetch items from the cart. */
-  const fetchCheckoutItems = async () => {
+  /* This function fetches the items in the cart from the backend and updates the checkoutItems state. */
+  const fetchCheckoutItems = useCallback(async () => {
     try {
-
-      /* Retrieves the access token from local storage. */
       const token = localStorage.getItem('access_token');
       if (!token) {
         console.error("No access token found");
         return;
       }
 
-      /* Makes a GET request to /cart/items with the token in the headers. */
       const response = await axios.get('/cart/items', {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       console.log("Checkout Items Response:", response.data);
-
-      /* Sets the fetched items in checkoutItems state. */
       setCheckoutItems(response.data);
 
       if (response.data.length === 0) {
-
-        /* Navigates to the Cart page if no items are found. */
+        /* If no items are found, it redirects the user to the cart page. */
         navigate('/cart');
       }
     } catch (error) {
       console.error("Error fetching checkout items:", error);
       console.log("Error Response Data:", error.response ? error.response.data : 'No response data');
     }
-  };
+  }, [navigate]);
 
-  /* Async function to increase the quantity of an item. */
-  const increaseQuantity = async (itemId) => {
+  /* Ensures that the cart items are fetched when the component is first rendered. */
+  useEffect(() => {
+    fetchCheckoutItems();
+  }, [fetchCheckoutItems]);
 
-    /* Finds the item in checkoutItems. */
-    const item = checkoutItems.find(item => item.item_id === itemId);
-    if (item) {
-
-      /* Increases the quantity by 1. */
-      const newQuantity = item.quantity + 1;
-      console.log(`Increasing quantity of item ${itemId} to ${newQuantity}`);
-
-      /* Calls updateCheckoutItem to update the item on the server. */
-      await updateCheckoutItem(itemId, newQuantity);
-    } else {
-      console.error(`Item with id ${itemId} not found`);
-    }
-  };
-
-  /* Async function to decrease the quantity of an item. */
-  const decreaseQuantity = async (itemId) => {
-
-    /* Finds the item in checkoutItems. */
-    const item = checkoutItems.find(item => item.item_id === itemId);
-
-    /* Decreases the quantity by 1 if it's greater than 1. */
-    if (item && item.quantity > 1) {
-      const newQuantity = item.quantity - 1;
-      console.log(`Decreasing quantity of item ${itemId} to ${newQuantity}`);
-
-      /* Calls updateCheckoutItem to update the item on the server. */
-      await updateCheckoutItem(itemId, newQuantity);
-    } else {
-      console.error(`Item with id ${itemId} not found or quantity is less than 1`);
-    }
-  };
-
-  /* Async function to update the quantity of an item. */
+  /* Updates the quantity of an item in the cart. After updating, it fetches the updated cart items. */
   const updateCheckoutItem = async (itemId, quantity) => {
     try {
-
-      /* Retrieves the access token from local storage. */
       const token = localStorage.getItem('access_token');
       if (!token) {
         console.error("No access token found");
         return;
       }
       console.log(`Updating item ${itemId} to quantity ${quantity}`);
-
-      /* Makes a PUT request to /cart/update with the item ID and quantity. */
       await axios.put('/cart/update', { itemId, quantity }, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       console.log("Item updated successfully");
-
-      /* Calls fetchCheckoutItems to refresh the items. */
       fetchCheckoutItems();
     } catch (error) {
       console.error("Error updating checkout item:", error);
       console.log("Error Response Data:", error.response ? error.response.data : 'No response data');
     }
   };
-  
-  /* Async function to remove an item from the cart. */
-  const removeItem = async (itemId) => {
 
-    /* Finds the item in checkoutItems. */
+  /* Removes an item from the cart. If the item is successfully removed, it fetches the updated cart items. */
+  const removeItem = async (itemId) => {
     const item = checkoutItems.find(item => item.item_id === itemId);
     if (!item) {
       console.error(`Item with id ${itemId} not found`);
@@ -161,16 +96,12 @@ function Checkout() {
         return;
       }
       console.log(`Removing item ${itemId}`);
-
-      /* Makes a DELETE request to /cart/remove/{itemId}. */
       await axios.delete(`/cart/remove/${itemId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       console.log("Item removed successfully");
-
-      /* Calls fetchCheckoutItems to refresh the items. */
       fetchCheckoutItems();
     } catch (error) {
       console.error("Error removing checkout item:", error);
@@ -178,10 +109,10 @@ function Checkout() {
     }
   };
 
-  /* Calculates the total price of all items in the cart. */
+  /* Calculates the total price */
   const totalPrice = checkoutItems.reduce((total, item) => total + (item.item.price * item.quantity), 0);
 
-  /* Validates credit card information and returns error messages if any validation fails. */
+  /* Validates the credit card number, expiry date, and security code. Returns an object with error messages if any validation checks fail. */
   const validate = () => {
     const errors = {};
     if (!ccNumber.match(/^[0-9]{16}$/)) {
@@ -196,25 +127,19 @@ function Checkout() {
     return errors;
   };
 
-  /* Checks if the provided date is valid and not in the past. */
   const isValidDate = (date) => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset today's date to midnight
-
+    today.setHours(0, 0, 0, 0);
     const [year, month, day] = date.split('-').map(Number);
     const selectedDate = new Date(year, month - 1, day);
     selectedDate.setHours(0, 0, 0, 0);
-
     return selectedDate >= today;
   };
 
-  /* Async function to handle the payment process. */
+  /* Validates the payment information */
   const handlePayment = async () => {
-
-    /* Starts the timer for efficiency. */
+    /* Starts the timer for efficiency */
     const startTime = Date.now();
-
-    /* Validates payment information. */
     const errors = validate();
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
@@ -226,21 +151,19 @@ function Checkout() {
           return;
         }
 
-        /* If no errors, sends a POST request to /checkout/payment with credit card details. */
+        /* makes a POST request to process the payment */
         const response = await axios.post('/checkout/payment', { ccNumber, expiry, ccv }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
 
-        /* Displays an alert with the response message. */
         console.log("Payment Response:", response.data);
         alert(response.data.message);
 
         if (response.data.message === "Success! Payment has been received.") {
           console.log("Payment successful, redirecting to profile...");
-
-          /* Redirects to the profile page if the payment is successful. */
+          /*  If the payment is successful, it redirects the user to the profile page. */
           navigate('/profile');
         } else {
           console.log("Payment was not successful, no redirection.");
@@ -253,57 +176,55 @@ function Checkout() {
         }
       }
     }
+    /* Stops the timer */
     const endTime = Date.now();
-
-    /* Ends the timer and then displays it in the console. */
     console.log(`Handling payment took ${endTime - startTime}ms`);
   };
 
-  /* Updates the expiry state when the user changes the expiry date input. */
   const handleExpiryChange = (e) => {
     setExpiry(e.target.value);
   };
 
-  /* Renders the component. */
   return (
     <div className="checkout-body">
+      {/*  A container for the entire checkout page content. */}
       <div className="checkout-page">
+        {/* A container for layout and styling of the content inside the page. */}
         <div className="checkout-container">
-          {/* Header for the checkout page */}
           <h1>CHECKOUT</h1>
-          {/* Display the total price with two decimal places */}
           <p>Your Total is: ${totalPrice.toFixed(2)}</p>
+          {/* Container for displaying cart items or an empty state message. */}
           <div className="checkout-content">
-            {/* Conditional rendering to show items if there are any in the cart */}
+            {/* Checks if there are items in the cart. */}
             {checkoutItems.length > 0 ? (
               checkoutItems.map(item => (
+                /* Maps over checkoutItems and renders a CartItem component for each item.*/
                 <CartItem
                   key={item.item_id}
                   item={item}
-                  // Update quantity for the item
                   updateQuantity={(newQuantity) => updateCheckoutItem(item.item_id, newQuantity)}
-                  // Remove item from the cart
                   removeItem={() => removeItem(item.item_id)}
                 />
               ))
             ) : (
               <div className="checkout-empty">
                 <div className="checkout-empty-description">
+                  {/* Displays a message indicating that the cart is empty. */}
                   <div className="checkout-empty-description-text">
-                    {/* Message to display when the cart is empty */}
                     <p className="checkout-empty-item">Your Cart Is Empty</p>
                   </div>
                 </div>
               </div>
             )}
           </div>
+          {/* Containers for the payment form elements. */}
           <div className="checkout-payment-items">
             <div className="checkout-payment-form">
-              {/* Form for entering credit/debit card information */}
               <p>Credit & Debit Cards Information</p>
               <div className="checkout-fill">
                 <p>
                   <label htmlFor="Credit-Card" className="checkout-payment-font">Credit Card Number*</label>
+                  {/* A text input for entering the credit card number, with validation errors displayed below if any. */}
                   <input
                     type="text"
                     name="cc"
@@ -312,11 +233,11 @@ function Checkout() {
                     value={ccNumber}
                     onChange={(e) => setCcNumber(e.target.value)}
                   />
-                  {/* Display error message for invalid credit card number */}
                   {errors.ccNumber && <span className="checkout-error">{errors.ccNumber}</span>}
                 </p>
                 <p>
                   <label htmlFor="Expiry" className="checkout-payment-font">Expiry*</label>
+                  {/* Input field for selecting the expiry date. */}
                   <input
                     type="date"
                     name="exp"
@@ -325,11 +246,11 @@ function Checkout() {
                     value={expiry}
                     onChange={handleExpiryChange}
                   />
-                  {/* Display error message for invalid expiry date */}
                   {errors.expiry && <span className="checkout-error">{errors.expiry}</span>}
                 </p>
                 <p>
                   <label htmlFor="ccv" className="checkout-payment-font">Security Code*</label>
+                  {/* Text input for entering the security code, with validation errors displayed if any.*/}
                   <input
                     type="text"
                     name="ccv"
@@ -338,12 +259,11 @@ function Checkout() {
                     value={ccv}
                     onChange={(e) => setCcv(e.target.value)}
                   />
-                  {/* Display error message for invalid security code */}
                   {errors.ccv && <span className="checkout-error">{errors.ccv}</span>}
                 </p>
               </div>
               <p>
-                {/* Button to proceed with payment */}
+                {/* Button to trigger the payment process. When clicked, it calls the handlePayment function. */}
                 <input
                   type="button"
                   value="Proceed Payment"
@@ -360,5 +280,4 @@ function Checkout() {
   );
 }
 
-/* Exports the Checkout component */
 export default Checkout;
