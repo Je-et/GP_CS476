@@ -129,16 +129,16 @@
   
   #item-buttons {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-end;
     justify-content: space-between;
+    gap: 20px;
   }
   
   #total-price {
     font-size: 18px;
     font-weight: bold;
     color: var(--primary-green);
-    margin-bottom: 10px;
   }
   
   #buy-again-button,
@@ -154,7 +154,6 @@
   #buy-again-button {
     background-color: var(--light-green);
     color: var(--text-dark);
-    margin-bottom: 10px;
   }
   
   #buy-again-button:hover {

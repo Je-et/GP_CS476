@@ -180,15 +180,19 @@ function Profile() {
               orderHistory.length > 0 ? (
                 orderHistory.map((order) => (
                   <div id="items" key={order.order_id}>
-                    <div id="item-images">
-                      <img src={getImageUrl(order.items[0]?.item_picture)} alt="Item" id="item-image" />
-                    </div>
                     <div id="item-description">
                       <div id="item-description-text">
                         {order.items.map((item, index) => (
-                          <div key={index}>
-                            <p id="item-name">{item.item_name}</p>
-                            <p>Qty: {item.quantity}</p>
+                          <div key={index} className="order-item">
+                            <img
+                              src={getImageUrl(item.picture)}
+                              alt={item.item_name}
+                              className="order-item-image"
+                            />
+                            <div className="order-item-details">
+                              <p id="item-name">{item.item_name}</p>
+                              <p>Qty: {item.quantity}</p>
+                            </div>
                           </div>
                         ))}
                         <p>Total Price: ${order.total_price.toFixed(2)}</p>
