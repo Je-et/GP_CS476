@@ -1,21 +1,39 @@
+/* Imports React to create the functional component. */
 import React from 'react';
+
+
 
 function CartItem({ item, updateQuantity, removeItem }) {
   const getImageUrl = (picture) => {
+
+    /* A function to get the correct image URL based on the picture string. */
     if (!picture) return 'https://via.placeholder.com/100';
+
+    /*  Returns the picture URL if it starts with 'http'. */
     if (picture.startsWith('http')) return picture;
+
+    /* Returns a full URL by appending the local server address if picture starts with a '/'. */
     if (picture.startsWith('/')) return `http://localhost:5000${picture}`;
+
+    /* Encodes the picture string and constructs a URL pointing to the local server's image endpoint. */
     return `http://localhost:5000/items/image/${encodeURIComponent(picture)}`;
   };
   
-  console.log('CartItem data:', item); // Add this line for debugging
+  /* Logs the item data to the console for debugging purposes. */
+  console.log('CartItem data:', item);
 
   return (
     <div className="cart-item">
       <div className="cart-item-picture">
         <img
+
+          /* Sets the image source using the getImageUrl function. */
           src={getImageUrl(item.item.picture)}
+
+          /* Sets the alt text of the image. */
           alt={item.item.name}
+
+          /* Error handler for the image. If loading fails, logs an error and sets the image source to a placeholder. */
           onError={(e) => {
             console.error('Error loading image:', e.target.src);
             e.target.src = 'https://via.placeholder.com/100';
@@ -57,4 +75,5 @@ function CartItem({ item, updateQuantity, removeItem }) {
   );
 }
 
+/* Exports the CartItem component so it can be used in other parts of the website. */
 export default CartItem;

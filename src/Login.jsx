@@ -1,17 +1,37 @@
+/* Essential for creating React components. */
 import React, { useState } from 'react';
+
+/* For routing and navigation. */
 import { Link, useNavigate } from 'react-router-dom';
+
+/* HTTP client for API requests. */
 import axios from 'axios';
+
+/* CSS styling for Login */
 import './Login.css';
+
+/* Logo image for the Login page. */
 import LogoWhite from './assets/LogoWhite.png';
 
-function Login({ setIsEmployee }) { // Receive setIsEmployee as a prop
+/* Defines the Login component and initializes state variables. Receive setIsEmployee as a prop. */
+function Login({ setIsEmployee }) {
+
+  /* Manage the state of input fields. */
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  /* Stores validation errors for form fields. */
   const [errors, setErrors] = useState({});
+
+  /* Stores general login error messages. */
   const [loginError, setLoginError] = useState('');
+
+  /* Used for navigation after successful login. */
   const navigate = useNavigate();
 
+  /* Validates the login form fields. */
   const validate = () => {
+    /* Collects error messages if validation fails. */
     const errors = {};
 
     if (!username) {
@@ -27,8 +47,13 @@ function Login({ setIsEmployee }) { // Receive setIsEmployee as a prop
     return errors;
   };
 
+  /* Handles form submission and user authentication. */
   const handleLogin = async (e) => {
+
+    /* Prevents the default form submission. */
     e.preventDefault();
+
+    /* Calls validate() to check for form errors. */
     const errors = validate();
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
@@ -38,22 +63,35 @@ function Login({ setIsEmployee }) { // Receive setIsEmployee as a prop
       setLoginError('');
       
       try {
+
+        /* Sends a POST request to the login endpoint with axios. */
         const response = await axios.post('http://localhost:5000/auth/login', {
           username,
           password
         });
 
         if (response.data.access_token) {
+
+          /* Stores access_token and refresh_token in local storage upon successful login. */
           localStorage.setItem('access_token', response.data.access_token);
           localStorage.setItem('refresh_token', response.data.refresh_token);
 
+          /* Set user role as employee */
           if (username.endsWith('.emp')) {
-            setIsEmployee(true); // Set user role as employee
+            setIsEmployee(true);
+
+            /* Navigates to Employee Dashboard. */
             navigate('/empdashboard');
+
+            /* Set user role as a shopper */
           } else {
-            setIsEmployee(false); // Set user role as shopper
+            setIsEmployee(false);
+
+            /* Navigates to the Home page. */
             navigate('/');
           }
+
+          /* Displays appropriate error messages if login fails or an error occurs. */
         } else {
           setLoginError('Invalid username or password. Please try again.');
         }
@@ -63,17 +101,21 @@ function Login({ setIsEmployee }) { // Receive setIsEmployee as a prop
     }
   };
 
+  /* Renders the login form and associated UI elements. */
   return (
     <div>
       <div className="background-middle-login">
         <div className="login-container">
           <div className="login-form">
             <div className="logo">
+              {/*Links to the home page. */}
               <Link to='/'>
                 <img src={LogoWhite} alt="Logo" className="login-logo-image" />
               </Link>
             </div>
             <header className="login-header">Sign in to your account</header>
+
+            {/* Includes input fields for username and password, a "Remember me" checkbox, and a submit button. */}
             <form className="Login-form" onSubmit={handleLogin}>
               <div className="form-group">
                 <input
@@ -109,8 +151,11 @@ function Login({ setIsEmployee }) { // Receive setIsEmployee as a prop
               </div>
 
               <button type="submit" className="login-button">SIGN IN</button>
+
+              {/* Displays validation and login errors. */}
               {loginError && <span className="error-message">{loginError}</span>}
 
+              {/* Provides a link to the sign-up page if the user doesn't have an account. */}
               <p className="login-p">Don't have an account yet? Click <Link to="/signup">here</Link> to sign up!</p>
             </form>
           </div>
@@ -120,4 +165,5 @@ function Login({ setIsEmployee }) { // Receive setIsEmployee as a prop
   );
 }
 
+/* Exports the Login component so it can be used in other parts of the website. */
 export default Login;

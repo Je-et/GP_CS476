@@ -1,3 +1,4 @@
+/* Imports a font family */
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 
 /* Style for the login container */
@@ -14,8 +15,8 @@
   width: 500px;
   height: 600px;
   padding: 0;
-  margin: auto; /* Centered horizontally */
-  overflow: hidden; /* Hide overflow */
+  margin: auto;
+  overflow: hidden;
   top: 0;
   left: 0;
   right: 0;
@@ -26,11 +27,11 @@
 .background-middle-login {
   width: 100%;
   height: 100vh;
-  padding: 0; /* Remove padding */
-  margin: 0 auto; /* Centered horizontally */
+  padding: 0;
+  margin: 0 auto;
   background-image: url('./assets/background-image.jpeg');
   background-size: cover;
-  background-position: center; /* Center the background image */
+  background-position: center;
   position: absolute;
 }
 
@@ -41,24 +42,19 @@
   text-align: center;
 }
 
-.login-header {
-  color: white;
-  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  margin-top: 10px;
-  margin-bottom: 0; /* Remove negative margin */
-}
-
+/* Styling for the Login form */
 .Login-form {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
 }
 
+/* Styling for the Login inputs */
 .login-input {
   padding: 10px;
   margin-top: 10px;
-  width: 100%; /* Full width of container */
-  max-width: 400px; /* Constrain maximum width */
+  width: 100%;
+  max-width: 400px;
   border-radius: 10px;
   background: transparent; 
   border: 1px solid white;
@@ -67,10 +63,12 @@
   font-weight: bolder;
 }
 
+/* Styling for invalid input */
 .login-invalid-input {
   border-color: red;
 }
 
+/* Styling for input placeholders */
 input::placeholder {
   color: red;
   text-align: center;
@@ -81,6 +79,7 @@ input:focus {
   outline: none;
 }
 
+/* Styling for Login options */
 .login-options {
   display: flex;
   align-items: center;
@@ -90,16 +89,19 @@ input:focus {
 
 }
 
+/* Styling for the Login labels */
 .login-label {
   color: white;
   display: flex;
   align-items: center;
 }
 
+/* Styling for Remember me checkbox. */
 .login-checkbox {
   margin-right: 5px;
 }
 
+/* Styling for the Login button. */
 .login-button {
   background-color: green;
   color: white;
@@ -109,10 +111,10 @@ input:focus {
   cursor: pointer;
   margin-top: 15px;
   text-align: center;
-  width: 100%; /* Full width of container */
-  max-width: 250px; /* Constrain maximum width */
-  margin-left: auto; /* Center button horizontally */
-  margin-right: auto; /* Center button horizontally */
+  width: 100%;
+  max-width: 250px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .login-button:hover {
@@ -120,6 +122,7 @@ input:focus {
   outline: 1px solid transparent;
 }
 
+/* Styling for any error messages. */
 .error-message {
   color: red;
   font-size: 15px;
@@ -127,6 +130,7 @@ input:focus {
   text-align: center;
 }
 
+/* Miscellaneous stylings */
 .login-p {
   font-size: 12px;
   color: #fff;
@@ -141,7 +145,6 @@ input:focus {
 .login-logo-image {
   height: 280px;
   width: 280px;
-  margin-left: auto; /* Center logo horizontally */
-  margin-right: auto; /* Center logo horizontally */
-
+  margin-left: auto;
+  margin-right: auto;
 }

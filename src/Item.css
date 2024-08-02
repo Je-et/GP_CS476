@@ -1,3 +1,4 @@
+/* Styles for Items */ 
 .item {
   background-color: #ffffff;
   border-radius: 10px;
@@ -96,6 +97,7 @@
   background-color: #3d8b40;
 }
 
+/* Responsive designs */
 @media (max-width: 768px) {
   .item-picture {
     height: 150px;

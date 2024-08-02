@@ -1,3 +1,4 @@
+/* Main colors of the page. */
 :root {
   --primary-green: #4CAF50;
   --dark-green: #45a049;
@@ -7,6 +8,7 @@
   --text-light: #fff;
 }
 
+/* Sets the background color, margin, display properties, and font for the entire checkout page. */
 .checkout-body {
   background-color: var(--background-light);
   margin: 0;
@@ -18,12 +20,14 @@
   padding: 0.5px 0.5px;
 }
 
+/* Flex container for the checkout page content. */
 .checkout-page {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
+/* Styles the container holding the checkout content. */ 
 .checkout-container {
   background: #FFFFFF;
   max-width: 900px;
@@ -36,6 +40,7 @@
   padding: 20px;
 }
 
+/* Styles the content area within the checkout container with scrollable content. */
 .checkout-content {
   max-height: 510px;
   overflow-y: auto;
@@ -44,6 +49,7 @@
   padding: 10px;
 }
 
+/* Styles the home button. */
 .checkout-home-button {
   position: absolute;
   top: 20px;
@@ -63,6 +69,7 @@
   background-color: var(--dark-green);
 }
 
+/* Styles the payment button. */
 .checkout-payment-button {
   background-color: var(--primary-green);
   padding: 12px 24px;
@@ -81,6 +88,7 @@
   background-color: var(--dark-green);
 }
 
+/* Styles the payment form. */
 .checkout-payment-form {
   background-color: var(--background-light);
   padding: 50px;
@@ -93,6 +101,7 @@
   margin-top: 20px;
 }
 
+/* Stylings for checkout form. */
 .checkout-fill {
   text-align: left;
   margin: 30px 0;
@@ -100,6 +109,7 @@
   padding-top: 20px;
 }
 
+/* Styles for the input fields. */
 .checkout-cc,
 .checkout-expiry,
 .checkout-sc {
@@ -110,6 +120,7 @@
   border-radius: 5px;
 }
 
+/* Styles labels for payment form fields. */
 .checkout-payment-font {
   font-weight: 400;
   color: #666;
@@ -118,23 +129,26 @@
   margin-bottom: 5px;
 }
 
+/* Styles error messages in the form. */
 .checkout-error {
   color: #e74c3c;
   font-size: 12px;
   margin-top: 5px;
 }
 
+/* Adds a red border to invalid input fields. */
 .checkout-invalid-input {
   border: 2px solid #e74c3c;
 }
 
+/* Styles the message shown when checkout is empty. */
 .checkout-empty-item {
   font-size: 24px;
   color: #666;
   margin: 40px 0;
 }
 
-/* CartItem styles */
+/* Stylings for the cart items. */
 .cart-item {
   display: flex;
   align-items: center;
@@ -231,7 +245,7 @@
   background-color: #c0392b;
 }
 
-
+/* Styles for devices with a screen width of 768px or less. */
 @media (max-width: 768px) {
   .checkout-container {
     width: 90%;
@@ -268,6 +282,7 @@
   }
 }
 
+/* Customizes the appearance of the scrollbar for the checkout content area. */
 
 .checkout-content::-webkit-scrollbar {
   width: 8px;
@@ -286,7 +301,7 @@
   background: var(--dark-green);
 }
 
-
+/* Extra stylings for the page. */
 h1 {
   color: var(--primary-green);
   margin-bottom: 20px;

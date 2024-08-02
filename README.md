@@ -68,3 +68,50 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+### Welcome to our Group Project for CS 476
+
+### How to run this Project locally?
+
+### Create a new folder on your desktop.
+### Run Visual Studio Code and open the new folder you've created.
+### Once folder is opened, run a terminal.
+### Enter these commands:
+git init
+git clone https://github.com/Je-et/GP_CS476.git
+### To make sure you are in the right folder, type in the terminal:
+cd GP_CS476
+### Once in the right folder, enter the following commands one after the other and wait for everything to be downloaded:
+git remote add origin https://github.com/Je-et/GP_CS476.git
+npm install gh-pages --save-dev
+npm install axios
+### Once the download is complete, run the webpage by using:
+npm start
+### Open a new terminal and enter:
+cd GP_CS476
+cd backend
+### To run the server, type:
+python main.py
+### Refresh the webpage.
+### Welcome to Green Basket!
+
+
+### For Testing!
+
+### Create a new account
+For a Shopper: 
+A typical username and password is required. No special cases.
+
+For an Employee:
+Username MUST have a '.emp' in the end (for example: test.emp, trial.emp etc) for it to be valid.
+A typical password is required, no special cases.
+
+
+
+### To check the dependencies used in this project, check out the req.txt file inside the backend folder under GP_CS476!
+
+
+
+

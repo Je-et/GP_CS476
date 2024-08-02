@@ -1,3 +1,4 @@
+/* Main colors used throughout the page */
 :root {
   --primary-green: #4CAF50;
   --dark-green: #2E7D32;
@@ -11,6 +12,8 @@
   --border-color: #DCEDC8;
 }
 
+/* Applies styles on the body element */
+
 body {
   font-family: 'Roboto', Arial, sans-serif;
   background-color: var(--background-light);
@@ -19,11 +22,15 @@ body {
   padding: 0;
 }
 
+/* Applies style on the main app containe */
+
 .App {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
+
+/* Styling for the main content area */
 
 .main-content {
   flex: 1;
@@ -39,6 +46,8 @@ body {
   background-color: var(--primary-green);
   color: var(--text-light);
 }
+
+/* Styles for the primary buttons */
 
 .btn-green {
   background-color: var(--primary-green);
@@ -60,7 +69,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Scrollbar styling */
+/* Customizes the appearance of the scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -78,12 +87,15 @@ body {
   background: var(--dark-green);
 }
 
-/* Responsive adjustments */
+/* This adjusts the styles for smaller screens */
+
 @media (max-width: 768px) {
   .main-content {
     padding: 10px;
   }
 }
+
+/* These codes applies stylings on all the Employee Dashboard's elements */
 
 .employee-dashboard-btn {
   position: fixed;

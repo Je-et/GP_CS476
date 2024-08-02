@@ -1,3 +1,4 @@
+/* Styles for the Item Details */ 
 :root {
   --primary-green: #4CAF50;
   --dark-green: #45a049;
@@ -8,6 +9,7 @@
   --text-light: #fff;
 }
 
+/* Styles for the entire viewport. */ 
 .item-detail-overlay {
   position: fixed;
   top: 0;
@@ -22,6 +24,7 @@
   animation: fadeIn 0.3s ease-out;
 }
 
+/* Provides the styling for the item detail popup. */
 .item-detail-popup {
   background-color: var(--background-light);
   padding: 30px;
@@ -35,6 +38,7 @@
   animation: slideIn 0.3s ease-out;
 }
 
+/* Styles the close button of the popup. */
 .close-button {
   position: absolute;
   top: 15px;
@@ -57,6 +61,7 @@
   background-color: var(--dark-green);
 }
 
+/* Styles for the Item Detail Content */
 .item-detail-content {
   display: flex;
   flex-direction: column;
@@ -76,6 +81,7 @@
   background-size: contain;
 }
 
+/* Styles the information section of the item detail popup. */
 .item-detail-info {
   width: 100%;
 }
@@ -114,6 +120,7 @@
   color: var(--text-dark);
 }
 
+/* Styles the "Add to Cart" button within the item detail popup. */
 .add-to-cart {
   background-color: var(--primary-green);
   color: var(--text-light);
@@ -139,6 +146,7 @@
 }
 
 /* Responsive design */
+/* Adjusts the layout for larger screens (768px and wider). */
 @media (min-width: 768px) {
   .item-detail-content {
     flex-direction: row;

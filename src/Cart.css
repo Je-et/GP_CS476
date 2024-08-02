@@ -1,3 +1,4 @@
+/* Main colors used throughout the page */
 :root {
   --primary-green: #4CAF50;
   --dark-green: #45a049;
@@ -7,6 +8,7 @@
   --text-light: #fff;
 }
 
+/* Styles for the main container of the cart page. */
 .cart-body {
   background-color: var(--background-light);
   margin: 0;
@@ -17,6 +19,7 @@
   font-family: 'Roboto', Arial, sans-serif;
 }
 
+/* Styles for the main content area within the cart body. */
 .cart-page {
   flex: 1;
   display: flex;
@@ -25,6 +28,7 @@
   padding: 20px;
 }
 
+/* Styles for the container holding the cart items. */
 .cart-container {
   background: #FFFFFF;
   width: 100%;
@@ -37,6 +41,7 @@
   padding: 20px;
 }
 
+/* Styles for the container holding individual cart items. */
 .cart-item-container {
   max-height: 600px;
   overflow-y: auto;
@@ -45,6 +50,7 @@
   padding: 10px;
 }
 
+/* Styles for meal planning and checkout buttons. */
 .cart-button-meal,
 .cart-button-checkout {
   background-color: var(--primary-green);
@@ -60,10 +66,13 @@
   font-size: 16px;
 }
 
+/* Changes background color on hover */
 .cart-button-meal:hover,
 .cart-button-checkout:hover {
   background-color: var(--dark-green);
 }
+
+/* Styles for the home button in the cart page. */
 
 .cart-home-button {
   position: absolute;
@@ -80,9 +89,13 @@
   font-size: 14px;
 }
 
+/* Changes background color on hover */
+
 .cart-home-button:hover {
   background-color: var(--dark-green);
 }
+
+/* Styles for individual cart items. */
 
 .cart-item {
   display: flex;
@@ -93,11 +106,15 @@
   gap: 20px;
 }
 
+/* Styles for the picture of the cart item. */
+
 .cart-item-picture {
   width: 100px;
   height: 100px;
   flex-shrink: 0;
 }
+
+/* Styles for the images inside the cart. */
 
 .cart-item-picture img {
   width: 100%;
@@ -105,6 +122,8 @@
   object-fit: cover;
   border-radius: 10px;
 }
+
+/* Styles for the description section of the cart item. */
 
 .cart-item-description {
   flex: 1;
@@ -114,12 +133,15 @@
   gap: 10px;
 }
 
+/* Styles for the container holding quantity controls. */
 .cart-quantity-container {
   display: flex;
   align-items: center;
   gap: 10px;
   justify-content: flex-start;
 }
+
+/* Styles for the buttons to adjust item quantity. */
 
 .quantity-btn {
   width: 30px;
@@ -137,14 +159,20 @@
   transition: all 0.2s ease;
 }
 
+/* Hover styles for quantity buttons when not disabled. */
+
 .quantity-btn:hover:not(:disabled) {
   background-color: var(--dark-green);
 }
+
+/* Styles for disabled quantity buttons. */
 
 .quantity-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Styles for the button to remove items from the cart. */
 
 .cart-remove-btn {
   width: auto;
@@ -164,9 +192,13 @@
   margin-left: auto;
 }
 
+/* Hover styles for the remove button. */
+
 .cart-remove-btn:hover {
   background-color: #c0392b;
 }
+
+/* Styles for the quantity input field. */
 
 .quantity-input {
   width: 40px;
@@ -177,11 +209,15 @@
   padding: 5px 0;
 }
 
+/* Styles for the message displayed when the cart is empty. */
+
 .cart-empty-item {
   font-size: 24px;
   color: var(--text-dark);
   margin: 40px 0;
 }
+
+/* Styles for displaying the item count. */
 
 .cart-count {
   position: absolute;
@@ -195,11 +231,15 @@
   font-weight: bold;
 }
 
+/* Styles for the item name. */
+
 .cart-item-name {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 5px;
 }
+
+/* Styles for the item price. */
 
 .cart-item-price {
   font-size: 16px;
@@ -207,12 +247,16 @@
   margin-bottom: 10px;
 }
 
+/* Styles for the total price section. */
+
 .cart-total {
   font-size: 20px;
   font-weight: bold;
   margin: 20px 0;
   text-align: right;
 }
+
+/* Styles for the custom scrollbar. */
 
 .cart-item-container::-webkit-scrollbar {
   width: 8px;
@@ -232,6 +276,8 @@
 }
 
 /* Responsive design */
+/* Styles for screens with a maximum width of 768px. */
+
 @media (max-width: 768px) {
   .cart-container {
     width: 90%;
@@ -275,11 +321,15 @@
   }
 }
 
+/* Styles for the actions container. */
+
 .cart-actions {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
+
+/* Styles for the cart title. */
 
 .cart-title {
   font-size: 28px;
@@ -287,16 +337,21 @@
   margin-bottom: 20px;
 }
 
+/* Removes default spin buttons for number inputs. */
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
+/* Remove the default appearance of the spin buttons. */
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* Adds transitions and focus styles. */
 
 .cart-button-meal,
 .cart-button-checkout,
@@ -320,6 +375,8 @@ input[type="number"] {
 .cart-item:hover {
   background-color: #f9f9f9;
 }
+
+/*  Styles for the empty cart message. */
 
 .cart-empty {
   display: flex;

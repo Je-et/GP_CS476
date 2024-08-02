@@ -1,14 +1,17 @@
+/* Styles for the Item List Container */ 
 .item-list-container {
   max-width: 100%;
-  padding: 20px 0; /* Remove horizontal padding here */
+  padding: 20px 0;
   overflow-x: hidden;
 }
 
+/* Styles for the Item Section */
 .item-section {
   margin-bottom: 40px;
-  padding: 0 20px; /* Add padding to the section instead */
+  padding: 0 20px;
 }
 
+/* Styles for the Items headings */
 .item-list-heading {
   font-size: 24px;
   color: #4CAF50;
@@ -29,16 +32,18 @@
   margin: 10px 0 0;
 }
 
+/* Styles for all the Items Grid components */
 .item-grid {
   display: flex;
   overflow-x: auto;
   gap: 20px;
-  padding: 20px; /* Add padding here */
+  padding: 20px;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  margin: 0 -20px; /* Negative margin to allow full-width scrolling */
+  margin: 0 -20px;
 }
 
+/* Styles for the Item Scroll bar */
 .item-grid::-webkit-scrollbar {
   height: 8px;
 }
@@ -63,13 +68,14 @@
 }
 
 .item-grid > *:first-child {
-  margin-left: 20px; /* Add extra space for the first item */
+  margin-left: 20px;
 }
 
 .item-grid > *:last-child {
-  margin-right: 20px; /* Add extra space for the last item */
+  margin-right: 20px;
 }
 
+/* Styles for the Loading and Error */
 .loading,
 .error {
   text-align: center;
@@ -82,6 +88,7 @@
   color: #e74c3c;
 }
 
+/* Responsive designs */
 @media (max-width: 768px) {
   .item-grid > * {
     flex: 0 0 200px;
@@ -102,18 +109,18 @@
   }
 
   .item-section {
-    padding: 0 10px; /* Reduce padding for smaller screens */
+    padding: 0 10px; 
   }
 
   .item-grid {
-    padding: 10px; /* Reduce padding for smaller screens */
+    padding: 10px; 
   }
 
   .item-grid > *:first-child {
-    margin-left: 10px; /* Reduce margin for smaller screens */
+    margin-left: 10px; 
   }
 
   .item-grid > *:last-child {
-    margin-right: 10px; /* Reduce margin for smaller screens */
+    margin-right: 10px;
   }
 }
