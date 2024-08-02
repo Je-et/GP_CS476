@@ -233,3 +233,8 @@
   .order-item-details {
     flex: 1;
   }
+
+  .profile-order-number{
+    font-size: 20px;
+    font-weight: bold;
+  }

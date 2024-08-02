@@ -100,6 +100,9 @@ function Profile() {
     return `http://localhost:5000/items/image/${encodeURIComponent(picture)}`;
   };
 
+  const sortedOrders = [...orders].sort((a, b) => parseInt(b.order_id) - parseInt(a.order_id));
+  const sortedOrderHistory = [...orderHistory].sort((a, b) => parseInt(b.order_id) - parseInt(a.order_id));
+
   return (
     <div id="profile-body">
       <div id="profile-page">
@@ -134,13 +137,14 @@ function Profile() {
           </div>
           <div id="items-container">
             {activeSection === 'orders' && (
-              orders.length > 0 ? (
-                orders.map((order) => (
+              sortedOrders.length > 0 ? (
+                sortedOrders.map((order, index) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-description">
                       <div id="item-description-text">
-                        {order.items.map((item, index) => (
-                          <div key={index} className="order-item">
+                        <p className="profile-order-number">Order #{index + 1} - Order ID: {order.order_id}</p>
+                        {order.items.map((item, itemIndex) => (
+                          <div key={itemIndex} className="order-item">
                             <img
                               src={getImageUrl(item.picture)}
                               alt={item.item_name}
@@ -157,12 +161,8 @@ function Profile() {
                     </div>
                     <div id="item-buttons">
                       <div id="total-price">TOTAL: ${order.total_price.toFixed(2)}</div>
-                      <div id="buy-again">
-                        <button id="buy-again-button" onClick={() => buyAgain(order.order_id)}>BUY AGAIN</button>
-                      </div>
-                      <div id="cancel-order">
-                        <button id="cancel-order-button" onClick={() => cancelOrder(order.order_id)}>CANCEL</button>
-                      </div>
+                      <button id="buy-again-button" onClick={() => buyAgain(order.order_id)}>BUY AGAIN</button>
+                      <button id="cancel-order-button" onClick={() => cancelOrder(order.order_id)}>CANCEL</button>
                     </div>
                   </div>
                 ))
@@ -177,13 +177,14 @@ function Profile() {
               )
             )}
             {activeSection === 'history' && (
-              orderHistory.length > 0 ? (
-                orderHistory.map((order) => (
+              sortedOrderHistory.length > 0 ? (
+                sortedOrderHistory.map((order, index) => (
                   <div id="items" key={order.order_id}>
                     <div id="item-description">
                       <div id="item-description-text">
-                        {order.items.map((item, index) => (
-                          <div key={index} className="order-item">
+                        <p className="profile-order-number">Order #{index + 1} - Order ID: {order.order_id}</p>
+                        {order.items.map((item, itemIndex) => (
+                          <div key={itemIndex} className="order-item">
                             <img
                               src={getImageUrl(item.picture)}
                               alt={item.item_name}
