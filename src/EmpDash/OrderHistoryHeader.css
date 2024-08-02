@@ -15,7 +15,6 @@
   margin: 0 auto;
   margin-left: 90px;
   margin-right: -250px;  
-  
 }
     
 .logo {
@@ -42,7 +41,6 @@
     margin-inline-start: 200px;
     margin-inline-end: -10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-
 }
 
 .btn {
@@ -60,7 +58,6 @@
 .btn:hover {
     background-color: #1DAF55;
 }
-
 
 
 .profile-cart {

@@ -1,4 +1,63 @@
 .order-list {
-    margin-top: 20px;
-  }
-  
+  margin-top: 20px;
+}
+
+.order-detail {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.customer-name,
+.order-number,
+.delivery-time,
+.status {
+  margin-bottom: 7px;
+}
+
+.order-buttons {
+  display: flex;
+  justify-content: center; 
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.accept-order-button,
+.cancel-order-button,
+.details-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.accept-order-button {
+  background-color: #8BC34A; 
+  color: #333;
+}
+
+.accept-order-button:hover {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.cancel-order-button {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.cancel-order-button:hover {
+  background-color: #c0392b;
+}
+
+.details-button { 
+  background-color: #808080; 
+  color: #fff;
+}
+
+.details-button:hover {
+  background-color: #696969;
+}

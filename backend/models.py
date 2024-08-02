@@ -108,6 +108,7 @@ class CheckoutItem(db.Model):
             'ccv': self.ccv
         }
 
+
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -129,7 +130,9 @@ class Order(db.Model):
             'user_id': self.user_id,
             'status': self.status,
             'total_price': self.total_price,
-            'user': self.user.serialize()
+            'user': {
+                'username': self.user.username
+            }
         }
 
 class OrderItem(db.Model):

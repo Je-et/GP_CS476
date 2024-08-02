@@ -182,10 +182,77 @@ class EmployeeOrders(Resource):
                 items_data.append({
                     'item_name': item.name,
                     'quantity': order_item.quantity,
-                    'total_price': order_item.total_price
+                    'total_price': order_item.total_price,
+                    'picture' : item.picture
                 })
             orders_data.append({
                 'order_id': order.id,
+                'items': items_data,
+                'total_price': order.total_price,
+                'status': order.status
+            })
+        return orders_data, 200
+    
+@orders_ns.route('/employee/orders/accept')
+class AcceptOrder(Resource):
+    @jwt_required()
+    def post(self):
+        data = request.get_json()
+        order_id = data.get('order_id')
+
+        order = Order.query.filter_by(id=order_id).first()
+        if not order:
+            orders_ns.abort(404, 'Order not found')
+
+        if order.status == 'Pending':
+            order.status = 'Processed'
+            db.session.commit()
+            return {'message': 'Order processed successfully'}, 200
+        else:
+            return {'message': 'Order already processed or unavailable'}, 400
+        
+@orders_ns.route('/employee/orders/cancel')
+class CancelOrder(Resource):
+    @jwt_required()
+    def post(self):
+        data = request.get_json()
+        order_id = data.get('order_id')
+
+        order = Order.query.filter_by(id=order_id).first()
+        if not order:
+            orders_ns.abort(404, 'Order not found')
+
+        if order.status == 'Pending':
+            order.status = 'Cancelled'
+            db.session.commit()
+            return {'message': 'Order cancelled successfully'}, 200
+        else:
+            return {'message': 'Order unable to be cancelled'}, 400
+        
+@orders_ns.route('/employee/orders/history')
+class EmployeeOrderHistory(Resource):
+    @jwt_required() 
+    @orders_ns.marshal_list_with(order_model)
+    def get(self):
+        orders = Order.query.filter(Order.status.in_(['Cancelled', 'Processed'])).all()
+        orders_data = []
+        for order in orders:
+            order_items = OrderItem.query.filter_by(order_id=order.id).all()
+            items_data = []
+            for order_item in order_items:
+                item = Item.query.get(order_item.item_id)
+                items_data.append({
+                    'item_name': item.name,
+                    'quantity': order_item.quantity,
+                    'total_price': order_item.total_price,
+                    'picture': item.picture
+                })
+            orders_data.append({
+                'order_id': order.id,
+                'user': {
+                    'username': order.user.username,
+                    'user_id': order.user.id
+                },
                 'items': items_data,
                 'total_price': order.total_price,
                 'status': order.status

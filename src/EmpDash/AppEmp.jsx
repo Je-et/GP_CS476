@@ -1,33 +1,27 @@
-import React from 'react';
-import './AppEmp.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import '../Cart.css';
 import Header from './Header';
-import Time from './Time';
-import DashInfo from './DashInfo';
-
-
-
+import OrderInfo from './OrderInfo';
 
 function AppEmp() {
-
   return (
     <div className="App">
       <Header />
-      <hr></hr>
-      <input type="text" className="search" placeholder="Search" />
-      <DashInfo />
-      <br></br>
-      <hr></hr>
-      <Time name="8:00 AM" />
-      <hr></hr>
-      <Time name="9:00 AM" />
-      <hr></hr>
-      <Time name="10:00 AM" />
-
+      <div className="cart-body">
+        <div className="cart-page">
+          <div className="cart-container">
+            <h1 className="cart-title">Your Dashboard</h1>
+            <div className="cart-total"> </div>
+            <div className="cart-item-container">
+              <OrderInfo />
+            </div>
+            <div className="cart-actions">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-
-
   );
 }
-
 export default AppEmp;
