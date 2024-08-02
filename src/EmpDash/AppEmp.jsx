@@ -50,7 +50,6 @@ function AppEmp() {
               e.target.src = defaultProfileImage;
             }}
           />
-          {/* Display username */}
           <div id="pfp_text_name-emp">Employee: {profileData?.username || 'Emp'}</div>
         </div>
       
