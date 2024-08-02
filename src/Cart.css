@@ -386,3 +386,19 @@ input[type="number"] {
   font-size: 20px;
   color: #888;
 }
+
+#profile-info-emp{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#profile-image-emp{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#pfp_text_name-emp{
+  font-size: 30px;
+  font-weight: bold;
+}
