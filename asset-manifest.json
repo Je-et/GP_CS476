@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/GP_CS476/static/css/main.511777ac.css",
-    "main.js": "/GP_CS476/static/js/main.a35d2896.js",
+    "main.css": "/GP_CS476/static/css/main.52c139f0.css",
+    "main.js": "/GP_CS476/static/js/main.a5c2b7f9.js",
     "static/media/nygirl.jpeg": "/GP_CS476/static/media/nygirl.d705cd84e5a40c6fd15b.jpeg",
     "static/media/background-image.jpeg": "/GP_CS476/static/media/background-image.785ce9409a9d447041f4.jpeg",
     "static/media/LogoWhite.png": "/GP_CS476/static/media/LogoWhite.e99b95c1bcc74477c223.png",
@@ -9,11 +9,11 @@
     "static/media/defaultProfile.png": "/GP_CS476/static/media/defaultProfile.939dab40b410c83f558e.png",
     "static/media/Cart.png": "/GP_CS476/static/media/Cart.c9453af96380ef70d94c.png",
     "index.html": "/GP_CS476/index.html",
-    "main.511777ac.css.map": "/GP_CS476/static/css/main.511777ac.css.map",
-    "main.a35d2896.js.map": "/GP_CS476/static/js/main.a35d2896.js.map"
+    "main.52c139f0.css.map": "/GP_CS476/static/css/main.52c139f0.css.map",
+    "main.a5c2b7f9.js.map": "/GP_CS476/static/js/main.a5c2b7f9.js.map"
   },
   "entrypoints": [
-    "static/css/main.511777ac.css",
-    "static/js/main.a35d2896.js"
+    "static/css/main.52c139f0.css",
+    "static/js/main.a5c2b7f9.js"
   ]
 }
