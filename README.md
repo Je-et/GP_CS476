@@ -79,26 +79,26 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ### Run Visual Studio Code and open the new folder you've created.
 ### Once folder is opened, run a terminal.
 ### Enter these commands:
-git init
-git clone https://github.com/Je-et/GP_CS476.git
+### git init
+### git clone https://github.com/Je-et/GP_CS476.git
 ### To make sure you are in the right folder, type in the terminal:
-cd GP_CS476
+### cd GP_CS476
 ### Once in the right folder, enter the following commands one after the other and wait for everything to be downloaded:
-git remote add origin https://github.com/Je-et/GP_CS476.git
-npm install gh-pages --save-dev
-npm install axios
+### git remote add origin https://github.com/Je-et/GP_CS476.git
+### npm install gh-pages --save-dev
+### npm install axios
 ### Once the download is complete, run the webpage by using:
-npm start
+### npm start
 ### Open a new terminal and enter:
-cd GP_CS476
-cd backend
+### cd GP_CS476
+### cd backend
 ### To run the server, type:
-python main.py
+### python main.py
 ### Refresh the webpage.
 ### Welcome to Green Basket!
 
 
-### For Testing!
+### This is for testing!
 
 ### Create a new account
 For a Shopper: 
@@ -108,9 +108,59 @@ For an Employee:
 Username MUST have a '.emp' in the end (for example: test.emp, trial.emp etc) for it to be valid.
 A typical password is required, no special cases.
 
+### Use an existing account for easier access
+### For Shopper
+username: test00
+password: 123456
+### For an Employee
+username: test.emp
+password: 123456
 
 
-### To check the dependencies used in this project, check out the req.txt file inside the backend folder under GP_CS476!
+
+### Commands used in our Project
+
+### Install pip
+python get-pip.py
+
+### Install pipenv
+pip install pipenv
+or
+py -m pip install pipenv
+
+### Setting up the virtual environment
+pipenv shell
+
+### Installing dependencies
+pip install python_decouple flask flask_restx flask_sqlalchemy flask_jwt_extended flask_migrate
+
+### Managing dependencies
+pip freeze > req.txt
+
+### Setting up Flask_APP
+"$env:FLASK_APP = 'main.py'"
+
+### Initialize the migration repository
+flask db init
+
+### Initialize the database
+flask shell
+
+### Inside the Flask shell, run:
+db.create_all()
+
+### Create migration
+flask db migrate -m "message"
+
+### Apply migration
+flask db upgrade
+
+### Initializing the server
+python main.py
+
+### Initializing the webpage
+npm start
+
 
 
 
