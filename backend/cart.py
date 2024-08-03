@@ -4,8 +4,11 @@ from models import User, CartItem
 from flask import jsonify, request
 from exts import db
 
+# Establish a namespace for cart related operations
 cart_ns = Namespace('cart', description='Cart related operations')
 
+
+# Model defined for cart items
 cart_item_model = cart_ns.model(
     'CartItem', {
         'itemId': fields.Integer(required=True, description='The ID of the item'),
@@ -13,11 +16,14 @@ cart_item_model = cart_ns.model(
     }
 )
 
-# Fetch the cart items
+# Defining a class(with route) to fetch the cart items
 @cart_ns.route('/items')
 class CartItems(Resource):
+    # Here, it requires JWT authentication
     @jwt_required()
     def get(self):
+
+        # Identifies the current logged in user
         current_user = get_jwt_identity()
         cart_ns.logger.debug(f"Current User: {current_user}")
         
@@ -26,19 +32,22 @@ class CartItems(Resource):
             cart_ns.logger.debug("User not found")
             return {'message': 'User not found'}, 404
         
+         # Fetch the cart items for the user
         cart_items = CartItem.query.filter_by(user_id=user.id).all()
         serialized_items = [item.serialize() for item in cart_items]
         cart_ns.logger.debug(f"Serialized Cart Items for user {user.username}: {serialized_items}")
         
         return serialized_items, 200
 
-# Add item into the cart
+# Defining a class(with route) to add items into the cart
 @cart_ns.route('/add')
 class AddToCart(Resource):
     @jwt_required()
     @cart_ns.expect(cart_item_model)
     def post(self):
         try:
+
+            # To get the JSON data from the request
             data = request.get_json()
             cart_ns.logger.debug(f"Received data: {data}")
             
@@ -47,6 +56,7 @@ class AddToCart(Resource):
 
             cart_ns.logger.debug(f"item_id={item_id}, quantity={quantity}")
 
+            #Identifies the current logged in user
             current_user = get_jwt_identity()
             user = User.query.filter_by(username=current_user).first()
             if not user:
@@ -57,6 +67,7 @@ class AddToCart(Resource):
                 cart_ns.logger.debug("Item ID and quantity are required")
                 return {'message': 'Item ID and quantity are required'}, 400
 
+            # To add new item in the cart
             new_item = CartItem(user_id=user.id, item_id=item_id, quantity=quantity)
             db.session.add(new_item)
             db.session.commit()
@@ -67,7 +78,7 @@ class AddToCart(Resource):
             cart_ns.logger.error(f"Failed to add item to cart: {str(e)}")
             return {'message': 'Failed to add item to cart', 'error': str(e)}, 500
 
-# Update cart item quantity
+# Defining a class(with route) to update cart item quantity
 @cart_ns.route('/update')
 class UpdateCartItem(Resource):
     @jwt_required()
@@ -91,7 +102,9 @@ class UpdateCartItem(Resource):
             if not item_id or not quantity:
                 cart_ns.logger.debug("Item ID and quantity are required")
                 return {'message': 'Item ID and quantity are required'}, 400
+            
 
+            # Locate the item in the cart, then adjust the quantity.
             item = CartItem.query.filter_by(user_id=user.id, item_id=item_id).first()
             if item:
                 item.quantity = quantity
@@ -104,12 +117,13 @@ class UpdateCartItem(Resource):
             cart_ns.logger.error(f"Failed to update cart item: {str(e)}")
             return {'message': 'Failed to update cart item', 'error': str(e)}, 500
 
-# Remove item from the cart
+# Defining a class(with route) to remove item from the cart
 @cart_ns.route('/remove/<int:item_id>')
 class RemoveFromCart(Resource):
     @jwt_required()
     def delete(self, item_id):
         try:
+            #to get the current logged in user
             current_user = get_jwt_identity()
             cart_ns.logger.debug(f"Received item_id: {item_id}")
             cart_ns.logger.debug(f"Current User: {current_user}")
@@ -120,6 +134,7 @@ class RemoveFromCart(Resource):
 
             cart_ns.logger.debug(f"Removing item with id: {item_id} for user {user.username}")
 
+            # Locate the item in the cart, then remove it.
             item = CartItem.query.filter_by(user_id=user.id, item_id=item_id).first()
             if item:
                 db.session.delete(item)
