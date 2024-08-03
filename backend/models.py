@@ -6,6 +6,8 @@ previous_purchases = db.Table('previous_purchases',
     db.Column('item_id', db.Integer, db.ForeignKey('item.id'), primary_key=True)
 )
 
+
+# User model represents a user in the application
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(25), nullable=False, unique=True)
@@ -19,10 +21,12 @@ class User(db.Model):
         return f"<User {self.username}>"
 
     def save(self):
+        # Save the current user instance to the database
         db.session.add(self)
         db.session.commit()
 
     def serialize(self):
+         # Serialize the user instance 
         return {
             'id': self.id,
             'username': self.username,
@@ -30,6 +34,7 @@ class User(db.Model):
             'profile_picture': self.profile_picture
         }
 
+# Item model represents an item in the application
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
@@ -46,10 +51,13 @@ class Item(db.Model):
         return f"<Item {self.name}>"
 
     def save(self):
+        # Save the current item instance to the database
         db.session.add(self)
         db.session.commit()
 
     def serialize(self):
+
+         # Serialize the item instance
         return {
             'id': self.id,
             'name': self.name,
@@ -62,6 +70,7 @@ class Item(db.Model):
             'sales': self.sales
         }
 
+# CartItem model represents an item in the user's cart
 class CartItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -75,10 +84,14 @@ class CartItem(db.Model):
         return f"<CartItem {self.item.name} x {self.quantity}>"
 
     def save(self):
+
+        # Save the current cart item instance to the database
         db.session.add(self)
         db.session.commit()
 
     def serialize(self):
+
+         # Serialize the cart item instance
         return {
             'id': self.id,
             'user_id': self.user_id,
@@ -87,6 +100,7 @@ class CartItem(db.Model):
             'item': self.item.serialize() if self.item else None
         }
 
+# CheckoutItem model represents a checkout transaction
 class CheckoutItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ccNumber = db.Column(db.String(16), nullable=False)
@@ -97,10 +111,12 @@ class CheckoutItem(db.Model):
         return f"<CheckoutItem {self.id}>"
 
     def save(self):
+        # Save the current checkout item instance to the database
         db.session.add(self)
         db.session.commit()
 
     def serialize(self):
+        # Serialize the checkout item instance into a dictionary format
         return {
             'id': self.id,
             'ccNumber': self.ccNumber,
@@ -108,7 +124,7 @@ class CheckoutItem(db.Model):
             'ccv': self.ccv
         }
 
-
+# Order model represents an order placed by a user
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -121,10 +137,12 @@ class Order(db.Model):
         return f"<Order {self.id} by {self.user.username}>"
 
     def save(self):
+        # Save the current order instance to the database
         db.session.add(self)
         db.session.commit()
 
     def serialize(self):
+        # Serialize the order instance into a dictionary format
         return {
             'id': self.id,
             'user_id': self.user_id,
@@ -135,6 +153,7 @@ class Order(db.Model):
             }
         }
 
+# OrderItem model represents an item in an order
 class OrderItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
@@ -149,10 +168,12 @@ class OrderItem(db.Model):
         return f"<OrderItem {self.item.name} x {self.quantity}>"
 
     def save(self):
+        # Save the current order item instance to the database
         db.session.add(self)
         db.session.commit()
 
     def serialize(self):
+        # Serialize the order item instance into a dictionary format
         return {
             'id': self.id,
             'order_id': self.order_id,
@@ -162,7 +183,7 @@ class OrderItem(db.Model):
             'item': self.item.serialize() if self.item else None
         }
 
-
+# Recipe model represents a recipe that includes multiple items
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -173,6 +194,7 @@ class Recipe(db.Model):
                             backref=db.backref('recipes', lazy=True))
 
     def serialize(self):
+        # Serialize the recipe instance
         return {
             'id': self.id,
             'name': self.name,
