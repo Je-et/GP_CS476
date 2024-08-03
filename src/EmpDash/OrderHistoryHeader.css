@@ -1,3 +1,4 @@
+/* Header section styling */
 .header {
     display: flex;
     justify-content: space-between;
@@ -8,6 +9,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Header logo styling */
 .header-logo{
   height: 100px;
   width: 100px;
@@ -17,11 +19,15 @@
   margin-right: -250px;  
 }
     
+
+/* Logo container styling */
 .logo {
     display: flex;
     align-items: center;
 }
 
+
+/* Vertical line styling */
 .vertical_line {
     border-left: 2px solid white;
     height: 100px;
@@ -30,6 +36,8 @@
     margin-inline-end: 30px;
 }
 
+
+/* Title styling */
 .title {
 
     font-size: 2em;
@@ -43,6 +51,7 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Button styling */
 .btn {
     margin-left: 20px;
     padding: 10px;
@@ -55,16 +64,20 @@
     color: white;
 }
 
+/* Button hover effect */
 .btn:hover {
     background-color: #1DAF55;
 }
 
 
+/* Profile and cart section styling */
 .profile-cart {
     display: flex;
     align-items: center;
 }
 
+
+/* Profile, order history, and logout button styling */
 .profile,
 .order_history,
 .logout {
@@ -76,6 +89,7 @@
     transition: background-color 0.3s;
 }
 
+/* Hover effect for profile, order history, and logout buttons */
 .profile:hover,
 .order_history:hover,
 .logout:hover {
