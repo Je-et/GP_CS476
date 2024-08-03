@@ -6,8 +6,11 @@ import os
 from exts import db
 from models import User
 
+# Establish a namespace for authentication of the user 
+
 auth_ns = Namespace('auth', description='Authentication related operations')
 
+#Model for validating signup input
 signup_model = auth_ns.model(
     'Signup',
     {
@@ -17,6 +20,8 @@ signup_model = auth_ns.model(
     }
 )
 
+#Model for validating login input
+
 login_model = auth_ns.model(
     'Login',
     {
@@ -25,6 +30,7 @@ login_model = auth_ns.model(
     }
 )
 
+#created a route for user signup
 @auth_ns.route('/signup')
 class Signup(Resource):
 
@@ -64,6 +70,8 @@ class Signup(Resource):
 
         return jsonify({"message": "User created successfully"})
 
+
+#created a route for user login
 @auth_ns.route('/login')
 class Login(Resource):
 
@@ -73,9 +81,11 @@ class Login(Resource):
         username = data.get('username')
         password = data.get('password')
 
+        # Check if the user exists and password is correct
         db_user = User.query.filter_by(username=username).first()
 
         if db_user and check_password_hash(db_user.password, password):
+            # Generate tokens for JWT for the user
             access_token = create_access_token(identity=db_user.username)
             refresh_token = create_refresh_token(identity=db_user.username)
 
