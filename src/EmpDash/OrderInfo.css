@@ -1,7 +1,9 @@
+/* Container for the list of orders */
 .order-list {
   margin-top: 20px;
 }
 
+/* Styling for each order detail container */
 .order-detail {
   border: 1px solid #ddd;
   padding: 20px;
@@ -9,6 +11,7 @@
   border-radius: 5px;
 }
 
+/* Common styling for customer name, order number, delivery time, and status */
 .customer-name,
 .order-number,
 .delivery-time,
@@ -16,6 +19,7 @@
   margin-bottom: 7px;
 }
 
+/* Container for the order action buttons */
 .order-buttons {
   display: flex;
   justify-content: center; 
@@ -23,6 +27,8 @@
   margin-top: 10px;
 }
 
+
+/* Common styling for the buttons */
 .accept-order-button,
 .cancel-order-button,
 .details-button {
@@ -34,30 +40,37 @@
   transition: background-color 0.2s ease;
 }
 
+/* Styling for the accept order button */
 .accept-order-button {
   background-color: #8BC34A; 
   color: #333;
 }
 
+/* Hover effect for the accept order button */
 .accept-order-button:hover {
   background-color: #4CAF50;
   color: #fff;
 }
 
+/* Styling for the cancel order button */
 .cancel-order-button {
   background-color: #e74c3c;
   color: #fff;
 }
 
+
+/* Hover effect for the cancel order button */
 .cancel-order-button:hover {
   background-color: #c0392b;
 }
 
+/* Styling for the details button */
 .details-button { 
   background-color: #808080; 
   color: #fff;
 }
 
+/* Hover effect for the details button */
 .details-button:hover {
   background-color: #696969;
 }
