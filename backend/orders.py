@@ -4,8 +4,11 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from models import User, Order, OrderItem, Item, CartItem
 from exts import db
 
+#namespace for order-related operations
 orders_ns = Namespace('orders', description='Order related operations')
 
+
+# Define the model for an item in an order
 item_model = orders_ns.model(
     'Item', {
         'item_name': fields.String(),
@@ -15,6 +18,7 @@ item_model = orders_ns.model(
     }
 )
 
+# model for an order with their fields
 order_model = orders_ns.model(
     'Order', {
         'order_id': fields.Integer(),
@@ -24,6 +28,7 @@ order_model = orders_ns.model(
     }
 )
 
+# model for the buy again request
 buy_again_model = orders_ns.model(
     'BuyAgain', {
         'order_id': fields.Integer(required=True, description='Order ID')
@@ -36,11 +41,14 @@ class UserOrders(Resource):
     @jwt_required()
     @orders_ns.marshal_list_with(order_model)
     def get(self):
+
+        #get current user
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user).first()
         if not user:
             orders_ns.abort(404, 'User not found')
 
+        # retrieve user's pending orders
         orders = Order.query.filter_by(user_id=user.id, status='Pending').all()
         orders_data = []
         for order in orders:
@@ -68,11 +76,14 @@ class UserOrderHistory(Resource):
     @jwt_required()
     @orders_ns.marshal_list_with(order_model)
     def get(self):
+
+        #get the current user
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user).first()
         if not user:
             orders_ns.abort(404, 'User not found')
 
+        # retrieve all orders
         orders = Order.query.filter_by(user_id=user.id).all()
         orders_data = []
         for order in orders:
@@ -100,9 +111,12 @@ class BuyAgain(Resource):
     @jwt_required()
     @orders_ns.expect(buy_again_model)
     def post(self):
+
+        # get order ID from request
         data = request.get_json()
         order_id = data.get('order_id')
 
+        # get current user
         current_user = get_jwt_identity()
         user = User.query.filter_by(username=current_user).first()
         if not user:
@@ -147,6 +161,8 @@ class BuyAgain(Resource):
 class CancelOrder(Resource):
     @jwt_required()
     def post(self):
+
+        # get order ID from request
         data = request.get_json()
         order_id = data.get('order_id')
 
@@ -200,10 +216,12 @@ class AcceptOrder(Resource):
         data = request.get_json()
         order_id = data.get('order_id')
 
+        # get order
         order = Order.query.filter_by(id=order_id).first()
         if not order:
             orders_ns.abort(404, 'Order not found')
 
+        # Process the order if it is still pending
         if order.status == 'Pending':
             order.status = 'Processed'
             db.session.commit()
@@ -211,29 +229,40 @@ class AcceptOrder(Resource):
         else:
             return {'message': 'Order already processed or unavailable'}, 400
         
+
+ # cancel order by employees
 @orders_ns.route('/employee/orders/cancel')
 class CancelOrder(Resource):
     @jwt_required()
     def post(self):
+
+        # get order ID from request
         data = request.get_json()
         order_id = data.get('order_id')
 
+        # retrieve the order
         order = Order.query.filter_by(id=order_id).first()
         if not order:
             orders_ns.abort(404, 'Order not found')
 
+
+         # Cancel the order if it is still pending
         if order.status == 'Pending':
             order.status = 'Cancelled'
             db.session.commit()
             return {'message': 'Order cancelled successfully'}, 200
         else:
             return {'message': 'Order unable to be cancelled'}, 400
-        
+
+
+# retrieve the order history for employees
 @orders_ns.route('/employee/orders/history')
 class EmployeeOrderHistory(Resource):
     @jwt_required() 
     @orders_ns.marshal_list_with(order_model)
     def get(self):
+
+        # Retrieve all cancelled or processed orders
         orders = Order.query.filter(Order.status.in_(['Cancelled', 'Processed'])).all()
         orders_data = []
         for order in orders:
