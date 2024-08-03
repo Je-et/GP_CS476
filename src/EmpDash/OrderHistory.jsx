@@ -6,15 +6,25 @@ import '../Cart.css';
 import ItemPop from './ItemPop'; 
 
 function OrderHistory() {
+
+  // State to hold the orders fetched from the API
   const [orders, setOrders] = useState([]);
+
+  // State to manage the loading state
   const [loading, setLoading] = useState(true);
+
+   // State to manage the visibility of the item popup
   const [showItemPop, setShowItemPop] = useState(false);
+
+   // State to hold the selected order items for viewing details
   const [selectedOrderItems, setSelectedOrderItems] = useState([]);
 
   useEffect(() => {
     fetchOrderHistory();
   }, []);
 
+
+  // Function to fetch order history from the API
   const fetchOrderHistory = async () => {
     setLoading(true);
     try {
@@ -25,9 +35,13 @@ function OrderHistory() {
         return;
       }
 
+      // Make an API request to fetch order history
       const response = await axios.get('/orders/employee/orders/history', {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      // Check if the response contains data and set it to the orders state
+
 
       if (response.data) {
         setOrders(response.data);
@@ -41,11 +55,13 @@ function OrderHistory() {
     }
   };
 
+   // Function to handle viewing details of an order
   const handleViewDetails = (orderItems) => {
     setSelectedOrderItems(orderItems);
     setShowItemPop(true); 
   };
 
+  // Render a loading indicator if the data is still being fetched
   if (loading) {
     return <div>Loading...</div>;
   }
