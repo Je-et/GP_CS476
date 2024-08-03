@@ -4,15 +4,23 @@ import './OrderInfo.css';
 import ItemPop from './ItemPop'; 
 
 function OrderInfo() {
+  // State to store the list of orders
   const [orders, setOrders] = useState([]);
+  // State to manage the loading state
   const [loading, setLoading] = useState(true);
+  // State to manage the visibility of the item popup
   const [showItemPop, setShowItemPop] = useState(false);
+   // State to store the items of the selected order
   const [selectedOrderItems, setSelectedOrderItems] = useState([]);
 
+
+  // useEffect to fetch orders when the component mounts
   useEffect(() => {
     fetchOrders();
   }, []);
 
+
+   // Function to fetch orders from the backend
   const fetchOrders = async () => {
     setLoading(true);
     try {
@@ -23,11 +31,14 @@ function OrderInfo() {
         return;
       }
 
+      // Make a GET request to fetch orders
+
       const response = await axios.get('/orders/employee/orders', {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (response.data) {
+        // Filter to get only pending orders
         const pendingOrders = response.data.filter(order => order.status === 'Pending');
         setOrders(pendingOrders);
       } else {
@@ -47,6 +58,7 @@ function OrderInfo() {
         console.error('No access token found');
         return;
       }
+       // Make a POST request to accept the order
 
       const response = await axios.post(`/orders/employee/orders/accept`, 
         { order_id: orderId }, 
@@ -59,7 +71,7 @@ function OrderInfo() {
     }
   };
 
-  
+  // Function to handle canceling an order
   const handleCancelOrder = async (orderId) => {
     try {
       const token = localStorage.getItem('access_token');
@@ -68,6 +80,7 @@ function OrderInfo() {
         return;
       }
 
+      // Make a POST request to cancel the order
       const response = await axios.post('/orders/employee/orders/cancel', 
         { order_id: orderId }, 
         { headers: { Authorization: `Bearer ${token}` } }
@@ -79,11 +92,13 @@ function OrderInfo() {
     }
   };
 
-
+  // Function to handle viewing order details
   const handleViewDetails = (orderItems) => {
     setSelectedOrderItems(orderItems);
     setShowItemPop(true);
   };
+
+   // Render a loading indicator while loading
 
   if (loading) {
     return <div>Loading...</div>;
