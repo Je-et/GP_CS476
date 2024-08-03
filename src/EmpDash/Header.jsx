@@ -3,14 +3,22 @@ import './Header.css';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../assets/Logo.png';
 
+
+// Header component definition
 function Header({ isEmployee }) {
+
+  // Hook to get the navigation function
   const navigate = useNavigate();
 
+
+   // Function to navigate to the order history page
   const gotToNewPage = () => {
     navigate("/orderhistory");
   };
 
   const handleLogout = () => {
+
+     // Removing access token and refresh tokenvfrom local storage
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     navigate('/login');
