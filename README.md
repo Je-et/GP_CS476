@@ -110,7 +110,7 @@ A typical password is required, no special cases.
 
 ### Use an existing account for easier access
 ### For Shopper
-username: test00
+username: testShopper
 password: 123456
 ### For an Employee
 username: test.emp
