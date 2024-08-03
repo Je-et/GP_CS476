@@ -1,8 +1,11 @@
 import React from 'react';
 import './ItemPop.css'; 
 
+// ItemPop component receives three props: show, onClose, and orderItems
 const ItemPop = ({ show, onClose, orderItems }) => {
   if (!show) {
+
+    // If the 'show' prop is false, return null to render nothing
     return null; 
   }
 
