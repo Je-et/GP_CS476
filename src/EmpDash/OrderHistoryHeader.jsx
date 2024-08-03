@@ -3,14 +3,20 @@ import './OrderHistoryHeader.css';
 import { useNavigate} from 'react-router-dom';
 import Logo from '../assets/Logo.png';
 
+// OrderHistoryHeader component renders the header for the Order History page
 const OrderHistoryHeader = () => {
 
+
+    // useNavigate hook from react-router-dom to navigate programmatically
     const navigate = useNavigate()
 
+
+        // Function to navigate back to the previous page
     const goBack = () => {
         navigate(-1);
     }
 
+    // Function to handle user logout
     const handleLogout = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
